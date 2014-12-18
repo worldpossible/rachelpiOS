@@ -1,0 +1,50 @@
+sudo apt-get update
+
+#create wifi hotspot
+sudo apt-get install hostapd
+sudo apt-get install udhcpd
+sudo cp udhcpd.conf /etc/udhcpd.conf
+sudo cp udhcpd /etc/default/udhcpd
+sudo cp interfaces /etc/network/interfaces
+sudo cp hostapd.conf /etc/hostapd/hostapd.conf
+sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+sudo cp sysctl.conf /etc/sysctl.conf
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+sudo cp interfaces /etc/network/interfaces
+sudo service hostapd start
+sudo service udhcpd start
+sudo update-rc.d hostapd enable
+sudo update-rc.d udhcpd enable
+
+#webshutdown
+ifupdown.sh
+
+#install apache php mysql
+sudo apt-get apache2 -y
+sudo apt-get install php5-common libapache2-mod-php5 php5-cgi php5 -y
+sudo apt-get install mysql-server mysql-client
+sudo apt-get install php5-mysql
+sudo cp my.cnf /etc/mysql/my.cnf
+
+#update hostname
+sudo cp hosts /etc/hosts
+sudo cp hostname /etc/hostname
+sudo /etc/init.d/hostname.sh
+
+#install shamba share
+sudo apt-get install samba samba-common-bin
+mk dir /var/www/local
+sudo cp smb.conf /etc/samba/smb.conf 
+sudo cp dhcp.conf /etc/samba/dhcp.conf
+sudo cp gdbcommands /etc/samba/gdbcommands
+
+#install h5ai
+#figure out how to download package 
+mkdir /var/www/_h5ai
+chmod 775 /var/www/_h5ai/cache/
+cp sites available /etc/apache2/sites
+sudo apt-get install php5-gd ffmpeg zip imagemagick
+
