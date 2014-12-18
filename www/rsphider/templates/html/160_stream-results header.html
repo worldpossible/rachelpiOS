@@ -1,0 +1,28 @@
+<!-- 160_stream-results header.html -->
+<?php   //  display table for stream results
+        if ($template == 'Pure') {
+?>
+            <!--    Table-header for audio and video stream result     -->
+            <br />
+            <table width="94%" class="sml cntr">
+                <tr>
+                    <td class="tblhead left" width="15%"><a href="<?php echo $search_string ;?>?search=<?php echo "".$mode.""?>&amp;link=<?php echo "".$url.""?>&amp;query=<?php echo "".$query.""?>&amp;media_type=<?php echo "".$media_type.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>" ><?php echo "".$sph_messages[$info2].""?></a></td>
+                    <td><strong><?php echo "".($sph_messages[$info]).""?></strong></td>
+                    <td><strong><?php echo "".($sph_messages['playTime']).""?></strong></td>
+                    <td><strong><?php echo "".($sph_messages['showEXIF']).""?></strong></td>
+                </tr>
+<?php
+        } else {
+?>                
+            <!--    Table-header for audio and video stream result     -->
+            <br />
+            <table width="94%" class="sml cntr">
+                <tr>
+                    <td class="tblhead left" width="15%"><a href="<?php echo $search_string ;?>?search=<?php echo "".$mode.""?>&amp;link=<?php echo "".$url.""?>&amp;query=<?php echo "".$query.""?>&amp;media_type=<?php echo "".$media_type.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>" title="<?php echo "".$sph_messages[$info2].""?>"><img src="<?php echo "".$image_dir.'/'.$thumb.""?>" border="0" alt="Media results" /></a></td>
+                    <td><strong><?php echo "".($sph_messages[$info]).""?></strong></td>
+                    <td><strong><?php echo "".($sph_messages['playTime']).""?></strong></td>
+                    <td><strong><?php echo "".($sph_messages['showEXIF']).""?></strong></td>
+                </tr>                
+                
+<?php   }   //  end table header for stream results ?>
+<!-- /160_stream-results header.html -->

@@ -1,0 +1,13 @@
+gif
+j2c
+j2k
+jp2
+jpc
+jpeg
+jpg
+jpeg2000
+jpx
+php
+png
+tif
+tiff

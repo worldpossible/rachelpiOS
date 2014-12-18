@@ -1,0 +1,28 @@
+<!-- 091_footer.html -->
+<?php   //  display User Suggest a new URL and footer.  Don't show  </body> and no </html> for embedded application of Sphider-plus
+if (isset($qry_results)) {
+?>
+    </div>
+<?php }  ?>
+<!--    Footer   -->
+<?php   if ($add_url ==1) { //  if selected in Admin settings, allow user to suggest new URLs to be indexed
+?>
+    <p class="tblhead"><a href="./addurl.php" title="User suggestion for a new Url to be indexed" target="rel"><?php echo "".$sph_messages['suggest']."" ?></a></p>
+<?php }
+        if ($db_content ==1) { //  if selected in Admin settings, show summary of currently active User db
+?>
+                <p class='stats'>
+                    <br />
+                    <span class='em'><?php echo "".$sph_messages['Database']."&nbsp;".$dba_act."&nbsp;&nbsp;".$sph_messages['db_prefix']."&nbsp;".$mysql_table_prefix."&nbsp;".$sph_messages['contains']."" ?>: </span>
+                    <br /><br />
+                    <?php echo "".$stats['sites']."&nbsp;".$sph_messages['sites']."" ?><b>&nbsp;+&nbsp;</b><?php echo "".$stats['links']."&nbsp;".$sph_messages['links']."" ?>&nbsp;<b>+&nbsp;</b><?php echo "".$stats['categories']."&nbsp;".$sph_messages['cats']."" ?>&nbsp;<b>+&nbsp;</b><?php echo "".$stats['keywords']."&nbsp;".$sph_messages['keywords']."" ?>
+                </p>
+<?php } ?>
+    <p class="stats"><a href="http://www.sphider-plus.eu" title="Link: Visit Sphider-plus site in a new window" target="rel">Visit&nbsp;<img class="mid" src="<?php echo "".$include_dir."/images/sphider-plus-logo.gif"?>" alt="Visit Sphider site in new window" height="39" width="42" /> Sphider-plus</a></p>
+    <script type="text/javascript" language="JavaScript">
+        <!--
+        var s=document.getElementById('query');
+        s.focus();
+        //-->
+    </script>
+<!-- /091_footer.html -->

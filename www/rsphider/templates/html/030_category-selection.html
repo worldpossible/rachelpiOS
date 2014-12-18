@@ -1,0 +1,34 @@
+<?php   //      display main category selection     ?>
+<!-- 030_category-selection.html -->
+    <!--    Category selection  -->
+    <div id="results">
+        <p class="mainlist"><?php echo "".$sph_messages['Categories'].""?></p>
+
+<?php
+        foreach ($cat_info['main_list'] as $_key => $_val){
+            if ($_key & 1) {
+?>
+        <br />
+        </div>
+        <div class="odrow">
+<?php       } else { ?>
+        <div class="evrow">
+<?php       } ?>
+            <a class="em" href="<?php echo $search_string ;?>?catid=<?php echo "".$_val['category_id'].""?>&amp;category=<?php echo "".$_val['category_id'].""?>&amp;setcss1=<?php echo "".$thestyle.""?>" title="<?php echo "".$sph_messages['tipSelCat'].""?>"><?php echo "".$_val['category'].""?></a>
+            <br />
+<?php
+            if (is_array($_val['sub'])) {
+                $ccats = "";
+                foreach ($_val['sub'] as $__key => $__val){
+                    $ccats .="      <a href=\"$search_string?catid=".$__val['category_id']."&amp;category=".$_val['category_id']."&amp;setcss1=$thestyle\" title=\"".$sph_messages['tipSelBCat']."\">".$__val['category']."</a> &raquo; ";
+                }
+?>
+    <?php echo "    ".$ccats." "?>
+<?php } } ?>
+</div>
+    </div>
+    <p class='y5'></p>
+  </body>
+</html>
+<?php    //      end main category selection  ?>
+<!-- /030_category-selection.html -->

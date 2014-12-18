@@ -1,0 +1,114 @@
+<?php //   This will present the Search-form. First the query-field and submit-button ?>
+<!-- 020_search-form.html -->
+        <form action="<?php echo $search_string ;?>" method="get">
+<?php   if ($sep_media) { ?>
+                        <input type="text" name="query_t" id="query_t" placeholder="<?php echo $sph_messages['query'];?>" size="40" value="<?php echo $query_t ;?>" />
+                        <input type="submit" name="submit" class="sbmt" id="t_search" value="<?php echo $sph_messages['t_search'];?>" />
+<?php   } else { ?>
+                        <input type="text" name="query_t" id="query_t" placeholder="<?php echo $sph_messages['query'];?>" size="40" value="<?php echo $query_t ;?>" />
+                        <input type="submit" name="submit" class="sbmt" id="t_search" value="<?php echo $sph_messages['Search'];?>" />
+<?php   }    ?>
+                        <input type="hidden" name="search" value="1" />
+
+
+<!-- START BLOCKING ADV SEARCH
+            <input type="hidden" name="media_only" value="0" />
+<?php   if ($show_media == '1' && !$sep_media){    //  Show part of the Search-form : search only for text OR media results?>
+            <table class="searchBox">
+                <tr>
+                    <td>
+                        <input type="submit" name="submit" class="sbmt" id="t_search" value="<?php echo $sph_messages['t_search'];?>" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="submit" name="submit" class="sbmt" id="m_search" value="<?php echo $sph_messages['m_search'];?>" />
+                    </td>
+                </tr>
+            </table>
+<?php   }
+        if ($show_media == '1' && $sep_media){     //  Show separate search form for media results?>
+            <table class="searchBox">
+                <tr>
+                    <td>
+                        <input type="text" name="query_m" id="query_m" placeholder="<?php echo $sph_messages['query'];?>" size="40" value="<?php echo $query_m ;?>" />
+                    </td>
+                    <td>
+                        <input type="hidden" name="search" value="1" />
+                        <input type="submit" name="submit" class="sbmt" id="m_search" value="<?php echo $sph_messages['m_search'];?>" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+<?php   }
+        if ($show_categories<>0){   //  Show part of the Search-form :  Cat-search
+            if ($has_categories && $show_categories){ ?>
+            <table class="searchBox">
+                <tr>
+                    <td><?php echo $sph_messages['Search']?>: <input type="radio" name="category" value="<?php echo $catid?>" <?php echo $checked_cat?> /><?php echo $sph_messages['Only in category']?> &quot;<?php echo $tpl_['category']?>&quot; <input type="radio" name="category" value="-1" <?php echo $checked_all?> /><?php echo $sph_messages['All sites']?><input type="hidden" name="catid" value="<?php echo $catid?>" /></td>
+                </tr>
+                <tr>
+                    <td><a href="<?php echo $search_string ;?>?search=''"><?php echo $sph_messages['Categories']?></a></td>
+                </tr>
+            </table>
+<?php       }
+        } else { ?>
+            <input type="hidden" name="category"    value="<?php echo $category?>" />
+            <input type="hidden" name="catid"       value="<?php echo $catid?>" />
+<?php   }   ?>
+            <input type="hidden" name="cat_sel0" value="" />
+            <input type="hidden" name="cat_sel1" value="" />
+            <input type="hidden" name="cat_sel2" value="" />
+            <input type="hidden" name="cat_sel3" value="" />
+            <input type="hidden" name="cat_sel4" value="" />
+<?php
+    if (($adv==1 || $advanced_search==1 || $adv_search == 2) && $adv_search != 1) {    //  if Advanced-search should be shown enter here ?>
+
+            <table class="searchBox">
+                <tr>
+                    <td><input type="radio" name="type" value="and"     <?php echo $type=='and'?'checked="checked"':''?> />     <?php echo $sph_messages['andSearch']?></td>
+                    <td><input type="radio" name="type" value="or"      <?php echo $type=='or'?'checked="checked"':''?> />      <?php echo $sph_messages['orSearch']?></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="type" value="phrase"  <?php echo $type=='phrase'?'checked="checked"':''?> />  <?php echo $sph_messages['phraseSearch']?></td>
+                    <td><input type="radio" name="type" value="tol"     <?php echo $type=='tol'?'checked="checked"':''?> />     <?php echo $sph_messages['tolSearch']?></td>
+                </tr>
+            </table>
+<?php  if ($media_only != '1') { //      Show method of highlighting ?>
+            <table class="searchBox">
+                <tr>
+                    <td><?php echo "".$sph_messages['mark']."\r\n"?>
+                        <select name="mark">
+                            <option <?php  if ($mark=='markbold')   echo "selected='selected'";?>><?php echo $sph_messages['markbold']?></option>
+                            <option <?php  if ($mark=='markyellow') echo "selected='selected'";?>><?php echo $sph_messages['markyellow']?></option>
+                            <option <?php  if ($mark=='markgreen')  echo "selected='selected'";?>><?php echo $sph_messages['markgreen']?></option>
+                            <option <?php  if ($mark=='markblue')   echo "selected='selected'";?>><?php echo $sph_messages['markblue']?></option>
+                            <option <?php  if ($mark=='markred')    echo "selected='selected'";?>><?php echo $sph_messages['markred']?></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+<?php   }
+        //      Show results per page ?>
+            <table class="searchBox">
+                <tr>
+                    <td><?php echo "".$sph_messages['show']."\r\n"?>
+                        <select name="results">
+                            <option <?php  if ($results_per_page==5)    echo "selected='selected'";?>>5</option>
+                            <option <?php  if ($results_per_page==10)   echo "selected='selected'";?>>10</option>
+                            <option <?php  if ($results_per_page==20)   echo "selected='selected'";?>>20</option>
+                            <option <?php  if ($results_per_page==30)   echo "selected='selected'";?>>30</option>
+                            <option <?php  if ($results_per_page==50)   echo "selected='selected'";?>>50</option>
+                            </select>
+                        <?php echo "".$sph_messages['resultsPerPage']."\r\n"?>
+                    </td>
+                </tr>
+            </table>
+/ END BLOCKING ADV SEARCH -->
+
+            <input type="hidden" name="db"      value="<?php echo $user_db?>" />
+            <input type="hidden" name="prefix"  value="<?php echo $user_prefix?>" />
+<?php
+    }   //  End of advanced Search-form
+?>
+        </form>
+
+<!-- /020_search-form.html -->
+<?php   //  End of Search-form ?>

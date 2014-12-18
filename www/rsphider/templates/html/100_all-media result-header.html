@@ -1,0 +1,19 @@
+<!-- 100_all-media result-header.html -->
+<?php   //  display header for all media results of a selected page
+    if ($debug_user == '1') {
+        echo "    <small>Results from database ".$slv1." ".$slv2." ".$slv3." ".$slv4." ".$slv5."</small>
+    <br />
+";
+    }
+?>
+<!--    Header for all media results of a selected page     -->
+    <div class="mainlist">
+        <a class="navdown"  href="javascript:JumpBottom()" title="Jump to bottom of this page"><?php echo "".$sph_messages['down'].""?></a>
+        <p class="cntr"><?php echo "".$sph_messages['allMedia'].""?><br /><br /></p>
+        <div class="headline">
+            <p class="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL:&nbsp;&nbsp;<a href="<?php echo "".$url_click.""?>" title="<?php echo "".$sph_messages['New_window'].""?>"  target="_blank"><?php echo "".$link.""?><br /></a></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$sph_messages['title'].""?>&nbsp;&nbsp;<?php echo "".($title?$title:$sph_messages['Untitled']).""?></p>
+        </div>
+    </div>
+<?php      //  end header for all media results of a selected page ?>
+<!-- /100_all-media result-header.html -->

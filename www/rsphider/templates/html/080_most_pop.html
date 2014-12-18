@@ -1,0 +1,72 @@
+<!-- 080_most_pop.html -->
+<?php // BODY:  display Most Popular Search table
+?>
+<!--    Most popular search table    -->
+        <br />
+        <div>
+            <div id="most_pop" class="rachelbox">
+                <p class="mostpophead"><?php echo"".$sph_messages['mostpop'].""; ?></p>
+                <table width='80%' style="margin: 0 auto;">
+                    <tr class="mostpophead">
+                        <td width="25%"><?php echo $sph_messages['query'] ?></td>
+                        <td width="25%"><?php echo $sph_messages['count'] ?></td>
+                        <td width="25%"><?php echo $sph_messages['results'] ?></td>
+                        <td width="25%"><?php echo $sph_messages['lastquery']?></td>
+                    </tr>
+<?php
+            $sql_query = "SELECT query, count(*) as c, date_format(max(time), '%Y-%m-%d %H:%i:%s'), avg(results), media from ".$mysql_table_prefix."query_log group by query order by c desc LIMIT 50";
+            $result = $db_con->query($sql_query);
+            if ($debug && $db_con->errno) {
+                $err_row = __LINE__-2;
+                printf("<p><span class='red'>&nbsp;MySQL failure: %s&nbsp;\n<br /></span></p>", $db_con->error);
+                if (__FUNCTION__) {
+                    printf("<p><span class='red'>&nbsp;Found in script: ".__FILE__."&nbsp;&nbsp;row: $err_row&nbsp;&nbsp;in function():&nbsp;".__FUNCTION__."&nbsp;<br /></span></p>");
+                } else {
+                    printf("<p><span class='red'>&nbsp;Found in script: ".__FILE__."&nbsp;&nbsp;row: $err_row&nbsp;<br /></span></p>");
+                }
+                printf("<p><span class='red'>&nbsp;Script execution aborted.&nbsp;<br /></span>");
+                printf("<p><strong>Invalid query string, which caused the SQL error:</strong></p>");
+                echo   "<p> $sql_query </p>";
+                exit;
+            }
+            $i = 0;
+            $class  = "evrow";  //  just to start with anything
+
+            while ($i < $pop_rows && $row = $result->fetch_array(MYSQLI_NUM)) {
+
+                $word   = $row[0];
+                $times  = $row[1];
+                $date   = $row[2];
+                $media  = $row[4];
+
+                $avg    = number_format($row[3], 0);
+                $word   = str_replace("\"", "", $word);
+
+                if ($no_zeros == '0' || ($no_zeros == '1' && $avg)) {
+
+                    if ($media) {   //  prepare a media search
+                        $sql_query ="query_m=".$word."&submit=Media&search=1&media_only=0&cat_sel0=&cat_sel1=&cat_sel2=&cat_sel3=&cat_sel4=&type=and&results=10&db=0&prefix=0";
+                    } else {        //  prepare a text search
+                        $sql_query ="query_t=".$word."&submit=Text&search=1&media_only=0&cat_sel0=&cat_sel1=&cat_sel2=&cat_sel3=&cat_sel4=&type=and&mark=blau+markiert&results=10&db=0&prefix=0";
+                    }
+?>
+                    <tr class='sml'>
+                        <td class='cntr'><a href="<?php echo $search_string?>?query_t=<?php echo$word?>&amp;search=1&amp;media_only=<?php echo$row[4]?>&amp;category=<?php echo$category?>&amp;catid=<?php echo$catid?>&amp;cat_sel0=<?php echo$cat_sel0?>&amp;cat_sel0a=<?php echo$cat_sel0a?>&amp;cat_sel1=<?php echo$cat_sel1?>&amp;cat_sel2=<?php echo$cat_sel2?>&amp;cat_sel3=<?php echo$cat_sel3?>&amp;cat_sel4=<?php echo$cat_sel4?>&amp;type=<?php echo$type?>&amp;mark=<?php echo$mark?>&amp;results=<?php echo$results?>&amp;db=<?php echo$db?>&amp;prefix=<?php echo$prefix?>"><?php echo$word?></a></td>
+                        <td class='cntr'> <?php echo "$times"?></td>
+                        <td class='cntr'> <?php echo "$avg"?></td>
+                        <td class='cntr'> <?php echo "$date"?></td>
+                    </tr>
+<?php
+                    $i++;
+                    if ($class =="evrow")
+                    $class = "odrow";
+                    else
+                    $class  = "evrow";
+                }
+            }
+?>
+                </table>
+            </div>
+        </div>
+<?php // ?>
+<!-- /080_most_pop.html -->

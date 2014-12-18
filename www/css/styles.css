@@ -1,0 +1,163 @@
+#centre {
+margin-bottom: auto;
+bottom: auto;
+border:1px solid #202020;
+border-bottom:0;
+border-top:0;
+color:#000;
+padding:1.5em;
+}
+
+.top {vertical-align:text-top;}
+.bottom {vertical-align:text-bottom;}
+.align-right { float: right; display: inline; margin: 0 0 15px 15px; }
+.align-left { float:left; margin: 0 0 0px 0px; }
+
+#conteneur {
+background-color:#FFFFFF;
+margin: 0 auto;
+min-width:65em;
+width:85%;
+}
+
+#haut {
+background-color:#202020;
+height:2.4em;
+max-height:2.4em;
+}
+
+#header {
+background-color: #FFFFFF;
+border:1px solid #000000;
+color:#000000;
+font-size:2em;
+height:3.0em;
+padding-left:1em;
+padding-top:0.3em;
+padding-bottom:0.3em;
+
+}
+
+#slogan {float:right; font-size:18px; font-weight:bold; color:#971219; padding:45px 15px 0 0;}
+
+#footer {
+background-color: #000000;
+color:#fafafa;
+height:20px;
+border:1px solid #202020;
+border-top:0;
+padding:0.5em;
+text-align:left;
+}
+
+.menuhaut {
+font-size:1em;
+list-style-type:none;
+margin:0;
+padding:0;
+}
+
+.menuhaut a {
+color:#fafafa;
+margin:0 0.4em;
+text-decoration:none;
+}
+
+.menuhaut a:hover {
+color:#FF0;
+text-decoration:none;
+}
+
+.menuhaut li {
+border-right:1px solid #fff;
+display:inline;
+float:left;
+margin:0;
+padding:0.6em 10px;
+}
+
+a {
+font-weight: bold;
+color: #000099;
+text-decoration:underline;
+font-size: 1em;
+}
+
+body {
+background-color:#CDCDCD;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:0.75em;
+}
+
+h1 {
+font-size:1.6em;
+margin:0.3em 0.3em 1em 0;
+}
+
+
+h2 {
+font-size:1.2em;
+margin:0.8em 0.5em 0.3em 0.6em;
+}
+
+h3 {
+font-size:1.1em;
+margin:0.8em 0.5em 0.3em 0.8em;
+}
+
+h4 {
+font-size:1em;
+margin:0.7em 0.5em 0.3em 1em;
+}
+
+h5 {
+font-size:0.9em;
+margin:0.6em 0.5em 0.2em 1.5em;
+}
+
+p {
+margin:1px 0.5em 0.5em 1.5em;
+}
+
+
+#footer_left {float:left; padding:03px 0 0 30px;}
+#footer_right {float:right; padding:03px 30px 0 0;}
+#text {line-height:25px; margin-right:10px; padding:10px 0px 10px 10px;font-size:1.2em;}
+
+.box700 {width:700px; height:100px; float:left; border:1px solid rgb(220,220,220); position:relative; left: 20px; background-color:#FFFFFF;margin:7px;}
+
+.text-box { height:50px; padding:2px; position:absolute; top: 2 px; bottom:45px; left: 150px;  right:8px; }
+
+.text-box-dark-250 {background:rgb(0, 0, 0); background:url(text-box-dark_bg.png) repeat; background:rgba(0, 0, 0, 0.6); height:80px; padding:2px; position:absolute; bottom:5px; left: 8px;  right:8px; overflow:hidden; }
+
+.text-box h2 {font-size:15px; color:#000; margin-left:5px; vertical-align: text-top;}
+.text-box h2 a {font-size:15px; color:#000;}
+.text-box h2 a:hover {color:blue; text-decoration: none;}
+
+.text-box p {font-size: 12px; color:black; line-height:13px; margin-left:5px;}
+.text-box p a{font-size: 12px;  color:black; line-height:13px; margin-left:5px;}
+.text-box p a:hover {font-size:12px; color:blue; text-decoration: underline;}
+
+
+img.box-image {padding:5px; border:0px;}
+
+.shadow {
+  -moz-box-shadow:    3px 3px 1px 1px rgba(0,0,0,0.4);
+  -webkit-box-shadow: 3px 3px 1px 1px rgba(0,0,0,0.4);
+  box-shadow:         3px 3px 1px 1px rgba(0,0,0,0.4);
+}
+
+.blank_space { margin-bottom: 3cm;}
+
+#text {line-height:15px; margin-right:10px; padding:10px 0px 10px 10px;}
+#text h1 {font-size:24px; font-weight:bold; margin:5px 0 15px 0; line-height:26px; color: Black;}
+#text h1 a {font-size:24px; font-weight:bold; margin:5px 0 5px 0; color: Gray;text-decoration:none;}
+#text h1 a:hover {font-size:24px; font-weight:bold; margin:5px 0 5px 0; color: #0094FF;}
+
+#text h2 {font-size:20px; font-weight:normal; margin:20px 0 10px 0;}
+#text h3 {font-size: 16px; font-weight: normal; line-height:18px; margin: 3px 0 3px 0; color: Maroon;}
+#text h3 a {font-size: 18px; font-weight: normal; line-height:18px; margin: 3px 0 3px 0; color: Black;}
+#text h3 a:hover {font-size: 18px; font-weight: normal; line-height:18px; margin: 3px 0 3px 0; color: Blue;}
+#text ol, #text ul {padding:0; margin:8px 0;}
+#text li {margin-left:40px;line-height:26px;font-size:18px;}
+#text li a:hover {font-size:18px;color:#0094FF;}

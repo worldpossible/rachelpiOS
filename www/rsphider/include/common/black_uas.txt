@@ -1,0 +1,306 @@
+8484 boston project
+::fetch
+acoon-robot
+addsugarspiderbot
+adshadow
+alligator
+appengine-google
+arachmo
+arste.info
+askpeter.info
+asterias
+atspider
+autoemailspider
+backdoorbot
+backstreet browser
+backweb
+batchftp
+bejibot
+betabot
+bitacle bot
+biz360
+blackspider
+blackwidow
+blowfish
+bot search
+botalot
+buddy
+bulk
+cfg_spider_user_agent
+cherrypicker
+china local browse
+chinaclaw
+cityreview robot
+cligoorobot
+clj-httpc
+contentsmartz
+copyright sheriff
+corpuscrawler
+covario
+cr4nk.
+crawler4j
+crescent
+curl/
+da 3.
+da 4.
+da 5.
+da 7.
+datacha0s
+datafountains
+dc-sakura
+demo bot
+disco pump
+ditto
+dlman
+dontbuylists.com
+download demon
+download druid
+download express
+download master
+download ninja
+download wonder
+download.exe
+downloader
+dreampassport
+drip
+dts agent
+ebrowse
+ecatch
+educate search
+efp@gmx.net
+eirgrabber
+emailcollector
+emailharv
+emailsearch
+emailsiphon
+emailwolf
+extractor
+extractorpro
+extreme
+eyenetie
+fdm 1.
+fdm 2.
+fetch api request
+filehound
+findfiles.net
+flashget
+franklin locator
+freshdownload
+full web bot
+gaisbot
+geniebot
+getbot
+getright
+getweb
+go!zilla
+go-ahead-got-it
+grafula
+guestbook auto submitter
+guglibot
+here will be link to crawler site
+hidownload
+html2jpg
+htmlparser
+http://www.seexie.com
+http::lite
+http_request
+httrack
+iaskspider
+idealobserver.com
+ieautodiscovery
+igetter
+industry program
+indy library
+infometrics
+installshield digitalwizard
+interarchy
+interget
+internet ninja
+iplexx
+iptccheck.bot.js
+irc search
+irvine
+iupui research
+ivia
+jakarta commons-httpclient
+java/1
+jbh agent
+jetcar
+jobo
+joc web spider
+justview
+kapere
+kontiki client
+larbin
+leechftp
+leechget
+letscrawl.com
+lftp
+libcurl-agent
+libwhisker
+libwww-perl
+lightningdownload
+lincoln state web browser
+linkwalker
+litefinder.net
+lwp-request
+lycosa.se
+mama casper
+mama cyber
+medusa
+mfc foundation class library
+mfhttpscan
+microsoft url control
+microsoft windows network diagnostics
+midown tool
+missauga locate
+missigua locator
+missouri college browse
+mister pix
+mizzu labs
+mj12bot
+mo college
+morfeus fucking scanner
+morfeus strikes again
+mozilla 2.0
+mozilla/0.91 beta
+mozilla/2.0
+mozilla/3.0 (compatible)
+mozilla/4.0 (compatible;)
+mozilla/4.76 [ru] (x11; u; sunos 5.7 sun4u)
+mozilla/5.0 (searchbot)
+mrcarlito
+msie 7.5
+mulder
+mvaclient
+myob/6.66
+nasa search
+nearsite
+nerdbynature
+netants
+netbrain_crawler
+netcraftsurveyagent
+netpumper
+netspider
+newt activex
+nsauditor
+nudelbot
+offline explorer
+ozelot
+pagegrabber
+pagenest
+page_prefetcher
+pagmiedownload
+papa foto
+pbrowse
+penthesilea
+peval
+pf:inet
+photolizenzen
+phpcrawl
+picmole.com
+pictureripper
+pingbot/
+pmafind
+pockey
+poe-component-client-http
+poirot
+poodle predictor
+port huron labs
+production bot
+psycheclone
+puf/
+puxarapido
+pycurl
+python-urllib
+reget
+retriever
+revolt
+ripper
+rk q kangen
+rss popper - mozilla
+sbl-bot
+scann
+searchbot admin@google.com
+seo(http://seox.us/)
+seoprofiler
+similarpages
+sitesnagger
+sitesucker
+slow scraper
+snoopy
+sogou spider
+sogou web spider
+sohu agent
+sosospider
+spacebison
+spbot
+speeddownload
+ssm agent
+ssurf
+stardownloader
+suchmaschinenoptimierung
+superbot
+superhttp
+superinfobot
+takeout
+teleport
+teragramcrawler
+toata dragostea
+tsurf
+twisted pagegetter
+unister
+uri::fetch/
+urlgetfile
+useragent:
+utilmind httpget
+vadixbot
+vb wininet
+vb-tec:inet
+verdacht vergehen
+virus_detector
+vsyncrawler
+w3c-webcon
+web downloader
+web image collector
+web search 00
+webauto
+webbandit
+webcapture
+webcopier
+webdatacentrebot
+webfetch
+webimage
+webminer
+webpix
+webreaper
+websauger
+website explorer
+webster
+webstripper
+websucker
+webvulncrawl
+webwhacker
+webzip
+wells search
+wep search
+west wind internet protocols
+wget
+wikiwix-bot
+wildsoft surfer
+willow internet crawler
+winget
+winhttprequest
+wir suchen nur geklaute inhalte
+wtabot
+www-mechanize
+www.aconon.com
+www.icjobs.de
+www.webintegration.at
+www.whoisde.de
+www.xrss.eu
+wwwoffle
+xaldon webspider
+xerka webbot
+zmeu
+_spider_botname _spider_botinfo

@@ -1,0 +1,60 @@
+<?php //    output Sphider-plus part of the HTML header
+<!-- 011_html_header.html -->
+    if (!$query) { echo("    <meta name=\"description\" content=\"$description0\"/> ");
+   } else {
+        echo("    <meta name=\"description\" content=\"$description1\"/> ");
+   } ?>
+    <title><?php if ($start < '2') $start = '1'; echo "".$mytitle.""; if ($catid && is_numeric($catid)) echo "".$cattree."" ; if ($query !='') echo " ".$sph_messages['resultsFor']." '".$query."'. ".$sph_messages['Result page'].": ".$start."";?></title>
+    <link rel="stylesheet" href="<?php echo "".$template_dir."/".$template."/userstyle.css";?>" type="text/css" />
+    <!-- Suggest scripts -->
+    <script src="include/jQuery/jquery-1.9.1.js"></script>
+    <script src="include/jQuery/jquery-ui-1.10.2.custom.js"></script>
+    <link rel="stylesheet" href="<?php echo "".$template_dir."/".$template."/jquery-ui-1.10.2.custom.css";?>" type="text/css" />
+	<script>
+    $(function() {
+
+		$( "#query_t" ).autocomplete({
+            source: "include/suggest.php?media_only=<?php echo"$media_only"?>&type=<?php echo"$type"?>&catid=<?php echo"$catid"?>&category=<?php echo"$category"?>&db=<?php echo"$db"?>&prefix=<?php echo"$prefix"?>",
+            minLength: <?php echo"$min_sug_chars"?>
+		});
+
+		// Hover states on the static widgets
+		$( "#dialog-link, #icons li" ).hover(
+			function() {
+				$( this ).addClass( "ui-state-hover" );
+			},
+			function() {
+				$( this ).removeClass( "ui-state-hover" );
+			}
+		);
+	});
+	</script>
+<?php   if ($sep_media) { ?>
+	<script>
+    $(function() {
+
+		$( "#query_m" ).autocomplete({
+            source: "include/suggest.php?media_only=1&type=<?php echo"$type"?>&catid=<?php echo"$catid"?>&category=<?php echo"$category"?>&db=<?php echo"$db"?>&prefix=<?php echo"$prefix"?>",
+            minLength: <?php echo"$min_sug_chars"?>
+		});
+
+		// Hover states on the static widgets
+		$( "#dialog-link, #icons li" ).hover(
+			function() {
+				$( this ).addClass( "ui-state-hover" );
+			},
+			function() {
+				$( this ).removeClass( "ui-state-hover" );
+			}
+		);
+	});
+	</script>
+<?php   }   ?>
+    <!-- Jump to page bottom script -->
+    <script type='text/javascript'>
+        function JumpBottom () {
+            window.scrollTo(0,100000);
+        }
+    </script>
+<!-- /011_html_header.html -->
+<?php	//    End of Sphider-plus part of the HTML header    ?>

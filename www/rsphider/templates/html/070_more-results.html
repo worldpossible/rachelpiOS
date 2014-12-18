@@ -1,0 +1,32 @@
+<!-- 070_more-results.html -->
+<?php
+    //  if activated, prepare the XML result file
+    if ($out == 'xml' && $xml_name) {
+         media_xml($media_results, count($media_results), $query, round(getmicrotime() - $start_all, 3));
+    }
+?>
+
+<!--    Links to more-results   -->
+        <div id="other_pages">
+        <?php echo "    ".$sph_messages["Result page"]."" ?>:
+<?php
+        if ($start >1){     // if we do have more than 1 result page
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query))."" ?>&amp;search=1&amp;media_only=<?php echo "".$media_only."" ?>&amp;submit=<?php echo "".$submit."" ?>&amp;category=<?php echo "".$category."" ?>&amp;catid=<?php echo "".$catid."" ?>&amp;cat_sel0=<?php echo "".$cat_sel0."" ?>&amp;cat_sel1=<?php echo "".$cat_sel1."" ?>&amp;cat_sel2=<?php echo "".$cat_sel2."" ?>&amp;cat_sel3=<?php echo "".$cat_sel3."" ?>&amp;cat_sel4=<?php echo "".$cat_sel4."" ?>&amp;type=<?php echo "".$type."" ?>&amp;mark=<?php echo "".$mark."" ?>&amp;results=<?php echo "".$results_per_page."" ?>&amp;db=<?php echo "".$db."" ?>&amp;prefix=<?php echo "".$prefix."" ?>&amp;domain=<?php echo "".$domain."" ?>&amp;adv_qry=<?php echo "".$adv_qry."" ?>&amp;start=<?php echo "".$prev."" ?>"><?php echo "".$sph_messages['Previous']."" ?></a>
+<?php   }
+        foreach ($other_pages as $page_num) {
+            if ($page_num !=$start){
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query))."" ?>&amp;search=1&amp;media_only=<?php echo "".$media_only."" ?>&amp;submit=<?php echo "".$submit."" ?>&amp;category=<?php echo "".$category."" ?>&amp;catid=<?php echo "".$catid."" ?>&amp;cat_sel0=<?php echo "".$cat_sel0."" ?>&amp;cat_sel1=<?php echo "".$cat_sel1."" ?>&amp;cat_sel2=<?php echo "".$cat_sel2."" ?>&amp;cat_sel3=<?php echo "".$cat_sel3."" ?>&amp;cat_sel4=<?php echo "".$cat_sel4."" ?>&amp;type=<?php echo "".$type."" ?>&amp;mark=<?php echo "".$mark."" ?>&amp;results=<?php echo "".$results_per_page."" ?>&amp;db=<?php echo "".$db."" ?>&amp;prefix=<?php echo "".$prefix."" ?>&amp;domain=<?php echo "".$domain."" ?>&amp;adv_qry=<?php echo "".$adv_qry."" ?>&amp;start=<?php echo "".$page_num."" ?>"><?php echo "".$page_num."" ?></a>
+<?php       } else { ?>
+            <strong><?php echo "".$page_num."" ?></strong>
+<?php
+            }
+        }
+        if ($next <= $pages){
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query))."" ?>&amp;search=1&amp;media_only=<?php echo "".$media_only."" ?>&amp;submit=<?php echo "".$submit."" ?>&amp;category=<?php echo "".$category."" ?>&amp;catid=<?php echo "".$catid."" ?>&amp;cat_sel0=<?php echo "".$cat_sel0."" ?>&amp;cat_sel1=<?php echo "".$cat_sel1."" ?>&amp;cat_sel2=<?php echo "".$cat_sel2."" ?>&amp;cat_sel3=<?php echo "".$cat_sel3."" ?>&amp;cat_sel4=<?php echo "".$cat_sel4."" ?>&amp;type=<?php echo "".$type."" ?>&amp;mark=<?php echo "".$mark."" ?>&amp;results=<?php echo "".$results_per_page."" ?>&amp;db=<?php echo "".$db."" ?>&amp;prefix=<?php echo "".$prefix."" ?>&amp;domain=<?php echo "".$domain."" ?>&amp;adv_qry=<?php echo "".$adv_qry."" ?>&amp;start=<?php echo "".$next."" ?>"><?php echo "".$sph_messages['Next']."" ?></a>
+ <?php  }  ?>
+        </div>
+<?php // ?>
+<!-- /070_more-results.html -->

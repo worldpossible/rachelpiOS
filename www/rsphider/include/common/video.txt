@@ -1,0 +1,14 @@
+avi
+flv
+movie
+mpa
+mpe
+mpeg
+mpg
+mp2
+mp2v
+mp4
+mpv2
+m1v
+wmv
+x-shockwave-flash

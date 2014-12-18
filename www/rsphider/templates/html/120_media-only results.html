@@ -1,0 +1,50 @@
+<!-- 120_media-only results.html -->
+<?php   //  display  media-only result listing ?>
+
+            <tr class='<?php echo "".$class.""?>'>
+                <td class='cntr x4'>
+                    <a href='<?php echo "".$media_click.""?>' target='rel' title='<?php echo "".$sph_messages['openMedia'].""?>'>
+<?php
+    if ($this_media[6] =='image') {
+?>
+                    <img src='<?php echo "".$thumb_link.""?>' border='1' alt='Thumbnail' />
+<?php
+    }
+    if ($this_media[6] =='audio') {
+?>
+                    <img src='<?php echo "".$image_dir."/notes60.gif"?>' border='0' alt='Media results' />
+<?php
+    }
+    if ($this_media[6] =='video') {
+?>
+                    <img src='<?php echo "".$image_dir."/film60.gif"?>' border='0' alt='Media results' />
+<?php
+    }
+?>
+                    </a>
+                </td>
+                <td class='lft sml'>
+                    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp; <?php echo "".$sph_messages['resNum'].""?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$i_1.""?></strong></p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$sph_messages['title'].""?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$media_title.""?>
+<?php
+    if ($index_id3 == '1') {
+?>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href=<?php echo "".$include_dir.""?>/show_id3.php?media_id=<?php echo "".$this_media[0].""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>  target='_blank'><?php echo "".($sph_messages['more'])." ".($sph_messages['details']).""?></a>
+<?php
+    }
+?>
+                    </p>
+<?php
+    if ($this_media[6] =='image') {
+?>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$sph_messages['size'].""?>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$this_media[7].""?>&nbsp;x&nbsp;<?php echo "".$this_media[8].""?>&nbsp;pixel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;<?php echo "".$img_name.""?>&nbsp;)</p>
+<?php
+    }
+?>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo "".$sph_messages['foundAt'].""?> :&nbsp;<a href='<?php echo "".$link_click.""?>' target='_blank' title='<?php echo "".$sph_messages['New_window'].""?>'><?php echo "".$this_media[2].""?></a></p>
+                    <p class='cntr'><a href='<?php echo $search_string ;?>?search=2&amp;link=<?php echo "".$this_media[2].""?>&amp;query=<?php echo "".$query.""?>&amp;media_only=1&amp;title=<?php echo "".$page_title.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>' title='<?php echo "".$sph_messages['allMedia'].""?>'><?php echo "".$sph_messages['allMedia'].""?></a></p>
+                </td>
+            </tr>
+<?php      //  end of media-only result listing  ?>
+<!-- /120_media-only results.html -->

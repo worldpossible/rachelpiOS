@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Upload Local</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../style.css">
+<body>
+<a href="../index.html" id="rachel">Rachel</a>
+<div id="content">
+<div class="thumblist">
+<a name="shamba"></a>
+<h3>Upload Content (two options)</h3>
+<br/>
+
+
+
+<img src="../art/windows.jpg" width="120" alt="windos">
+<b>Bulk Upload - Unprotected Conent (Windows) </b></a>
+<a href="aboutlocal.pdf">How-to bulk upload</a>
+<p>Any media (pdf's, videos, audio) can be dropped in your RACHEL distribution and seen (or deleted) by all.</p>
+<p/>
+
+<div style="clear: left;"></div>
+
+
+
+<img src="../art/firefox.jpg" width="120" alt="firefox">
+<b>Single Upload - Protected Content (Web Browser)</b></a>
+<form enctype="multipart/form-data" action="uploader.php" method="POST">
+<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
+Choose a file to upload: <input name="uploadedfile" type="file" /><br />
+<input type="submit" value="Upload File" />
+</form>
+It is possible delete this content through SSH or FTP and root account (advanced).
+<p/>
+
+<div style="clear: left;"></div>
+
+
+</div>
+</body>
+</html>

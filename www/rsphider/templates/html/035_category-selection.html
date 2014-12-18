@@ -1,0 +1,98 @@
+<?php   //      display main category selection   ?>
+<!-- 035_category-selection.html -->
+    <!--    Multiple category selection  -->
+            <table  class="searchBox">
+                <tr>
+                <td class="mak_1";><?php echo "".$sph_messages['Categories'].":"?></td>
+                </tr>
+                <tr>
+<?php   if ($group_name_0) {   ?>
+                    <td><?php
+                    echo "".$group_name_0."</td>\r\n"?>
+<?php   }
+        if ($group_name_1) { ?>
+                    <td><?php echo "".$group_name_1."</td>\r\n"?>
+<?php   }
+        if ($group_name_2) { ?>
+                    <td><?php echo "".$group_name_2."</td>\r\n"?>
+
+<?php   }
+        if ($group_name_3) { ?>
+                    <td><?php echo "".$group_name_3."</td>\r\n"?>
+<?php   }
+        if ($group_name_4) { ?>
+                    <td><?php echo "".$group_name_4."</td>\r\n"?>
+<?php   }   ?>
+                </tr>
+                <tr>
+<?php
+        if ($group_name_0) {   ?>
+                    <td>
+                        <select name="cat_sel0" id="cat_sel0" title="">>
+<?php
+            foreach ($group_sel0 as $key => $sel0) {
+?>                            <option <?php  if ($cat_sel0== $sel0)   echo "selected='selected'";?>><?php echo $sel0?></option>
+<?php       }   ?>                        </select>
+                        </br></br>
+                        <select name="cat_sel0a" id="cat_sel0a" title="">>
+<?php
+            foreach ($group_sel0a as $key => $sel0a) {
+?>                            <option <?php  if ($cat_sel0a== $sel0a)   echo "selected='selected'";?>><?php echo $sel0a?></option>
+<?php       }   ?>                        </select>
+                    </td>
+<?php   }
+        if ($group_name_1) { ?>
+                    <td>
+                        <select name="cat_sel1" id="cat_sel1" title="">>
+<?php
+        foreach ($group_sel1 as $key => $sel1) {
+?>                            <option <?php  if ($cat_sel1== $sel1)   echo "selected='selected'";?>><?php echo $sel1?></option>
+<?php   }   ?>                        </select>
+                        </br></br></br>
+                    </td>
+<?php } if ($group_name_2) { ?>
+                    <td>
+                        <select name="cat_sel2" id="cat_sel2" title="">>
+<?php
+        foreach ($group_sel2 as $key => $sel2) {
+?>                            <option <?php  if ($cat_sel2== $sel2)   echo "selected='selected'";?>><?php echo $sel2?></option>
+<?php   }   ?>                        </select>
+                        </br></br></br>
+                    </td>
+<?php } if ($group_name_3) { ?>
+                    <td>
+                        <select name="cat_sel3" id="cat_sel3" title="">>
+<?php
+        foreach ($group_sel3 as $key => $sel3) {
+?>                            <option <?php  if ($cat_sel3== $sel3)   echo "selected='selected'";?>><?php echo $sel3?></option>
+<?php   }   ?>                        </select>
+                        </br></br></br>
+                    </td>
+<?php } if ($group_name_4) { ?>
+                    <td>
+                        <select name="cat_sel4" id="cat_sel4" title="">>
+<?php
+        foreach ($group_sel4 as $key => $sel4) {
+?>                            <option <?php  if ($cat_sel4== $sel4)   echo "selected='selected'";?>><?php echo $sel4?></option>
+<?php   }   ?>                        </select>
+                        </br></br></br>
+                    </td>
+<?php   }   ?>
+                </tr>
+            </table>
+<?php   if (!$group_name_0) { ?>
+            <input type="hidden" name="cat_sel0" value="" />
+<?php   }
+        if (!$group_name_1) { ?>
+            <input type="hidden" name="cat_sel1" value="" />
+<?php   }
+        if (!$group_name_2) { ?>
+            <input type="hidden" name="cat_sel2" value="" />
+<?php   }
+        if (!$group_name_3) { ?>
+            <input type="hidden" name="cat_sel3" value="" />
+<?php   }
+        if (!$group_name_4) { ?>
+            <input type="hidden" name="cat_sel4" value="" />
+<?php   }   //      end main category selection  ?>
+<!-- /035_category-selection.html -->

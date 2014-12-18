@@ -1,0 +1,63 @@
+<?php   //      display category tree      ?>
+<!-- 040_category-tree.html -->
+    <!--    Category tree  -->
+    <div id="results">
+        <p class="mainlist"><a href="<?php echo $search_string ;?>?setcss1=<?php echo "".$thestyle.""?>>" title="<?php echo "".$sph_messages['tipBackCat'].""?>"><?php echo "".$sph_messages['Categories'].""?></a></p>
+        <div class="odrow">
+<?php
+    $acats = "";
+    $i = 0;
+    foreach ($cat_info['cat_tree'] as $_val){
+        $i++;
+        $acats .= "<a href=\"?catid=".$_val['category_id']."&amp;setcss1=".$thestyle."\" title=\"".$sph_messages['tipSelCat']."\">".$_val['category']."</a> &raquo; ";
+        if ($i > 5) {
+            $i = 0;
+            $acats = substr($acats,0,strlen($acats)-9)."<br /> &raquo; ";
+        }
+    }
+    $acats = substr($acats,0,strlen($acats)-9);
+?>          <p class="title"><?php echo "".$acats.""?></p>
+        </div>
+<?php   if ($cat_info['subcats']){  // list of sub-categories ?>
+        <p></p>
+        <div class="odrow">
+<?php
+        $bcats = "";
+        foreach ($cat_info['subcats'] as $_key => $_val){
+            $bcats .= "<a href=\"$search_string?catid=".$_val['category_id']."&amp;setcss1=".$thestyle."\" title=\"".$sph_messages['tipSelBCat']."\">".$_val['category']."</a> (".$_val['count'][0][0].") &raquo; ";
+        }
+        $bcats = substr($bcats,0,strlen($bcats)-9);
+?>
+            <p class="title"><?php echo "".$bcats.""?></p>
+<?php   } else {    ?>
+            </div>
+<?php   }   if (!$cat_info['cat_sites']) {   // if no site is attached to this cat
+?>
+            </div>
+        <br /><br />
+    <p class="mainlist"><a href="<?php echo $search_script ;?>" title="no sites"><?php echo "".$sph_messages['noSites']." <span class=\"warnadmin\">".$catname."</span><br /><br />".$sph_messages['tipBackCat'].""?></a></p>
+ <?php  } else {  // list of web pages in current category  ?>
+
+        <br /><br />
+        <p class="mainlist"><?php echo "".$sph_messages['Web pages'] .""?>&nbsp;<?php echo "<span class=\"warnadmin\">".$catname."</span>"?></p>
+<?php
+        foreach ($cat_info['cat_sites'] as $_key => $_val){
+            if ($_key & 1) {
+?>
+        <div class="odrow">
+<?php   } else {    ?>
+        <div class="evrow">
+<?php   }   $count = ($_key+1);
+
+?>
+            <p class="title"><span class="em sml"><?php echo "".$count.""?>.</span> <a href="<?php echo "".$_val['url'].""?>"><?php echo "".$_val['title'].""?></a></p>
+            <p class="description"><?php echo "".$_val['short_desc'].""?></p>
+            <p class="url"><?php echo "".$_val['url'].""?></p>
+        </div>
+<?php   }   }   ?>
+    <p class='y5'></p>
+    <p class='y5'></p>
+  </body>
+</html>
+<?php   //  End of category tree ?>
+<!-- /040_category-tree.html -->

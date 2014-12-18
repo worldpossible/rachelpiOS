@@ -1,0 +1,343 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title> RACHEL en Español - HOME</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<a id="rachel">Rachel</a>
+
+<div id="haut">
+		<ul class="menuhaut" >
+			<li><a href="index.html">HOME</a></li>
+			<li><a href="about.html">ABOUT</a></li>
+			<li><a href="/local/">CONTENIDO LOCAL</a></li>
+			<li><a href="/uploads/">UPLOAD</a></li>
+			<li><a href+"mailto:info@worldpossibleorg">Mas informacion: info@worldpossible.org</li>
+</ul>
+</div>
+
+
+<div id="content">
+
+
+
+<div class="thumblist">
+<a name="wikipedia"></a>
+<h3>Enciclopedia</h3>
+<br/>
+<ul>
+<li><a href="wikipedia_es_all_03_2012/" name="wikipedia">
+<img src="art/wikipedia.png" width="120" height="120" alt="Wikipedia">
+<b>Wikipedia</b></a>
+<p>La enciclopedia mas grande del mundo. Decenas de miles de artículos disponibles como referencia desde tu computadora.</p>
+<p>Incluye función de búsqueda para localizar rápidamente la información que necesitas.</p>
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+
+
+<p/>
+
+<div class="thumblist">
+<a name="khanacademy"></a>
+<h3>Khan Academy</h3> 
+<h4>Miles de clases en video sobre MatemÃ¡ticas y Ciencias.</h4>
+<br/>
+<ul>
+
+<li>
+<img src="ka/math/trigonometry/thumbs/m6c6dlmUT1c.jpg" alt="MatemÃ¡ticas">
+<b>MatemÃ¡ticas</b>
+<small>(2.007 videos)</small>
+<p>AmplÃ­sima colecciÃ³n de videos educativos sobre MatemÃ¡ticas que cubren desde los conceptos mas bÃ¡sicos de aritmÃ©tica hasta temas avanzados de cÃ¡lculo y estadÃ­sticas. </p>
+<p>La mayorÃ­a de los videos o estÃ¡n traducidos al EspaÃ±ol (ES) o estÃ¡n subtitulados [CC].</p>
+<p/>
+<div class="simplelist">
+	<ul>
+			<li><a href="ka/math/arithmetic/index.html">AritmÃ©tica y Pre-Algebra</a></li>
+			<li><a href="ka/math/algebra/index.html">Algebra</a></li>
+			<li><a href="ka/math/geometry/index.html">GeometrÃ­a</a></li>
+			<li><a href="ka/math/trigonometry/index.html">TrigonometrÃ­a y pre-cÃ¡lculo</a></li>
+			<li><a href="ka/math/calculus/index.html">CÃ¡lculo</a></li>
+			<li><a href="ka/math/probability/index.html">Probabilidad y EstadÃ­stica</a></li>
+			<li><a href="ka/math/differential-equations/index.html">Ecuaciones Diferenciales</a></li>
+	</ul>
+	<p>&nbsp;</p>
+</div>			
+<div style="clear: left;"></div>
+</li>
+
+<li>
+<img src="ka/science/cosmology-and-astronomy/thumbs/5FEjrStgcF8.jpg" alt="Ciencias">
+<b>Ciencias</b>
+<small>(844 videos)</small>
+<p>Amplia gama de cursos sobre ciencias en las Ã¡reas de FÃ­sica, QuÃ­mica, BiologÃ­a, CosmologÃ­a y Salud.</p>
+<p/>
+<div class="simplelist">
+	<ul>
+			<li><a href="ka/science/physics/index.html">FÃ­sica</a></li>
+			<li><a href="ka/science/chemistry/index.html">QuÃ­mica</a></li>
+			<li><a href="ka/science/biology/index.html">BiologÃ­a</a></li>
+			<li><a href="ka/science/cosmology-and-astronomy/index.html">CosmologÃ­a y AstronomÃ­a</a></li>
+			<li><a href="ka/science/organic-chemistry/index.html">QuÃ­mica OrgÃ¡nica</a></li>
+			<li><a href="ka/science/healthcare-and-medicine/index.html">Salud y Medicina</a></li>
+	</ul>
+	<p>&nbsp;</p>
+</div>			
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+
+<!--<div class="thumblist">
+<a name="khanacademy"></a>
+<h3>Khan Academy</h3>
+<h4>KA Lite es un software de código abierto para la visualización y la interacción con videos y ejercicios de Khan Academy descargados, incluso cuando no hay internet disponible. Los estudiantes pueden conectarse al servidor desde dentro de la sala de clases, en un ordenador portátil, tablet o computadora de escritorio..</h4>
+<br/>
+<ul>
+
+<li>
+<img src="art/KA-Lite.jpg" alt="KA-Lite">
+<b><a href="./" onclick="javascript:event.target.port=7007" target="_blank">Ka-Lite Página Principal (Khan Academy con ejercicios y presentación de informes)</a></b>
+<p><b>Apoyo para el aprendizaje basado en el dominio - </b>Los estudiantes pueden trabajar su camino a través de los contenidos a su propio ritmo, por lo que los estudiantes avanzados no son responsables del retraso, y los alumnos menos avanzados no se están quedando atrás.</p>
+<p><b>Fácil sincronización de datos - </b>datos de los estudiantes se puede sincronizar de nuevo a un servidor central cuando Internet está disponible, lo que permite a los administradores ver las estadísticas estudiantiles agregados e individuales de un lugar.</p>
+<p/>
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+-->
+
+
+<p/>
+
+
+<!--
+<div class="thumblist">
+<a name="vedoque"></a>
+<h3><a href="soluciones/index.html">Soluciones Prácticas</a></h3>
+<br/>
+<ul>
+<li><a href="soluciones/index.html" name="Soluciones Prácticas">
+<img src="soluciones/art/soluciones.jpg" alt="Soluciones Prácticas">
+<b>Soluciones Prácticas</b></a>
+<p>Excelente colección de materiales educativos y de referencia para el desarrollo sostenible de la población de menores recursos. Incluye cientos de documentos especializados sobre detallados procesos y metodologías de gran valor educativo para una comunidad en desarrollo. Aunque gran parte de los documentos y guías están enfocados en Perú, la gran mayoría de su conocimiento es aplicable a cualquier comunidad.</p>
+<p/>
+
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+
+
+
+<p/>
+-->
+
+<div class="thumblist">
+<a name="vedoque"></a>
+<h3>Juegos Educativos</h3>
+<br/>
+<ul>
+<li><a href="vedoque/index.html" name="Vedoque">
+<img src="art/vedoque.png" alt="Vedoque">
+<b>Vedoque</b></a>
+<p>Juegos y animaciones interactivas y entretenidas para aprender divirtiéndose sobre numerosos tópicos.</p>
+<p/>
+<div class="simplelist">
+<ul>
+	 	<li><a href="vedoque/index1861.html">Educación infantil.</a></li>
+	 	<li><a href="vedoque/index0ea8.html">Educación Primaria.</a></li>
+	 	<li><a href="vedoque/indexaac5.html">Para todos.</a></li>
+	 	<li><a href="vedoque/juegos/mecano/index.html">Clases de mecanografía.</a></li>
+</ul>
+	<p>&nbsp;</p>
+</div>
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+
+
+
+<p/>
+
+
+<div class="thumblist">
+<a name="salud"></a>
+<h3>Salud y Medicina</h3>
+<h4>Colección de referencias e información sobre temas del cuidado de la salud.</h4>
+<br/>
+<small>Este contenido no proporciona asesoramiento médico y son únicamente para propósitos informativos. Este material no pretende ser un substituto de un consejo médico profesional, ni un diagnóstico o tratamiento. Siempre se debe solicitar el asesoramiento de un proveedor de la salud calificado para responder cualquier pregunta médica . Nunca ignores o retardes un consejo médico profesional por algo leído o visto aquí.</small>
+<p>&nbsp;</p>
+<ul>
+
+
+
+<li><a href="medlineplus/spanish/" name="medlineplus">
+<img src="art/medlineplus.png" alt="MedlinePlus">
+<b>Enciclopedia Ilustrada de la Salud</b></a>
+<small>(4.000 artículos)</small>
+<p>La Enciclopedia Ilustrada de la Salud (Health Illustrated Encyclopedia) incluye más de 4.000 artículos acerca de enfermedades, exámenes, síntomas, lesiones y procedimientos quirúrgicos. También contiene una biblioteca extensa de fotografías médicas e ilustraciones.  </p>
+<p><b>Búsqueda por primera letra del tema:</b></p>
+<p>&nbsp;</p>
+<div class="simpletable">
+<table cellpadding="3" border="1" width="70%">
+<tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_A-Ag.htm">A-Ag</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Ah-Ap.htm">Ah-Ap</strong></a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Aq-Az.htm">Aq-Az</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_B-Bk.htm">B-Bk</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Bl-Bz.htm">Bl-Bz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_C-Cg.htm">C-Cg</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Ch-Co.htm">Ch-Co</a></strong></span></td>
+</tr><tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Cp-Cz.htm">Cp-Cz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_D-Di.htm">D-Di</strong></a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Dj-Dz.htm">Dj-Dz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_E-Ep.htm">E-Ep</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Eq-Ez.htm">Eq-Ez</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_F.htm">F</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_G.htm">G</a></strong></span></td>
+</tr><tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_H-Hf.htm">H-Hf</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Hg-Hz.htm">Hg-Hz</strong></a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_I-In.htm">I-In</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Io-Iz.htm">Io-Iz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_J.htm">J</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_K.htm">K</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_L-Ln.htm">L-Ln</a></strong></span></td>
+</tr><tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Lo-Lz.htm">Lo-Lz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_M-Mf.htm">M-Mf</strong></a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Mg-Mz.htm">Mg-Mz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_N.htm">N</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_O.htm">O</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_P-Pl.htm">P-Pl</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Pm-Pz.htm">Pm-Pz</a></strong></span></td>
+</tr><tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Q.htm">Q</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_R.htm">R</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_S-Sh.htm">S-Sh</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Si-Sp.htm">Si-Sp</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Sq-Sz.htm">Sq-Sz</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_T-Tn.htm">T-Tn</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_To-Tz.htm">To-Tz</a></strong></span></td>
+</tr><tr>
+<td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_U.htm">U</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_V.htm">V</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_W.htm">W</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_X.htm">X</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Y.htm">Y</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_Z.htm">Z</a></strong></span></td><td bgcolor="#E8EFF5" valign="top" align="center"><span class="minusOne"><strong><a href="medlineplus/spanish/ency/encyclopedia_0-9.htm">0-9</a></strong></span></td>
+</tr>
+</table>
+</div>
+	 		<p>&nbsp;</p>
+<div style="clear: left;"></div>
+</li>
+
+
+
+
+<li>
+<img src="art/hesperian.png" alt="Hesperian">
+<b>Guías de la Salud de Hesperian</b>
+<small></small>
+<p>Información de alta calidad, prácticas, fáciles de entender, confiables y que contienen una gran riqueza de ilustraciones sobre temas de salud. Referencias muy útiles en zonas remotas donde el acceso a personal médico es limitado.</p>
+<p/>
+<div class="simplelist">
+	<ul>
+			<li><a href="hesperian/donde_no_hay_doctor.pdf">Donde no hay doctor.</a></li>
+	 		<li><a href="hesperian/donde_no_hay_dentista.pdf">Donde no hay dentista.</a></li>
+	 		<li><a href="hesperian/apoyar_ninos_sordos.pdf">Ayudar a los niños sordos.</a></li>
+	 		<li><a href="hesperian/apoyar_ninos_ciegos.pdf">Ayudar a los niños ciegos.</a></li>
+	 		<li><a href="hesperian/agua_para_vivir.pdf">Salud Ambiental: Agua para vivir.</a></li>
+	 		<li><a href="hesperian/saneamiento.pdf">Salud Ambiental: Saneamiento y limpieza.</a></li>
+	 		<li><a href="hesperian/Alimentarse bien para la buena salud.pdf">Alimentarse bien para la buena salud.</a></li>
+	 		<li><a href="hesperian/Como prevenir el Colera.pdf">Como prevenir el Colera</a></li>
+	 		<li><a href="hesperian/El embarazo y el parto.pdf">El embarazo y el parto.</a></li>
+	 		<li><a href="hesperian/Los plaguicidas son veneno.pdf">Los plaguicidas son veneno.</a></li>
+	 		<li><a href="hesperian/Los recien nacidos y el amamantamiento.pdf">Los recien nacidos y el amamantamiento.</a></li>
+	</ul>
+	<p>&nbsp;</p>
+</div>
+<div style="clear: left;"></div>
+</li>
+
+</ul>
+</div>
+
+
+
+
+<p/>
+
+<div class="thumblist">
+<a name="textbooks"></a>
+<form action="ebooks/search.html" id="searchform" style="float: right; padding: 5px; background-color: #ccc;">
+<input type="text" name="terms" id="searchbox">
+<input type="submit" value="Buscar Libros">
+</form>
+<h3><a href="ebooks/index.html">Grandes Libros del Mundo</a></h3>
+<br/>
+<ul>
+<li>
+<a href="ebooks/index.html"><img src="art/coolbook-small.jpg" alt="great books of the world"></a>
+
+<p>Bienvenido a Grandes Libros del Mundo, una selección de mas de 300 libros en Español, publicada por el Proyecto Gutenberg, incluyendo descripciones de Wikipedia, clasificados por categoría y con buscador de texto.</p>
+
+<p/>
+<div class="simplelist">
+    <ul>
+    <li> <a href="ebooks/mejorficcin.html">La Mejor Ficción</a>
+    <li> <a href="ebooks/noficcindeamrica.html">No-Ficción - Las Américas</a>
+    <li> <a href="ebooks/otrosnoficcin.html">No-Ficción - Otros</a>
+    <li> <a href="ebooks/diverso.html">Varios</a>
+    </ul>
+    <p>&nbsp;</p>
+</div>
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+<div class="thumblist">
+<a name="vedoque"></a>
+<h3>Colección Educativa Guatemala</h3>
+<br/>
+<ul>
+<li><a href="guatemala/index.html" name="Portal Guatemala">
+<img src="guatemala/art/guatemala.jpg" alt="Portal Guatemala">
+<b>Portal Guatemala</b></a>
+<p>Cientos de materiales educativos y de referencia para maestros, estudiantes y padres. Aunque gran parte de ellos están enfocados en la sociedad y comunidad educativa guatemalteca su valor educativo se extiende a todo el mundo hispano.  Incluye las siguientes secciones:</p>
+<p/>
+<div class="simplelist">
+<ul>
+	 	<li><a href="guatemala/agricultura.html">Agricultura.</a></li>
+	 	<li><a href="guatemala/ambiente.html">EL Medio Ambiente.</a></li>
+	 	<li><a href="guatemala/estimulacion.html">Salud y Estimulación temprana del niño.</a></li>
+	 	<li><a href="guatemala/maestros.html">Herramientas para los Maestros.</a></li>
+	 	<li><a href="guatemala/historia.html">Historia.</a></li>
+	 	<li><a href="guatemala/mesoamerica.html">Mesoamérica.</a></li>
+	 	<li><a href="guatemala/derechos/index.html">Derechos Humanos</a></li>
+		<li><a href="guatemala/gramatica/index.html">Gramatica Idioma Español</a></li>
+		<li><a href="guatemala/panificacion/index.html">Panificacion Familiar</a></li>
+		<li><a href="guatemala/jugando/index.html">Jugando con el Arte</a></li>
+		<li><a href="guatemala/textos.html">Textos Escolares.</a></li>
+</ul>
+	<p>&nbsp;</p>
+</div>
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+<p/>
+
+<div class="thumblist">
+<a name="vedoque"></a>
+<h3>Maya Tzutujil</a></h3>
+<br/>
+<ul>
+<b>Tejiendo el Idioma Maya Tzutujil</b></a>
+<li><a href="guatemala/maya.html">Maya Tz'utujil.</a></li>
+<p/>
+
+<div style="clear: left;"></div>
+</li>
+</ul>
+</div>
+
+<!-- FOOTER   -->
+
+<div style="clear: both;"></div>
+</div>
+<div id="haut">
+		<ul class="menuhaut" >
+			<li><a href="index.html">HOME</a></li>
+			<li><a href="about.html">ABOUT</a></li>
+			<li><a href="/local/">CONTENIDO LOCAL</a></li>
+			<li><a href="/uploads/">UPLOAD</a></li>
+			<li><a href+"mailto:info@worldpossible.org">Mas informacion: info@worldpossible.org</li>
+		</ul>
+		<div id="footer_right">RACHEL en Español - versión 10/2014</div>
+
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+</html>

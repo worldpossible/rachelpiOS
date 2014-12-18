@@ -1,0 +1,2 @@
+#!/bin/sh
+/PATH/TO/YOUR/WEB/DOWN/TO/converter/pdftotext.script $1 $2 $3 \-

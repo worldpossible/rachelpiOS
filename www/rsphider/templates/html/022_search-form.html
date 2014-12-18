@@ -1,0 +1,39 @@
+<?php   //   This will present the Search-form. First the query-field and submit-button
+        //   like 021_search-form, but also without 'Results per page'   ?>
+<!-- 022_search-form.html -->
+    <div style="text-align:center;">
+    <form action="<?php echo $search_string ;?>" method="get">
+
+    <input type="hidden" name="media_only" value="0" />
+        <table class="searchBox">
+            <tr>
+                <td>
+                    <input type="text" name="query" id="query" placeholder="<?php echo $sph_messages['query'];?>" size="40" value="<?php echo $query ;?>" />
+                </td>
+                <td>
+                    <input type="hidden" name="search" value="1" />
+                    <input type="submit" class="sbmt" value="<?php echo $sph_messages['Search'];?>" />
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="category"    value="<?php echo $category?>" />
+        <input type="hidden" name="catid"       value="<?php echo $catid?>" />
+<?php   if ($adv==1 || $advanced_search==1) {    //  if Advanced-search should be shown enter here ?>
+        <table class="searchBox">
+            <tr>
+                <td><input type="radio" name="type" value="and"     <?php echo $type=='and'?'checked="checked"':''?> />     <?php echo $sph_messages['andSearch']?></td>
+                <td><input type="radio" name="type" value="or"      <?php echo $type=='or'?'checked="checked"':''?> />      <?php echo $sph_messages['orSearch']?></td>
+            </tr>
+            <tr>
+                <td><input type="radio" name="type" value="phrase"  <?php echo $type=='phrase'?'checked="checked"':''?> />  <?php echo $sph_messages['phraseSearch']?></td>
+                <td><input type="radio" name="type" value="tol"     <?php echo $type=='tol'?'checked="checked"':''?> />     <?php echo $sph_messages['tolSearch']?></td>
+            </tr>
+        </table>
+<?php   } ?>
+        <br />
+        <input type="hidden" name="db"      value="0" />
+        <input type="hidden" name="prefix"  value="0" />
+    </form>
+    </div>
+<!-- /022_search-form.html -->
+<?php   //  End of Search-form ?>

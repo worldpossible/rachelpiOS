@@ -1,0 +1,5 @@
+This is a dummy file to check correct function of the PDF converter. If the admin.php script is started, and index of PDFs is activated in Admin settings, this document is used by the PDF converter for an initial check.
+
+Do not modify or delete this file!
+
+

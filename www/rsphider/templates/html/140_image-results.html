@@ -1,0 +1,30 @@
+<!-- 140_image-results.html -->
+<?php   //  display  image results	?>
+
+                    <td width="25%"><a href="<?php echo "".$link_click.""?>" target="_blank" title="<?php echo "".$sph_messages['openPicture'].""?>"><img src="<?php echo "".$thumb_link.""?>" border="1" alt="<?php echo "".$sph_messages['openPicture'].""?>" /></a>
+                        <br /><br />
+                        <p class="cntr sml"><strong><?php echo "".$title.""?></strong></p>
+                        <br />
+<?php
+            if ($index_id3 == '1') {
+?>
+                        <a href="<?php echo "".$include_dir.""?>/show_id3.php?media_id=<?php echo "".$value[0].""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>"  target="_blank" title="EXIF Infos"><?php echo "".($sph_messages['more'])." ".($sph_messages['details']).""?></a></p>
+<?php
+            }
+?>
+                    </td>
+<?php
+            $i++ ;
+            if ($i =='4') { //end of row with 4 images
+                $i = '0';
+?>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+<?php
+            }
+    //  end  of image results
+?>
+<!-- /140_image-results.html -->

@@ -1,0 +1,206 @@
+<!-- 060_text-results.html -->
+<?php   // display result listing ?>
+        <!--    Text result listing for next link starts here    -->
+        <div class="resultlist">
+<?php
+    if ($sort_results < 2 || $sort_results > 4) {   //  not for domain sorting
+        if ($num & 1) {
+?>
+        <div class="odrow">
+<?php
+        } else {
+?>
+        <div class="evrow">
+<?php
+        }
+    } else {                            //  for domain sorting enter here
+        if ($change == '1') {           //  if new host should be displayed
+
+            if ($template == 'Pure') {          //  createa an additional blank row
+?>
+                    <p>&nbsp;</p>
+<?php
+            }
+
+            if ($class == "odrow" || $class == "odrow2"){
+                $class = "evrow";
+?>
+        </div>
+        <div class="evrow">
+<?php
+            } else {
+                $class = "odrow";
+?>
+        </div>
+        <div class="odrow">
+<?php
+        }
+        } else {                        //  follow up links of same host
+            if ($sort_results == '4'){  //  add margin-left for 'like Google'
+                if ($class == "odrow"){
+                    $class = "odrow2";
+?>
+        </div>
+        <div class="odrow2">
+<?php
+                } else {
+                    $class = "evrow2";
+?>
+        </div>
+        <div class="evrow2">
+<?php
+                }
+            }
+        }
+    }
+
+    if($template != "Pure") {
+        if(ceil($num/10) == $num/10) {      // this routine places a "to page top" link on every 10th record    ?>
+<!--
+            <a class="navup" href="#top" title="Jump to Page Top"><?php echo "".$sph_messages['top']."" ?></a>
+-->
+<?php
+        }
+    }
+?>
+            <div class="title">
+<?php
+    if ($show_res_num) {
+?>
+                <em class="sml"><?php echo "".$num."" ?>.</em>
+<?php
+    }
+?>
+                <a href="<?php echo "".$url_click."" ?>" title="<?php echo "".$sph_messages['New_window']."" ?>"  target="_blank"><?php echo "".($title?$title:$sph_messages['Untitled'])."" ?></a>
+            </div>
+<?php
+        if ($show_res_url) {
+            // JFIELD remove everything up to the /mods/ directory
+            $trimmedurl = preg_replace("/^.*?\/modules\//", "", $url);
+            //$trimmedurl = preg_replace("/\/index\.(html|htm|php)$/", "", $trimmedurl);
+            // JFIELD make them more legible
+            $trimmedurl = rawurldecode(rawurldecode($trimmedurl));
+?>
+            <div class="url"><?php echo "".$trimmedurl."" ?></a> - <?php echo "".$page_size."\r\n" ?></div>
+<?php
+        }
+?>
+<?php
+        if ($show_media =='1' && $text_only != '1') {    //  get media objects for this page and present them
+            $all    = '';
+            $mode   = '2';
+            $media_type = 'text';
+            //  show extract of full text
+            if ($template != 'Pure') {
+?>
+            <br />
+<?php       }
+?>
+            <table width="94%" class="sml, cntr">
+                <tr>
+<?php       if ($template != 'Pure') {
+?>
+                    <td  width="12%" class="cntr"><a href="<?php echo $search_string ;?>?search=2&amp;link=<?php echo "".$url."" ?>&amp;query=<?php echo "".$query."" ?>&amp;media_type=<?php echo "".$media_type."" ?>&amp;media_only=1&amp;title=<?php echo "".$title1."" ?>&amp;category=<?php echo "".$category."" ?>&amp;catid=<?php echo "".$catid."" ?>&amp;mark=<?php echo "".$mark."" ?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry."" ?>" title="<?php echo "".$sph_messages['allMedia']."" ?>"><img src="<?php echo "".$image_dir."" ?>/text.gif" border="0" alt="text results" /></a></td>
+<?php       }
+?>
+                    <td class="description left"><?php echo "".$fulltxt."" ?></td>
+                </tr>
+            </table>
+<?php
+            //  present media results for this page
+            if ($index_image == '1') {
+                $image_results = image($query, $url, 'image', $all, $urlx, $title1, $image_dir, 'allImages', 'allImages', 'camera60.gif', $mode, $media_only, $type, $category, $catid, $mark, $db, $prefix, $domain);
+                //  prepare media results for XML output file
+                if ($image_results && $out == 'xml'){
+                    $media_results = array_merge($media_results, $image_results);
+                }
+            }
+
+            if ($index_audio == '1') {
+                $audio_results = media($query, $url, 'audio', $all, $urlx, $title1, $image_dir, 'foundAudio', 'allAudio', 'notes60.gif', $mode, $media_only, $type, $category, $catid, $mark, $db, $prefix, $domain);
+                //  prepare media results for XML output file
+                if ($audio_results && $out == 'xml'){
+                    $media_results = array_merge($media_results, $audio_results);
+                }
+            }
+
+            if ($index_video == '1') {
+                $video_results = media($query, $url, 'video', $all, $urlx, $title1, $image_dir, 'foundVideo', 'allVideo', 'film60.gif', $mode, $media_only, $type, $category, $catid, $mark, $db, $prefix, $domain);
+                //  prepare media results for XML output file
+                if ($video_results && $out == 'xml'){
+                    $media_results = array_merge($media_results, $video_results);
+                }
+            }
+
+            if ($template != 'Pure') {
+?>
+            <br />
+<?php       }
+        } else {        //  if no media results should be presented, enter here
+            if ($shot) { ?>
+            <div class="description">
+                <table>
+                    <tr>
+                        <td><img src="<?php echo "$file" ?>" border="1" alt="webshot" /></td>
+                        <td class="descr_shot"><?php echo "".$fulltxt."" ?></td>
+                    </tr>
+                </table>
+            </div>
+<?php
+            } else {  
+
+            /* let's not make a big stink if the text wasn't in the page */
+            /* this happens because of stemming */
+            $fulltxt = preg_replace("/class='warn'/", "class='sml'", $fulltxt);
+            if (preg_match("/The exact search string was not found/", $fulltxt)) {
+                $fulltxt = $fulltxt . "<ul></ul>"; // this makes spacing consistent with other rows
+            }
+
+            // sometimes it gives too many results in the fulltext -
+            // I set it to 3 but for a search on "dogs" the first
+            // wikipedia entry comes back with six... so...
+            $fulltxt = preg_replace("/(.*<li>.*<\/li>.*<li>.*<\/li>.*<li>.*<\/li>).*(<\/ul>.*)/Us", "$1$2", $fulltxt);
+
+?>
+            <div class="description">
+                <?php echo "".$fulltxt."" ?>
+            </div>
+<?php
+            }
+        }
+?>
+<?php
+        if (($sort_results == '3' && $dom_count == $i) || ($sort_results == '4' && $i == '2')) {
+?>
+                <br />
+               &nbsp;&nbsp;&nbsp;&nbsp;[ <a href="<?php echo $search_string ;?>?query_t=<?php echo "".quote_replace(addmarks($query)).""?>&search=1&results=<?php echo "".$results_per_page.""?>&domain=<?php echo "".$domain_name.""?>"><?php echo "".$sph_messages['MoreDomRes']." " ?><?php print $domain_name?></a> ]
+                <br />
+<?php
+        }
+        if ($more_catres == '1' && $catlink){   //  Show more results of selectable categories
+            if ($category == '-1') {
+?>
+            <div class="description">
+                <?php echo "".$sph_messages['MoreCatRes']."" ?> <?php echo "".$cat_links."" ?>
+            </div>
+<?php
+            } else {    //  only sub-categories
+?>
+            <div class="description">
+                <?php echo "".$sph_messages['MoreSubCatRes']."" ?> .<?php echo "".$cat_links."" ?>
+            </div>
+<?php
+            }
+        }
+
+?>
+
+<?php
+        if ($sort_results != '2' && $sort_results != '3' && $sort_results != '4') {
+?>
+        </div>
+<?php   } ?>
+        <!--    End for above link    -->
+<?php // ?>
+
+<!-- /060_text-results.html -->

@@ -1,0 +1,84 @@
+<?php   //  display result header ?>
+<!-- 050_result-header.html -->
+<!--    Result-header   -->
+<?php
+    if ($debug_user == '1') {    //  show databases that delivered results
+?>
+    <small>Results from database <?php echo "".$slv1." ".$slv2." ".$slv3." ".$slv4." ".$slv5.""?></small>
+<?php
+        if ($prefix > '0') {
+?>
+    <small>table prefix: <?php echo "".$prefix."" ?></small>
+<?php
+        }
+        if (!$one_word || !$mustbe_and) {
+?>
+
+<?php
+        }
+        if ($one_word) {
+?>
+    <small><span class='red'>Info:</span> Automatically reset to single word query for this search mode.</small>
+<?php
+        }
+        if ($mustbe_and) {
+?>
+    <small><span class='red'>Info:</span> Automatically reset to AND for this search mode.</small>
+<?php
+        }
+        if ($nostalgic_phrase =='1' ) {
+?>
+    <small><span class='red'>Info:</span>Sphider-plus does not require quotation marks for phrase search.<br />
+    Just activate the checkbox '<?php echo "".$sph_messages['phraseSearch'].""?>' in the Search Form and enter the phrase you want to search for.</small>
+<?php
+        }
+
+    }
+	if ($text_results['ignore_words'] && $type !='phrase'){     //      show words that were ignored for this search
+        $ignore_msg = str_replace ('%ignored_words', "<span class=\"warnadmin\">".$ignored."</span>\r\n", $sph_messages["ignoredWords"]);
+?>
+    <div id="ignored" class="tblhead cntr">
+        <?php echo "".$ignore_msg.""; ?>
+    </div>
+<?php   }
+?>
+<?php   if ($total_results != 0 && $from <= $to && $template != "Pure"){
+?>
+        <!--p class="cntr"><a class="navdown"  href="javascript:JumpBottom()" title="Jump to bottom of this page"><?php echo "".$sph_messages['down'].""?></a></p-->
+<?php }
+    if ($text_results['total_results']==0){     //      if no result was found
+?>
+        <div class="warnadmin cntr">
+        <?php echo "    ".$no_res."\r\n"?>
+        <!--
+            <br />
+        <?php echo "    ".$catsearch.""?> <span class="blue"><?php echo "".$catname.""?></span>
+        -->
+        </div>
+<?php
+    }
+    if ($text_results['did_you_mean'] && $text_results['total_results'] == ''){   //      if Sphider-plus found a suggestion
+        $did_you_mean = "  ".$sph_messages['DidYouMean'].": <a href=\"".$search_string."?query_t=".(addmarks($text_results['did_you_mean']))."&amp;search=1&amp;media_only=$media_only&amp;submit=$submit&amp;type=$type_rem&amp;results=$result_rem&amp;mark=$mark_rem&amp;category=$cat_rem&amp;catid=$catid_rem&amp;db=$db&amp;prefix=$prefix\">".$text_results['did_you_mean_b']."</a>?";
+?>
+        <div id="didumean">
+        <?php echo "    ".$did_you_mean."\r\n"?>
+        </div>
+<?php    }
+    if ($text_results['total_results'] != '') {
+?>
+        <div style="text-align: center; margin: 15px 0 0 0;"><?php echo "".$result." "?></div>
+        <br />
+<?php   if ($show_sort == '1' && $wildcount != '1') {
+            echo "        <span>".$res_order." ".$this_list."</span>"?>
+<?php   }
+?>
+
+    </div>
+<!--    Start result listing     -->
+    <div id="results">
+<?php   } else {
+?>
+    </div>
+    <p class="y5"></p>
+<?php  }    //  end result header ?>
+<!-- /050_result-header.html -->

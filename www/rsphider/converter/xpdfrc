@@ -1,0 +1,32 @@
+#========================================================================
+#
+#   Configuration file for pdftotext converter
+#
+#   created: November 19, 2009 [Tec]  
+#   
+#========================================================================
+
+
+#----- text output control
+
+textEncoding		UTF-8
+
+# Choose the end-of-line convention for multi-line copy-and-paste and
+# for pdftotext output.  The available options are unix, mac, and dos.
+
+#textEOL		unix
+
+
+#----- misc settings
+
+# Enable t1lib, FreeType, and anti-aliased text.
+
+#enableT1lib		yes
+enableFreeType		yes
+#antialias		    yes
+
+# Set the command used to run a web browser 
+#when a URL hyperlink is clicked.
+
+#launchCommand  viewer-script
+#urlCommand	"firefox -remote 'openURL(%s)'"

@@ -1,0 +1,29 @@
+<!-- 130_image-results header.html -->
+<?php   //  display table header for image results
+        if ($template == 'Pure') {
+?>        
+            <!--    Table-header for image result   -->
+            <table width="94%" class="cntr">
+                <tr class="sml">
+                    <td   class="tblhead left" width="25%"><a href="<?php echo $search_string ;?>?search=<?php echo "".$mode.""?>&amp;link=<?php echo "".$url.""?>&amp;query=<?php echo "".$query.""?>&amp;media_type=<?php echo "".$media_type.""?>&amp;title=<?php echo "".$title1.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>"><?php echo "".$sph_messages[$info2].""?></a></td>
+                    <td  width="25%">&nbsp;</td>
+                    <td  width="25%">&nbsp;</td>
+                    <td  width="25%">&nbsp;</td>                    
+                </tr>
+                <!--    Image result listing    -->
+                <tr>        
+<?php        
+        } else {
+?>
+            <!--    Table-header for image result   -->
+            <table width="94%" class="cntr">
+                <tr class="sml">
+                    <td  width="25%" class="tblhead left"><a href="<?php echo $search_string ;?>?search=<?php echo "".$mode.""?>&amp;link=<?php echo "".$url.""?>&amp;query=<?php echo "".$query.""?>&amp;media_type=<?php echo "".$media_type.""?>&amp;title=<?php echo "".$title1.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>" title="<?php echo "".$sph_messages[$info2].""?>"><img src="<?php echo "".$image_dir.'/'.$thumb.""?>" border="0" alt="image results" /></a></td>
+                    <td  width="25%"><strong><?php echo "".($sph_messages['foundImages']).""?></strong></td>
+                    <td  width="25%">&nbsp;</td>
+                    <td  width="25%">&nbsp;</td>
+                </tr>
+                <!--    Image result listing    -->
+                <tr>
+<?php      }  //  end header for image results ?>
+<!-- /130_image-results header.html -->

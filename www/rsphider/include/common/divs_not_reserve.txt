@@ -1,0 +1,7 @@
+id_value1
+id_value2
+do_not_index_these_ids
+and_so_on
+OR 
+regexp like:
+*/menu[0-5]/

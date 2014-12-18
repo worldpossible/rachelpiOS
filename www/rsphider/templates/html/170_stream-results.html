@@ -1,0 +1,22 @@
+<!-- 170_stream-results.html -->
+<?php   //  display  audio and video results
+?>
+                <!--    Audio and video (stream) result  -->
+                <tr>
+                    <td width="15%">&nbsp;</td>
+                    <td><a href="<?php echo "".$link_click.""?>" target="_blank" title="<?php echo "".$sph_messages['openMedia'].""?>"><strong><?php echo "".$title.""?></strong></a></td>
+                    <td><?php echo "".$playtime.""?></td>
+<?php
+            if (!$playtime || $index_id3 != '1') {
+?>
+                    <td> </td>
+<?php
+            } else {
+?>
+                    <td><a href="<?php echo "".$include_dir.""?>/show_id3.php?media_id=<?php echo "".$value[0].""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>"  target="_blank"><?php echo "".($sph_messages['more']).' '.($sph_messages['details']).""?></a></td>
+<?php
+             }
+?>
+                </tr>
+<?php      //  end  of audio and video results ?>
+<!-- /170_stream-results.html -->

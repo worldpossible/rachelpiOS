@@ -1,0 +1,258 @@
+/*-------------------------------------------*/
+/* browser css reset from                    */
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/*-------------------------------------------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0; padding: 0; border: 0;
+    font-size: 100%; font: inherit;
+    vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after {
+    content: ''; content: none;
+}
+table { border-collapse: collapse; border-spacing: 0; }
+
+/*-------------------------------------------*/
+/* Khan Academy on a Stick CSS               */
+/*-------------------------------------------*/
+/* custom colors in use:                     */
+/*     light-green: #dde3dd   heading bg     */
+/*     medium-green: #ccd3cc  content bg     */
+/*     dark-green: #aab3aa    nav bg, border */
+/*     darker-green: #787     body bg        */
+/*     very-dark-green: #363  border         */
+/*-------------------------------------------*/
+body {
+    font-family: sans-serif;
+    background-color: #cdcdcd;
+    line-height: 115%;
+}
+h1, h2, h3 {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+h1 { font-size: 180%; }
+h2 { font-size: 140%; }
+h3 { font-size: 120%; }
+b { font-weight: bold; }
+small { font-size: 80%; }
+
+h2 a {
+    display: block;
+    width: 654px; height: 60px;
+    background: url('img/gbow-header.jpg') no-repeat top left;
+    text-indent: -1000em;
+}
+
+#header {
+    padding: 9px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #ddd;
+}
+
+#content {
+    /* total outer width should be 960 */
+    /* total inner width should be 940 */
+    width: 940px;
+    padding: 9px;
+    border: 2px solid #666;
+    border-radius: 10px;
+    margin: auto;
+    background-color: #fff;
+}
+
+.catlist a {
+    font-size: 120%;
+    font-weight: bold;
+    line-height: 120%;
+}
+
+.thumblist, .textbody {
+    /* automatically expands to fill container */
+    padding: 9px 10px 10px 9px;
+    border-top:  1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.thumblist img {
+    width: 128px; height: 182px;
+    margin: 0 10px 0 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    float: left;
+}
+.thumblist li {
+    padding-right: 9px;
+    border-bottom: 1px solid #ccc;
+    border-right:  1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.thumblist li:first-child { margin-top: 0px; }
+.thumblist p { margin-top: 5px; }
+
+#searchdiv {
+    height: 60px;
+    float: right;
+    text-align: right;
+}
+#searchform {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+#rachel {
+    display: block;
+    background: #000 url('img/rachel-banner.png') no-repeat 5px 0;
+    height: 28px;
+    margin-bottom: 5px; 
+    text-indent: -1000em;
+}
+
+#breadcrumbs {
+    margin-top: 5px;
+    font-size: 80%;
+}
+
+#footer {
+    width: 940px;
+    padding: 10px;
+    margin: 0 auto 200px auto;
+    text-align: center;
+    font-size: 80%;
+    line-height: 160%;
+}
+
+/*-------------------------------------------*/
+/* this formats the menu on the left         */
+/*-------------------------------------------*/
+.nav {
+    /* total outer size should be 220 */
+    width: 204px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #ccc;
+    float: left;
+}
+.nav li {
+    /* this padding needs to match the size of     */
+    /* the padding + border of the .active element */
+    padding: 6px;
+    margin: 3px;
+}
+.nav .active {
+    padding: 5px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/*-------------------------------------------*/
+/* this is used on the topic page            */
+/*-------------------------------------------*/
+.content-right {
+    /* total outer width should be 710, that is:
+       940 inner page - 220px menu - 10px gutter
+       because we're applied to thumblist, which 
+       has 20px in padding and borders, we need to be 690 */
+    float: right;
+    width: 690px;
+}
+
+/*-------------------------------------------*/
+/* this stuff pertains to the subtopic page  */
+/*-------------------------------------------*/
+.playlist {
+    /* total outer width is 710px (width+pad+border) */
+    float: right;
+    width: 700px;
+    padding: 9px 0 0 9px;
+    border-top:  1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 5px;
+
+    margin-bottom: 10px;
+}
+
+/* this is there to keep the text from flowing to */
+/* the right under the thumbnails if the playlist */
+/* description is taller than the videos thumbs   */
+.narrow-p {
+    /* because of margin collapse we actually have */
+    /* about 240px to work with, but by limiting   */
+    /* to 220px, it leaves more gutter between the */
+    /* text and the thumbs, which looks better.    */
+    width: 220px;    
+}
+
+/* this is a modification you add after */
+/* the .thumblist class so that it fits */
+/* nicely on the subtopic page          */
+.unframe {
+    /* total outer width should be 460 */
+    width: 440px;
+    padding: 0 10px 0 10px;
+    border: 0;
+    float: right;
+}
+
+.cc_box {
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 4px;
+    background-color: black;
+    color: lightgray;
+    padding: 0 1px 1px 1px;
+    font-size: 80%;
+    line-height: 80%;
+}
+
+.textbody h3 { margin-top: 25px; }
+.textbody h3:first-child { margin-top: 0; }
+.textbody p { margin: 10px 0 0 20px; }
+.cc3 {
+    display: block;
+    margin: 25px auto 0 auto;
+}
+
+/*-------------------------------------------*/
+/* this stuff pertains to the video page     */
+/*-------------------------------------------*/
+#myvideo {
+    /* total outer width should be 710 */
+    width: 700px; height: 392px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: black;
+    float: right;
+}
+
+#direct {
+    float: right;
+    width: 700px;
+    padding: 5px;
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
+

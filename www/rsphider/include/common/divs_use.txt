@@ -1,0 +1,7 @@
+id_value1
+id_value2
+index_these_ids
+and_so_on 
+OR 
+regexp like:
+*/footer[0-5]/

@@ -1,0 +1,57 @@
+<!-- 190_more media-results.html -->
+<?php   //  display links to other result pages
+?>
+        </table>
+<!--    Links to more media results     -->
+        <br />
+        <a class='navup' href='#top' title='Jump to Page Top'>Top</a>
+        <br />
+    </div>
+<?php
+    if ($pages > 1) { // If we have more than 1 result-page
+?>
+    <div id='other_pages' class='tblhead'>
+        <p class='cntr'><?php echo "".$sph_messages["Result page"]."  $start ".$sph_messages["from"]." $pages "?>&nbsp;&nbsp;&nbsp;
+<?php
+        if($start > 1) { // Display 'First'
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=1&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>"><?php echo "".$sph_messages['First'].""?></a>
+<?php
+            if ($start > 5 ) { // Display '-5'
+                $minus = $start-5;
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=<?php echo "".$minus.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>">- 5</a>
+<?php
+            }
+        }
+        if($start > 1) { // Display 'Previous'
+            $prev = $start-1;
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=<?php echo "".$prev.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>"><?php echo "".$sph_messages['Previous'].""?></a>
+<?php
+        }
+        if($rest >= $results_per_page) { // Display 'Next'
+            $next = $start+1;
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=<?php echo "".$next.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>"><?php echo "".$sph_messages['Next'].""?></a>
+<?php
+            if ($pages-$start > 5 ) { // Display '+5'
+                $plus = $start+5;
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=<?php echo "".$plus.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>">+ 5</a>
+<?php
+            }
+        }
+        if($start < $pages) { // Display 'Last'
+?>
+            <a href="<?php echo $search_string ;?>?query_t=<?php echo "".(addmarks($query)).""?>&amp;search=1&amp;submit=<?php echo "".$submit.""?>&amp;media_only=<?php echo "".$media_only.""?>&amp;query_m=<?php echo "".(addmarks($query)).""?>&amp;start=<?php echo "".$pages.""?>&amp;category=<?php echo "".$category.""?>&amp;catid=<?php echo "".$catid.""?>&amp;mark=<?php echo "".$mark.""?>&amp;results=<?php echo "".$results_per_page.$type_qry.$adv_qry.""?>&amp;db=<?php echo "".$db.""?>&amp;prefix=<?php echo "".$prefix.""?>&amp;domain=<?php echo "".$domain.""?>"><?php echo "".$sph_messages['Last'].""?></a>
+<?php
+        }
+?>
+        </p>
+    </div>
+<?php
+    }
+    //  end of display links to other result pages
+?>
+<!-- /190_more media-results.html -->

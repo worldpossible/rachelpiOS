@@ -1,0 +1,20 @@
+<!-- 110_media-only header.html -->
+<?php // BODY:  display header for media-only results ?>
+<!--    Header for media-only result    -->
+    <div  class="mainlist">
+        <p class='headline cntr'><?php echo "".$sph_messages['MediaHeader']." "?></p>
+        <p class='headline cntr sml'><?php echo "".$result." "?></p>
+        <br />
+<?php    if ($category != '-1') { ?>
+    <p class='headline cntr sml'><?php echo "".$sph_messages['catsearch'].""?> <span class="warnadmin"><?php echo "".$row['category'].""?></span></p>
+<?php   }
+?>
+        <br />
+        <table width='100%'>
+            <tr>
+                <td class='tblhead' width='30%'><?php echo "".$sph_messages['media'].""?></td>
+                <td class='tblhead'><?php echo "".$sph_messages['details'].""?></td>
+            </tr>
+<!--    Media-only result listing    -->
+<?php      //  end header for media-only results ?>
+<!-- /110_media-only header.html -->
