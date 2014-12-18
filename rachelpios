@@ -20,10 +20,10 @@ sudo update-rc.d hostapd enable
 sudo update-rc.d udhcpd enable
 
 #webshutdown
-ifupdown.sh
+./ifupdown.sh
 
 #install apache php mysql
-sudo apt-get apache2 -y
+sudo apt-get install apache2 -y
 sudo apt-get install php5-common libapache2-mod-php5 php5-cgi php5 -y
 sudo apt-get install mysql-server mysql-client
 sudo apt-get install php5-mysql
@@ -36,7 +36,7 @@ sudo /etc/init.d/hostname.sh
 
 #install shamba share
 sudo apt-get install samba samba-common-bin
-mk dir /var/www/local
+mkdir /var/www/local
 sudo cp smb.conf /etc/samba/smb.conf 
 sudo cp dhcp.conf /etc/samba/dhcp.conf
 sudo cp gdbcommands /etc/samba/gdbcommands
@@ -44,10 +44,9 @@ sudo cp gdbcommands /etc/samba/gdbcommands
 #install h5ai
 #figure out how to download package 
 mkdir /var/www/_h5ai
-chmod 775 /var/www/_h5ai/cache/
-cp sites available /etc/apache2/sites
+sudo chmod 775 /var/www/_h5ai/cache/
+sudo cp default /etc/apache2/sites-available/default
 sudo apt-get install php5-gd ffmpeg zip imagemagick
 
 #install base www files
 sudo cp -r ./www/* /var/www
-
