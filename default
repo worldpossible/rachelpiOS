@@ -1,0 +1,49 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+	<Directory />
+		Options -Indexes FollowSymLinks
+		AllowOverride None
+		DirectoryIndex index.html index.php /_h5ai/server/php/index.php
+	</Directory>
+	<Directory /var/www/>
+		Options -Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel error
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+ProxyPass /wikipedia_es_all_03_2012 http://localhost:8080/wikipedia_es_all_03_2012/
+ProxyPassReverse /wikipedia_es_all_03_2012 http://localhost:8080/wikipedia_es_all_03_2012/
+ProxyPass /wikipedia http://localhost:8080/wikipedia_es_all_03_2012/
+ProxyPassReverse /wikipedia http://localhost:8080/wikipedia_es_all_03_2012/
+ProxyPass /search http://localhost:8080/search
+ProxyPassReverse /search http://localhost:8080/search
+ProxyPass /skin http://localhost:8080/skin
+ProxyPassReverse /skin http://localhost:8080/skin
+ProxyPass /wikipedia_fr_all_11_2013 http://localhost:8080/wikipedia_fr_all_11_2013/
+ProxyPassReverse /wikipedia_fr_all_11_2013 http://localhost:8080/wikipedia_fr_all_11_2013/
+ProxyPass /wikipedia http://localhost:8080/wikipedia_fr_all_11_2013/
+ProxyPassReverse /wikipedia http://localhost:8080/wikipedia_fr_all_11_2013/
+ProxyPass /search http://localhost:8080/search
+ProxyPassReverse /search http://localhost:8080/search
+ProxyPass /skin http://localhost:8080/skin
+ProxyPassReverse /skin http://localhost:8080/skin
+
