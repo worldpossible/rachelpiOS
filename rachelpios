@@ -48,3 +48,6 @@ chmod 775 /var/www/_h5ai/cache/
 cp sites available /etc/apache2/sites
 sudo apt-get install php5-gd ffmpeg zip imagemagick
 
+#install base www files
+sudo cp www /var/
+
