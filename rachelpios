@@ -49,5 +49,5 @@ cp sites available /etc/apache2/sites
 sudo apt-get install php5-gd ffmpeg zip imagemagick
 
 #install base www files
-sudo cp www /var/
+sudo cp -r ./www/* /var/www
 
