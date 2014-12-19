@@ -26,10 +26,13 @@ sudo chmod 775 ./ifupdown.sh
 
 #install apache php mysql
 sudo apt-get install apache2 -y
+sudo apt-get install -y libapache2-mod-proxy-html libxml2-dev
 sudo apt-get install php5-common libapache2-mod-php5 php5-cgi php5 -y
 sudo apt-get install mysql-server mysql-client
 sudo apt-get install php5-mysql
+sudo cp default /etc/apache2/sites-enabled/default
 sudo cp my.cnf /etc/mysql/my.cnf
+sudo service apache2 restart
 
 #update hostname
 sudo cp hosts /etc/hosts

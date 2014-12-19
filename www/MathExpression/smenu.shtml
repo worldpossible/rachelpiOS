@@ -1,0 +1,29 @@
+﻿  <div id="navtopheader" style="color:green; background-image: url('http://www.mathexpression.com/image-files/headershort.png');"> 	
+<div id="Heading1" style="padding-top:6px;">
+			Math Menu</div> </div>
+   
+       
+    <div id="GraphsPanel" style="position:relative;border-right-style: solid; border-left-style: solid;border-right-width: 1px; border-left-width: 1px; border-right-color: #CCCCCC; border-left-color: #CCCCCC;height:75px;width:163px;top:0px;left:0px;background:#DDEBEC;overflow:hidden;margin:0px;font-size:11px;"> 
+   		   
+  			   <div id="TopicLink" title="The coordinate plane" style="position:absolute;top:0px; padding-top:5px;">
+			    <a href="http://www.mathexpression.com/coordinate-plane.html" style="text-decoration: none;padding-top:5px;">The Coordinate Plane</a> 
+			   </div>
+			   
+			   <div id="TopicLink" title="Coordinates of a point"  style="position:absolute;top:25px; padding-top:5px;">
+			    <a href="http://www.mathexpression.com/coordinates.html" style="text-decoration: none">Coordinates of a Point</a> 
+			   </div>
+			   
+			   
+			   <div id="TopicLink" title="Graphing linear equations"  style="position:absolute;top:50px; padding-top:5px;">
+			    <a href="http://www.mathexpression.com/graphing.html" style="text-decoration: none">Graphing Linear Equations</a> 
+			   </div>
+			   
+			   	
+		   
+	
+    </div> 
+  
+ <div id="navbottom" style="background-image: url('http://www.mathexpression.com/image-files/sidemenubottom.jpg');"> </div>
+ 
+ <div style="height:18px;"></div>
+ 

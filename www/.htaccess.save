@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteLog "/var/log/apache/logs/rewrite.log"
+RewriteLogLevel 1
+RewriteBase /
+RewriteRule ^/$       /watch [P]
+RewriteRule   ^/watch?feature=player_embedded&v=(.+)$  /home/pi/ka-lite/content/$1
