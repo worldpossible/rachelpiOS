@@ -1,10 +1,11 @@
-sudo apt-get update
+\sudo apt-get update
 
 #create wifi hotspot
 sudo apt-get install hostapd
 sudo apt-get install udhcpd
 sudo cp udhcpd.conf /etc/udhcpd.conf
 sudo cp udhcpd /etc/default/udhcpd
+sudo ifconfig wlan0 10.10.10.10
 sudo cp interfaces /etc/network/interfaces
 sudo cp hostapd.conf /etc/hostapd/hostapd.conf
 sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
@@ -20,6 +21,7 @@ sudo update-rc.d hostapd enable
 sudo update-rc.d udhcpd enable
 
 #webshutdown
+sudo chmod 775 ./ifupdown.sh
 ./ifupdown.sh
 
 #install apache php mysql
