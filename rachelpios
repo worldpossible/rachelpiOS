@@ -5,6 +5,7 @@ sudo apt-get install hostapd
 sudo apt-get install udhcpd
 sudo cp udhcpd.conf /etc/udhcpd.conf
 sudo cp udhcpd /etc/default/udhcpd
+sudo cp hostapd /etc/default/hostapd
 sudo ifconfig wlan0 10.10.10.10
 sudo cp interfaces /etc/network/interfaces
 sudo cp hostapd.conf /etc/hostapd/hostapd.conf
