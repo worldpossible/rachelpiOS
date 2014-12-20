@@ -32,6 +32,8 @@ sudo apt-get install mysql-server mysql-client
 sudo apt-get install php5-mysql
 sudo cp default /etc/apache2/sites-enabled/default
 sudo cp my.cnf /etc/mysql/my.cnf
+sudo a2enmod
+proxy*
 sudo service apache2 restart
 
 #update hostname
