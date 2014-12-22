@@ -36,6 +36,7 @@ sudo cp my.cnf /etc/mysql/my.cnf
 sudo a2enmod
 proxy*
 sudo service apache2 restart
+sudo rm /var/www/index.html
 
 #update hostname
 sudo cp hosts /etc/hosts
@@ -58,3 +59,4 @@ sudo apt-get install php5-gd ffmpeg zip imagemagick
 
 #install base www files
 sudo cp -r ./www/* /var/www
+sudo rm /var/www/index.html
