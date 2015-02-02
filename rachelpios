@@ -60,3 +60,8 @@ sudo apt-get install php5-gd ffmpeg zip imagemagick
 #install base www files
 sudo cp -r ./www/* /var/www
 sudo rm /var/www/index.html
+
+#put realtek drivers in place if needed
+sudo mv hostapd_RTL8188CUS /home/pi/hostapd_RTL
+sudo cp realtek.sh /home/pi/Desktop/realtek.sh
+sudo mv hostapd_realtek.conf /home/pi/hostapd_realtek.conf
