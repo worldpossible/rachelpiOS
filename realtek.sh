@@ -4,3 +4,4 @@ sudo chown root.root /usr/sbin/hostapd
 sudo chmod 755 /usr/sbin/hostapd
 
 sudo cp /home/pi/hostapd_realtek.conf /etc/hostapd/hostapd.conf
+sudo reboot

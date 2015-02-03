@@ -1,4 +1,5 @@
 sudo apt-get update
+sudo rpi-update
 
 #create wifi hotspot
 sudo apt-get install hostapd
@@ -65,3 +66,4 @@ sudo rm /var/www/index.html
 sudo mv hostapd_RTL8188CUS /home/pi/hostapd_RTL
 sudo cp realtek.sh /home/pi/Desktop/realtek.sh
 sudo mv hostapd_realtek.conf /home/pi/hostapd_realtek.conf
+sudo chmod +x /home/pi/realtek.sh
