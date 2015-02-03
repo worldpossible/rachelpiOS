@@ -7,7 +7,6 @@ sudo apt-get install udhcpd
 sudo cp udhcpd.conf /etc/udhcpd.conf
 sudo cp udhcpd /etc/default/udhcpd
 sudo cp hostapd /etc/default/hostapd
-sudo ifconfig wlan0 10.10.10.10
 sudo cp interfaces /etc/network/interfaces
 sudo cp hostapd.conf /etc/hostapd/hostapd.conf
 sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
@@ -16,7 +15,7 @@ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
-sudo cp interfaces /etc/network/interfaces
+sudo ifconfig wlan0 10.10.10.10
 sudo service hostapd start
 sudo service udhcpd start
 sudo update-rc.d hostapd enable
@@ -67,3 +66,8 @@ sudo mv hostapd_RTL8188CUS /home/pi/hostapd_RTL
 sudo cp realtek.sh /home/pi/Desktop/realtek.sh
 sudo mv hostapd_realtek.conf /home/pi/hostapd_realtek.conf
 sudo chmod +x /home/pi/Desktop/realtek.sh
+
+#redo wifi enable for good measure
+sudo ifconfig wlan0 10.10.10.10
+sudo service hostapd start
+sudo service udhcpd start
