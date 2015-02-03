@@ -71,3 +71,5 @@ sudo chmod +x /home/pi/Desktop/realtek.sh
 sudo ifconfig wlan0 10.10.10.10
 sudo service hostapd start
 sudo service udhcpd start
+sudo update-rc.d hostapd enable
+sudo update-rc.d udhcpd enable
