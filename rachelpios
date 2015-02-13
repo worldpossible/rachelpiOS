@@ -46,6 +46,7 @@ sudo /etc/init.d/hostname.sh
 #install shamba share
 sudo apt-get install samba samba-common-bin
 mkdir /var/www/local
+sudo chmod 777 /var/www/local
 sudo cp smb.conf /etc/samba/smb.conf 
 sudo cp dhcp.conf /etc/samba/dhcp.conf
 sudo cp gdbcommands /etc/samba/gdbcommands
@@ -56,6 +57,7 @@ mkdir /var/www/_h5ai
 sudo chmod 775 /var/www/_h5ai/cache/
 sudo cp default /etc/apache2/sites-available/default
 sudo apt-get install php5-gd ffmpeg zip imagemagick
+
 
 #install base www files
 sudo cp -r ./www/* /var/www

@@ -47,7 +47,7 @@ $database1 = 'sphider_plus';
 $mysql_user1 = 'root';
 
 // MySQL Password
-$mysql_password1 = 'root';
+$mysql_password1 = 'rachel';
 
 // MySQL Host
 $mysql_host1 = 'localhost';
