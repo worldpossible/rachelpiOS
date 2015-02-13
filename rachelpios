@@ -54,7 +54,7 @@ sudo cp gdbcommands /etc/samba/gdbcommands
 #install h5ai
 #figure out how to download package 
 mkdir /var/www/_h5ai
-sudo chmod 775 /var/www/_h5ai/cache/
+sudo chmod 777 -R /var/www/_h5ai/cache/
 sudo cp default /etc/apache2/sites-available/default
 sudo apt-get install php5-gd ffmpeg zip imagemagick
 
