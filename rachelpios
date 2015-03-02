@@ -1,5 +1,7 @@
 sudo apt-get update
 sudo rpi-update
+sudo apt-get dist-upgrade
+
 
 #create wifi hotspot
 sudo apt-get install hostapd
