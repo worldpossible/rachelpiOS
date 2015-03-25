@@ -13,4 +13,4 @@ exit
 
 
 #IMPORT MYSQL DATABASE, AFTER LEAVING MYSQL
-mysql -u root -prachel sphider_plus < /home/pi/sphider_plus.sql
+mysql -u root -prachel sphider_plus < /home/pi/sphider_plus.sql 
