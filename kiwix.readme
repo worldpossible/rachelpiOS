@@ -1,0 +1,8 @@
+#to install kiwix
+#download from Sourceforge "kiwix-server-0.9-linux-armv5tejl.tar.bz2
+#transfer to home directory
+su
+#as root
+tar kiwix-server-0.9-linux-armv5tejl.tar.bz2
+#download kiwix content .zim files 
+transfer into kiwix/content
