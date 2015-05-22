@@ -3,6 +3,8 @@
 #transfer to home directory
 su
 #as root
-tar kiwix-server-0.9-linux-armv5tejl.tar.bz2
+tar xvjf kiwix-server-0.9-linux-armv5tejl.tar.bz2
 #download kiwix content .zim files 
 transfer into kiwix/content
+home/pi/kiwix/kiwix-serve --port=8000 --daemon /home/pi/kiwix/content/wikipedia_pt_all_2015-05.zim
+
