@@ -1,0 +1,13 @@
+Apache
+/usr/sbin/apache2 -k start
+/usr/sbin/apache2 -k start
+/usr/sbin/apache2 -k start
+/usr/sbin/apache2 -k start
+/usr/sbin/apache2 -k start
+/usr/sbin/apache2 -k start
+
+Python-based
+/usr/bin/python2 /home/pi/ka-lite/kalitectl.py start
+/usr/bin/python2 /home/pi/ka-lite/kalitectl.py start
+sudo python /home/pi/picofssd.py
+python /home/pi/picofssd.py
