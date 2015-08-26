@@ -77,3 +77,8 @@ sudo service hostapd start
 sudo service udhcpd start
 sudo update-rc.d hostapd enable
 sudo update-rc.d udhcpd enable
+
+#install kiwix
+# download kiwix-server-0.9-rc2-linux-armv5tejl.tar.bz2
+# tar -xjvf above file
+
