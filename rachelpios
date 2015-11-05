@@ -1,11 +1,12 @@
+#!/bin/bash
+
 sudo apt-get update
 sudo rpi-update
-sudo apt-get dist-upgrade
+sudo apt-get -y dist-upgrade
 
 
 #create wifi hotspot
-sudo apt-get install hostapd
-sudo apt-get install udhcpd
+sudo apt-get -y install hostapd udhcpd
 sudo cp udhcpd.conf /etc/udhcpd.conf
 sudo cp udhcpd /etc/default/udhcpd
 sudo cp hostapd /etc/default/hostapd
@@ -28,11 +29,9 @@ sudo chmod 775 ./ifupdown.sh
 ./ifupdown.sh
 
 #install apache php mysql
-sudo apt-get install apache2 -y
-sudo apt-get install -y libapache2-mod-proxy-html libxml2-dev
-sudo apt-get install php5-common libapache2-mod-php5 php5-cgi php5 -y
-sudo apt-get install mysql-server mysql-client
-sudo apt-get install php5-mysql
+sudo apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
+     php5-common libapache2-mod-php5 php5-cgi php5 \
+     mysql-server mysql-client php5-mysql
 sudo cp default /etc/apache2/sites-enabled/default
 sudo cp my.cnf /etc/mysql/my.cnf
 sudo a2enmod
@@ -45,18 +44,18 @@ sudo cp hostname /etc/hostname
 sudo /etc/init.d/hostname.sh
 
 #install shamba share
-sudo apt-get install samba samba-common-bin
+sudo apt-get -y install samba samba-common-bin
 mkdir /var/www/local
 sudo chmod 777 /var/www/local
-sudo cp smb.conf /etc/samba/smb.conf 
+sudo cp smb.conf /etc/samba/smb.conf
 sudo cp dhcp.conf /etc/samba/dhcp.conf
 sudo cp gdbcommands /etc/samba/gdbcommands
 
 #install h5ai
-#figure out how to download package 
+#figure out how to download package
 mkdir /var/www/_h5ai
 sudo cp default /etc/apache2/sites-available/default
-sudo apt-get install php5-gd ffmpeg zip imagemagick
+sudo apt-get -y install php5-gd ffmpeg zip imagemagick
 sudo chmod 777 -R /var/www/_h5ai/cache/
 
 
