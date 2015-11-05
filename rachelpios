@@ -25,7 +25,6 @@ sudo update-rc.d hostapd enable
 sudo update-rc.d udhcpd enable
 
 #webshutdown
-sudo chmod 775 ./ifupdown.sh
 ./ifupdown.sh
 
 #install apache php mysql
@@ -60,15 +59,12 @@ sudo chmod 777 -R /var/www/_h5ai/cache/
 
 
 #install base www files
-sudo cp -r ./www/* /var/www
-sudo chmod +x /home/pi/rachelpiOS/encontent.sh
-
+sudo cp -r www/* /var/www/
 
 #put realtek drivers in place if needed
 sudo mv hostapd_RTL8188CUS /home/pi/hostapd_RTL
 sudo cp realtek.sh /home/pi/Desktop/realtek.sh
 sudo mv hostapd_realtek.conf /home/pi/hostapd_realtek.conf
-sudo chmod +x /home/pi/Desktop/realtek.sh
 
 #redo wifi enable for good measure
 sudo ifconfig wlan0 10.10.10.10
