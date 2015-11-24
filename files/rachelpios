@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export DEBIAN_FRONTEND=noninteractive
-BASEDIR=/vagrant/files
 
 function assert() {
     eval $(printf "%q " "$@")
@@ -22,6 +21,12 @@ function exists() {
 function is_vagrant() {
     return $(exists /etc/is_vagrant_vm)
 }
+
+if is_vagrant; then
+    BASEDIR=/vagrant/files
+else
+    BASEDIR=`pwd`
+fi
 
 assert sudo apt-get update
 if ! is_vagrant; then
