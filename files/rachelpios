@@ -62,8 +62,8 @@ else
 fi
 
 #install apache php mysql
-assert echo mysql-server mysql-server/root_password password rachelpios | sudo debconf-set-selections
-assert echo mysql-server mysql-server/root_password_again password rachelpios | sudo debconf-set-selections
+echo mysql-server mysql-server/root_password password rachelpios | sudo debconf-set-selections
+echo mysql-server mysql-server/root_password_again password rachelpios | sudo debconf-set-selections
 assert sudo apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
      php5-common libapache2-mod-php5 php5-cgi php5 \
      mysql-server mysql-client php5-mysql
