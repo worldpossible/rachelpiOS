@@ -95,10 +95,12 @@ assert sudo cp $BASEDIR/gdbcommands /etc/samba/gdbcommands
 # sudo chmod 777 -R /var/www/_h5ai/cache/
 
 #install base www files
-assert sudo rm -f /var/www/index.html
-if ! is_vagrant; then 
-    assert sudo cp -r $BASEDIR/www/* /var/www/
-fi
+assert sudo rm -fr /var/www/html
+assert sudo git clone https://github.com/rachelproject/contentshell /var/www/html
+assert sudo chown -R www-data.www-data /var/www/html
+#if ! is_vagrant; then 
+#    assert sudo cp -r $BASEDIR/www/* /var/www/
+#fi
 
 #put realtek drivers in place if needed
 if ! is_vagrant; then
