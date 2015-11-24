@@ -32,6 +32,26 @@
             source: "rsphider/include/suggest.php?media_only=0&type=and&catid=2&category=2&db=0&prefix=0",
             minLength: 1        });
     });
+    $(function() {
+        $( "#infonet-search" ).autocomplete({
+            source: "rsphider/include/suggest.php?media_only=0&type=and&catid=2&category=5&db=0&prefix=0",
+            minLength: 1        });
+    });
+    $(function() {
+        $( "#practical-search" ).autocomplete({
+            source: "rsphider/include/suggest.php?media_only=0&type=and&catid=2&category=6&db=0&prefix=0",
+            minLength: 1        });
+    });
+    $(function() {
+        $( "#oya-search" ).autocomplete({
+            source: "modules/oya/search/suggest.php",
+         });
+    });
+    $(function() {
+        $( "#law_library-search" ).autocomplete({
+            source: "modules/law_library/search/suggest.php",
+         });
+    });
     </script>
     <!--/live search suggestions -->
 
@@ -47,8 +67,7 @@ Rachel
     <ul>
     <li><a href="index.php">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>
-    <li><a href="local/">LOCAL CONTENT</a></li>
-    <li><a href="uploads/">UPLOAD CONTENT</a></li>
+    <li><a href="local-frameset.html">LOCAL CONTENT</a></li>
     </ul>
     <form action="rsphider/search.php">
       <div>
@@ -63,54 +82,67 @@ Rachel
 
 <?php
 
-    $moddir = "modules";
+    $basedir = "modules";
 
-    if (is_dir($moddir)) {
+    if (is_dir($basedir)) {
 
-        $handle = opendir($moddir);
-        $count = 0;
-        $modules = array();
-        while ($file = readdir($handle)) {
-            if (preg_match("/^\./", $file)) continue; // skip hidden
-            if (is_dir("$moddir/$file")) { // look in dirs
-                $dir = "$moddir/$file";
-                if (file_exists("$moddir/$file/index.htmlf")) { // check for index fragment
-                    $count++;
-                    $frag = "index.htmlf";
-                    $content = file_get_contents("$dir/$frag");
-                    preg_match("/<!-- *position *\: *(\d+) *-->/", $content, $match);
-                    array_push($modules, array(
-                        'file' => $file,
-                        'dir'  => $dir, // this is used by the include to know it's directory
-                        'frag' => "$dir/$frag", // this is what is actually included
-                        'position' => $match[1]
-                    ));
-                } else {
-                    # there was no index fragment, so...
-                    array_push($modules, array(
-                        'file' => $file, // this is the name of the module
-                        'dir'  => $dir, // this is the module's directory
-                        'frag' => "nofrag.php", // we include a special fragment
-                        'position' => 9999
-                    ));
+        $fsmods = array();
+        $handle = opendir($basedir);
+        while ($moddir = readdir($handle)) {
+            if (preg_match("/^\./", $moddir)) continue; // skip hidden
+            if (is_dir("$basedir/$moddir")) { // look in dirs
+                if (file_exists("$basedir/$moddir/index.htmlf")) { // check for index fragment
+                    $content = file_get_contents("$basedir/$moddir/index.htmlf");
+                    $fsmods{ $moddir } = array(
+                        'dir'      => "$basedir/$moddir", // this is so the include knows its directory
+                        'position' => 0,
+                        'hidden'   => 0,
+                    );
                 }
             }
         }
         closedir($handle);
 
-        function bypos($a, $b) {
-            return $a['position'] - $b['position'];
+        # next we go to the database to find the order and visibility state
+        try {
+            $db = new SQLite3("admin.sqlite");
+        } catch (Exception $ex) {
+            echo "<h2>" . $ex->getMessage() . "</h2>" .
+                 "<h3>You may need to change permissions on the RACHEL " .
+                 "root directory using: chmod 777</h3>";
         }
 
-        if ($count == 0) {
-            echo "No modules found.\n";
-        } else {
-            usort($modules, 'bypos');
-            foreach ($modules as $mod) {
-                $file = $mod['file']; // only matters for modules without a fragment
-                $dir  = $mod['dir'];
-                include $mod['frag'];
+        if (!isset($ex)) {
+
+            $rv = $db->query("SELECT * FROM modules");
+            $dbmods = array();
+            while ($row = $rv->fetchArray()) {
+                $dbmods[$row['moddir']] = $row;
+                if (isset($fsmods[$row['moddir']])) {
+                    $fsmods[$row['moddir']]['position'] = $row['position'];
+                    $fsmods[$row['moddir']]['hidden'] = $row['hidden'];
+                }
             }
+
+            # custom sorting function - sort by position, then moddir
+            # handles unset positions
+            function bypos($a, $b) {
+                if (!isset($a['position'])) { $a['position'] = 0; }
+                if (!isset($b['position'])) { $b['position'] = 0; }
+                if ($a['position'] == $b['position']) {
+                    return strcmp(strtolower($a['moddir']), strtolower($b['moddir']));
+                } else {
+                    return $a['position'] - $b['position'];
+                }
+            }
+            uasort($fsmods, 'bypos');
+
+            foreach (array_values($fsmods) as $mod) {
+                if ($mod['hidden']) { continue; }
+                $dir  = $mod['dir'];
+                include "$mod[dir]/index.htmlf";
+            }
+
         }
 
     } else {
@@ -127,11 +159,9 @@ Rachel
     <ul>
     <li><a href="index.php">HOME</a></li>
     <li><a href="about.html">ABOUT</a></li>
-    <li><a href="local/">LOCAL CONTENT</a></li>
-    <li><a href="uploads/">UPLOAD CONTENT</a></li>
-    <li><a href+"mailto:info@worldpossible.org">email: info@worldpossible.org</a></li>
+    <li><a href="local-frameset.html">LOCAL CONTENT</a></li>
     </ul>
-    <div id="footer_right">RACHEL - NOV 2014 version</div>
+    <div id="footer_right">RACHEL - NOV 2013 version</div>
 </div>
 
 </body>
