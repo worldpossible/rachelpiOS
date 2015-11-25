@@ -8,7 +8,7 @@ import shutil
 
 
 def exists(p):
-	return os.path.isfile(s) or os.path.isdir(s)
+	return os.path.isfile(p) or os.path.isdir(p)
 
 def check_arguments():
 	return
@@ -36,5 +36,5 @@ if exists("/tmp/rachel_installer"):
 sudo("git clone https://github.com/mattneel/rachelpios.git -b installer /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
 
 # Run the script
-os.chdir("/tmp/rachel_installer") or die("Unable to change to temporary directory.")
+os.chdir("/tmp/rachel_installer")
 sudo("python installer.py") or die("Installation failed.")

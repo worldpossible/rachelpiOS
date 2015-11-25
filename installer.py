@@ -27,6 +27,8 @@ def is_vagrant():
 	return os.path.isfile("/etc/is_vagrant_vm")
 
 def wifi_present():
+	if is_vagrant():
+		return False
 	return os.path.isfile("/proc/sys/class/net/wlan0")
 
 def cp(s, d):
