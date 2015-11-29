@@ -1,4 +1,6 @@
 rachelpiOS
-==========
+---------------
 
-all raspberry pi configuration files for RACHEL os
+To install is easy:
+
+`curl https://github.com/mattneel/rachelpios/tree/master/rachel.py | python`

@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+export DEBIAN_FRONTEND=noninteractive
+
+function assert() {
+    eval $(printf "%q " "$@")
+    RET=$?
+    if [ $RET != 0 ]; then
+        echo "Error while executing command: '$@'"
+        exit $RET
+    fi
+}
+
+function exists() {
+    if [[ -d $@ ]] || [[ -f $@ ]]; then
+        return 0;
+    fi
+    return 1;
+}
+
+function is_vagrant() {
+    return $(exists /etc/is_vagrant_vm)
+}
+
+if is_vagrant; then
+    BASEDIR=/vagrant/files
+else
+    BASEDIR=`pwd`
+fi
+
+assert sudo apt-get update
+if ! is_vagrant; then
+    assert sudo rpi-update
+fi
+assert sudo apt-get -y dist-upgrade
+
+
+#create wifi hotspot
+assert sudo apt-get -y install hostapd udhcpd
+assert sudo cp $BASEDIR/udhcpd.conf /etc/udhcpd.conf
+assert sudo cp $BASEDIR/udhcpd /etc/default/udhcpd
+assert sudo cp $BASEDIR/hostapd /etc/default/hostapd
+assert sudo cp $BASEDIR/interfaces /etc/network/interfaces
+assert sudo cp $BASEDIR/hostapd.conf /etc/hostapd/hostapd.conf
+assert sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+assert sudo cp $BASEDIR/sysctl.conf /etc/sysctl.conf
+assert sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+assert sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+assert sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+assert sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+
+# this script should be able to run if the wifi is not present
+if ! ifconfig wlan0; then
+    echo "Wifi device not present; skipping."
+else
+    assert sudo ifconfig wlan0 10.10.10.10
+    assert sudo service hostapd start
+    assert sudo service udhcpd start
+    assert sudo update-rc.d hostapd enable
+    assert sudo update-rc.d udhcpd enable
+    assert ./ifupdown.sh
+fi
+
+#install apache php mysql
+echo mysql-server mysql-server/root_password password rachelpios | sudo debconf-set-selections
+echo mysql-server mysql-server/root_password_again password rachelpios | sudo debconf-set-selections
+assert sudo apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
+     php5-common libapache2-mod-php5 php5-cgi php5 \
+     mysql-server mysql-client php5-mysql
+assert sudo cp $BASEDIR/default /etc/apache2/sites-enabled/default
+assert sudo cp $BASEDIR/my.cnf /etc/mysql/my.cnf
+assert sudo a2enmod php5 proxy proxy_html rewrite # TODO: is this all that's needed?
+assert sudo service apache2 restart
+
+#update hostname
+assert sudo cp $BASEDIR/hosts /etc/hosts
+assert sudo cp $BASEDIR/hostname /etc/hostname
+if ! is_vagrant; then
+    assert sudo /etc/init.d/hostname.sh
+fi
+
+#install shamba share
+assert sudo apt-get -y install samba samba-common-bin
+assert sudo mkdir -p /var/www/local
+assert sudo chmod 777 /var/www/local
+assert sudo cp $BASEDIR/smb.conf /etc/samba/smb.conf
+# sudo cp $BASEDIR/dhcp.conf /etc/samba/dhcp.conf
+assert sudo cp $BASEDIR/gdbcommands /etc/samba/gdbcommands
+
+#install h5ai
+# TODO: figure out how to download package
+# mkdir -p /var/www/_h5ai
+# sudo cp $BASEDIR/default /etc/apache2/sites-available/default
+# sudo apt-get -y install php5-gd ffmpeg zip imagemagick
+# sudo chmod 777 -R /var/www/_h5ai/cache/
+
+#install base www files
+assert sudo rm -fr /var/www/html
+assert sudo git clone https://github.com/rachelproject/contentshell /var/www/html
+assert sudo chown -R www-data.www-data /var/www/html
+#if ! is_vagrant; then 
+#    assert sudo cp -r $BASEDIR/www/* /var/www/
+#fi
+
+#put realtek drivers in place if needed
+if ! is_vagrant; then
+    assert sudo cp $BASEDIR/hostapd_RTL8188CUS /home/pi/hostapd_RTL
+    assert sudo cp $BASEDIR/realtek.sh /home/pi/Desktop/realtek.sh
+    assert sudo cp $BASEDIR/hostapd_realtek.conf /home/pi/hostapd_realtek.conf
+fi
+
+#redo wifi enable for good measure
+if ! is_vagrant; then
+    if ifconfig wlan0; then
+        sudo ifconfig wlan0 10.10.10.10
+        sudo service hostapd start
+        sudo service udhcpd start
+        sudo update-rc.d hostapd enable
+        sudo update-rc.d udhcpd enable
+    fi
+fi
+
+#install kiwix
+# download kiwix-server-0.9-rc2-linux-armv5tejl.tar.bz2
+# tar -xjvf above file
+
+echo "Setup complete."
+
