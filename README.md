@@ -8,4 +8,5 @@ Expand your microSD card partition
 `sudo reboot`
 
 paste in the following command after reboot.
+
 `curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/master/installer.py | python`
