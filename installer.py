@@ -2,18 +2,37 @@
 
 import sys
 import os
-import argparse
 import subprocess
+import argparse
 import shutil
+import urllib
+
+def install_kalite():
+	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
+	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
+	sudo("printf 'rachel\nrachel\n\n\n' | sudo kalite manage setup") or die("Unable to setup KA-Lite database.")
+	return True
+
+def install_kiwix():
+	return
 
 def check_arguments():
-	return
+	sys.stdin = open('/dev/tty')
+	kalite = raw_input("Would you like to install KA-Lite? [Y/n]: ").lower() or "y"
+	kiwix = raw_input("Would you like to install KiwiX? [y/N]: ").lower() or "n"
+	return [kalite, kiwix]
+
+def exists(p):
+	return os.path.isfile(p) or os.path.isdir(p)
 
 def cmd(c):
 	new_env = os.environ.copy()
 	new_env["DEBIAN_FRONTEND"] = "noninteractive"
 	result = subprocess.Popen(c, shell = True, env = new_env)
-	text = result.communicate()[0]
+	try:
+		result.communicate()
+	except KeyboardInterrupt:
+		pass
 	return (result.returncode == 0)
 
 def sudo(s):
@@ -29,20 +48,30 @@ def is_vagrant():
 def wifi_present():
 	if is_vagrant():
 		return False
-	return os.path.isfile("/proc/sys/class/net/wlan0")
+	return exists("/sys/class/net/wlan0")
 
+def basedir():
+	return "/tmp/rachel_installer"
+	
 def cp(s, d):
-	basedir = ""
-	if is_vagrant():
-		basedir = "/vagrant/"
-	else:
-		basedir = os.path.dirname(os.path.realpath(__file__))
-	return sudo("cp %s%s %s" % (basedir, s, d))
+	return sudo("cp %s/%s %s" % (basedir(), s, d))
+
+[kalite, kiwix] = check_arguments()
+
+sudo("apt-get install -y git") or die("Unable to install Git.")
+
+# Clone the repo.
+if exists("/tmp/rachel_installer"):
+	sudo("rm -fr /tmp/rachel_installer")
+sudo("git clone --depth 1 https://github.com/mattneel/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
+
+# Chdir
+os.chdir(basedir())
+
 
 # Update and upgrade OS
 sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
-sudo("apt-get install -y git") or die("Unable to install Git.")
 
 
 # Update Raspi firmware
@@ -67,7 +96,7 @@ if wifi_present():
 	sudo("service udhcpd start") or die("Unable to start udhcpd service.")
 	sudo("update-rc.d hostapd enable") or die("Unable to enable hostapd on boot.")
 	sudo("update-rc.d udhcpd enable") or die("Unable to enable UDHCPd on boot.")
-	sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
+	#sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
 
 # Setup LAN
 cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
@@ -98,12 +127,21 @@ cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba c
 
 # Install web frontend
 sudo("rm -fr /var/www/html") or die("Unable to delete existing default web application (/var/www/html).")
-sudo("git clone https://github.com/rachelproject/contentshell /var/www/html") or die("Unable to download RACHEL web application.")
+sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www/html") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www/html") or die("Unable to set permissions on RACHEL web application (/var/www/html).")
 
 # Extra wifi driver configuration
 if wifi_present():
 	cp("files/hostapd_RTL8188CUS", "/etc/hostapd/hostapd.conf.RTL8188CUS") or die("Unable to copy RTL8188CUS hostapd configuration.")
 	cp("files/hostapd_realtek.conf", "/etc/hostapd/hostapd.conf.realtek") or die("Unable to copy realtek hostapd configuration.")
+
+if not is_vagrant():
+	if kalite == "y":
+		install_kalite() or die("Unable to install KA-Lite.")
+#	if kiwix == "y":
+#		install_kiwix() or die("Unable to install KiwiX.")
+else:
+	install_kalite() or die("Unable to install KA-Lite.")
+#	install_kiwix() or die("Unable to install KiwiX.")
 
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
