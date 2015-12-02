@@ -1,13 +1,13 @@
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
 
-	DocumentRoot /var/www/html
+	DocumentRoot /var/www
 	<Directory />
 		Options -Indexes +FollowSymLinks
 		AllowOverride None
 		DirectoryIndex index.html index.php /_h5ai/server/php/index.php
 	</Directory>
-	<Directory /var/www/html>
+	<Directory /var/www>
 		Options -Indexes +FollowSymLinks +MultiViews
 		AllowOverride None
 		Order allow,deny
