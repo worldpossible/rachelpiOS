@@ -10,7 +10,7 @@ import urllib
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf '\nrachel\nrachel\nrachel\nrachel\nrachel\nyes\nyes\n' | sudo kalite manage setup")
+	sudo("printf '\nyes\nyes' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
 	return True
 
 def install_kiwix():
@@ -55,7 +55,8 @@ def basedir():
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
 
-[kalite, kiwix] = check_arguments()
+if not is_vagrant:
+	[kalite, kiwix] = check_arguments()
 
 sudo("apt-get install -y git") or die("Unable to install Git.")
 
@@ -67,7 +68,8 @@ sudo("git clone --depth 1 https://github.com/mattneel/rachelpios.git /tmp/rachel
 # Chdir
 os.chdir(basedir())
 
-
+if is_vagrant():
+	sudo("mv /vagrant/sources.list /etc/apt/sources.list")
 # Update and upgrade OS
 sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
@@ -106,7 +108,10 @@ sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo 
 sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
      php5-common libapache2-mod-php5 php5-cgi php5 \
      mysql-server mysql-client php5-mysql") or die("Unable to install web platform.")
-cp("files/default", "/etc/apache2/sites-enabled/default") or die("Unable to set default Apache site.")
+sudo("service apache2 stop") or die("Unable to stop Apache2.")
+#cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
+#cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
+#sudo("a2ensite contentshell") or die("Unable to enable default Apache site (contentshell).")
 cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
 sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
@@ -122,8 +127,8 @@ cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba c
 if not exists("/var/www/modules"):
 	sudo("mkdir /var/www/modules") or die("Unable to create modules dir.")
 sudo("chmod 777 /var/www/modules") or die("Unable to make modules directory writable.")
-sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
-sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
+sudo("rm -fr /var/www/html") or die("Unable to delete existing default web application (/var/www).")
+sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www/html") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
 
 # Extra wifi driver configuration

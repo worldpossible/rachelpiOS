@@ -1,14 +1,14 @@
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
 
-	DocumentRoot /var/www
+	DocumentRoot /var/www/html
 	<Directory />
-		Options -Indexes FollowSymLinks
+		Options -Indexes +FollowSymLinks
 		AllowOverride None
 		DirectoryIndex index.html index.php /_h5ai/server/php/index.php
 	</Directory>
-	<Directory /var/www/>
-		Options -Indexes FollowSymLinks MultiViews
+	<Directory /var/www/html>
+		Options -Indexes +FollowSymLinks +MultiViews
 		AllowOverride None
 		Order allow,deny
 		allow from all
