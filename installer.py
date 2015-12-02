@@ -145,6 +145,10 @@ else:
 	install_kalite() or die("Unable to install KA-Lite.")
 #	install_kiwix() or die("Unable to install KiwiX.")
 
+# Change login password to rachel
+if not is_vagrant():
+	sudo("echo -e 'new_password\nnew_password' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
+
 # Update hostname (LAST!)
 cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
 cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
