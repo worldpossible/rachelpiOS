@@ -10,6 +10,7 @@ import urllib
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
+	sudo("printf '\nrachel\nrachel\nrachel\nrachel\nrachel\nyes\nyes\n' | sudo kalite manage setup")
 	return True
 
 def install_kiwix():
@@ -118,6 +119,9 @@ cp("files/smb.conf", "/etc/samba/smb.conf") or die("Unable to copy samba configu
 cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba configuration file (gdbcommands).")
 
 # Install web frontend
+if not exists("/var/www/modules"):
+	sudo("mkdir /var/www/modules") or die("Unable to create modules dir.")
+sudo("chmod 777 /var/www/modules") or die("Unable to make modules directory writable.")
 sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
 sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
