@@ -127,8 +127,8 @@ cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba c
 if not exists("/var/www/modules"):
 	sudo("mkdir /var/www/modules") or die("Unable to create modules dir.")
 sudo("chmod 777 /var/www/modules") or die("Unable to make modules directory writable.")
-sudo("rm -fr /var/www/html") or die("Unable to delete existing default web application (/var/www).")
-sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www/html") or die("Unable to download RACHEL web application.")
+sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
+sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
 
 # Extra wifi driver configuration
