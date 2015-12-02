@@ -10,14 +10,13 @@ import urllib
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf 'rachel\nrachel\n\n\n' | sudo kalite manage setup") or die("Unable to setup KA-Lite database.")
+#	sudo("echo -n -e '\nrachel\nrachel\r\nrachel\r\nyes\r\n' | sudo kalite manage setup") or die("Unable to setup KA-Lite database.")
 	return True
 
 def install_kiwix():
 	return
 
 def check_arguments():
-	sys.stdin = open('/dev/tty')
 	kalite = raw_input("Would you like to install KA-Lite? [Y/n]: ").lower() or "y"
 	kiwix = raw_input("Would you like to install KiwiX? [y/N]: ").lower() or "n"
 	return [kalite, kiwix]
@@ -28,7 +27,7 @@ def exists(p):
 def cmd(c):
 	new_env = os.environ.copy()
 	new_env["DEBIAN_FRONTEND"] = "noninteractive"
-	result = subprocess.Popen(c, shell = True, env = new_env)
+	result = subprocess.Popen(c, shell=True, env=new_env, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
 	try:
 		result.communicate()
 	except KeyboardInterrupt:
@@ -112,12 +111,6 @@ cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server conf
 sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
 
-# Update hostname
-cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
-cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
-if not is_vagrant():
-	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
-
 # Install samba share
 sudo("apt-get install -y samba samba-common-bin") or die("Unable to install samba.")
 sudo("mkdir -p /var/www/local") or die("Unable to create local samba share directory.")
@@ -143,5 +136,11 @@ if not is_vagrant():
 else:
 	install_kalite() or die("Unable to install KA-Lite.")
 #	install_kiwix() or die("Unable to install KiwiX.")
+
+# Update hostname (LAST!)
+cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
+cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
+if not is_vagrant():
+	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
 
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
