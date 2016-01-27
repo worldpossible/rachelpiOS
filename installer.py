@@ -25,9 +25,7 @@ def exists(p):
 	return os.path.isfile(p) or os.path.isdir(p)
 
 def cmd(c):
-	new_env = os.environ.copy()
-	new_env["DEBIAN_FRONTEND"] = "noninteractive"
-	result = subprocess.Popen(c, shell=True, env=new_env, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+	result = subprocess.Popen(c, shell=True, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
 	try:
 		result.communicate()
 	except KeyboardInterrupt:
@@ -35,7 +33,7 @@ def cmd(c):
 	return (result.returncode == 0)
 
 def sudo(s):
-	return cmd("sudo %s" % s)
+	return cmd("sudo DEBIAN_FRONTEND=noninteractive %s" % s)
 
 def die(d):
 	print d
