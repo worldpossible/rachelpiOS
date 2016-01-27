@@ -48,7 +48,11 @@ def wifi_present():
 	return exists("/sys/class/net/wlan0")
 
 def basedir():
-	return "/tmp/rachel_installer"
+	bindir = os.path.dirname(sys.argv[0])
+	if exists(bindir + "/files"):
+		return bindir
+	else:
+		return "/tmp/rachel_installer"
 	
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
@@ -60,9 +64,9 @@ sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get install -y git") or die("Unable to install Git.")
 
 # Clone the repo.
-if exists("/tmp/rachel_installer"):
+if basedir() == "/tmp/rachel_installer":
 	sudo("rm -fr /tmp/rachel_installer")
-sudo("git clone --depth 1 https://github.com/rachelproject/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
+	sudo("git clone --depth 1 https://github.com/rachelproject/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
 
 # Chdir
 os.chdir(basedir())
