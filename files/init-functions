@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ -f /etc/ka-lite/username ]
+then
+  export KALITE_USER=`cat /etc/ka-lite/username`
+  if [ "$KALITE_USER" = "" ]
+  then
+    export KALITE_USER="ka-lite"
+  fi
+else
+  export KALITE_USER="ka-lite"
+fi
+
+if [ -f /etc/ka-lite/home ]
+then
+  export KALITE_HOME=`cat /etc/ka-lite/home`
+fi
+
+if [ -f /etc/ka-lite/server_options ]
+then
+  export KALITE_OPTS="`cat /etc/ka-lite/server_options | tr '\n' ' '`"
+else
+  export KALITE_OPTS=""
+fi
+
+export KALITE_COMMAND="kalite"
