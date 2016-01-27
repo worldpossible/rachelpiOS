@@ -53,7 +53,7 @@ def basedir():
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
 
-if not is_vagrant:
+if not is_vagrant():
 	[kalite, kiwix] = check_arguments()
 
 sudo("apt-get install -y git") or die("Unable to install Git.")
