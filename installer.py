@@ -110,14 +110,14 @@ sudo("echo mysql-server mysql-server/root_password password rachel | sudo debcon
 sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password (again).")
 sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
      php5-common libapache2-mod-php5 php5-cgi php5 \
-     mysql-server mysql-client php5-mysql") or die("Unable to install web platform.")
+     mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
 cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
 sudo("a2dissite 000-default") or die("Unable to enable default Apache site (contentshell).")
 sudo("a2ensite contentshell") or die("Unable to enable default Apache site (contentshell).")
 cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
-sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
+sudo("a2enmod php5 proxy proxy_html rewrite xml2enc") or die("Unable to enable Apache2 dependency modules.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
 
 # Install samba share
