@@ -56,6 +56,7 @@ def cp(s, d):
 if not is_vagrant():
 	[kalite, kiwix] = check_arguments()
 
+sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get install -y git") or die("Unable to install Git.")
 
 # Clone the repo.
