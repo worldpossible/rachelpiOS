@@ -14,6 +14,7 @@ CMDNAME=$0
 Usage () {
     echo "$CMDNAME [options]"
     echo "  Options:"
+    echo "    --module       Load specified module"
     echo "    --module-file  Read modules to load from provided file"
     echo "    --dest         Path to store downloaded RACHEL content (default '$DEST_PATH')"
     echo "    --rsh          Set rsync shell command"
@@ -30,6 +31,10 @@ while [ true ]; do
             Usage
             exit 0
             ;;
+	--module)
+	    MODULES+=("$2")
+	    shift 2
+	    ;;
 	--module-file)
 	    IFS=$'\n' read -d '' -r -a NEW_MODULES < "$2"
 	    MODULES=( "${MODULES[@]}" "${NEW_MODULES[@]}" )
@@ -76,7 +81,7 @@ if [ `id -u` != "0" ] && [ ! -z "$FILE_OWNER" ]; then
 fi
 
 if [ ${#MODULES[@]} -eq 0 ]; then
-   MODULES="${DEFAULT_MODULES}"
+   MODULES="${DEFAULT_MODULES[@]}"
 fi
 
 if [ "${RSYNC_SOURCE: -1}" != ":" ] && [ "${RSYNC_SOURCE: -1}" != "/" ]; then
