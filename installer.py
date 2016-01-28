@@ -158,7 +158,7 @@ else:
 
 # Change login password to rachel
 if not is_vagrant():
-	sudo("echo -e 'rachel\nrachel' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
+	sudo("sh -c 'echo pi:rachel | chpasswd'") or die("Unable to change 'pi' password.")
 
 # Update hostname (LAST!)
 if not is_vagrant():
