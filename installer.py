@@ -10,13 +10,14 @@ import urllib
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf '\nyes\nyes' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
+	sudo("printf '\nyes\nno' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
 	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
 	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
 	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
 	sudo("chmod +x /etc/init.d/ka-lite") or die("Unable to set permissions on KA-Lite service.")
 	sudo("sh -c 'echo root >/etc/ka-lite/username'") or die("Unable to configure the userid of the KA-Lite process.")
 	sudo("update-rc.d ka-lite defaults") or die("Unable to register the KA-Lite service.")
+	sudo("service ka-lite start") or die("Unable to start the KA-Lite service.")
 	return True
 
 def install_kiwix():
@@ -81,7 +82,7 @@ if is_vagrant():
 	sudo("mv /vagrant/sources.list /etc/apt/sources.list")
 # Update and upgrade OS
 sudo("apt-get update -y") or die("Unable to update.")
-sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
+# sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
 
 
 # Update Raspi firmware
