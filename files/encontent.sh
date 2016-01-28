@@ -1,19 +1,20 @@
 #!/bin/bash
 
-MODULES=( ebooks-en hesperian_health iicba infonet kaos-en math_expression \
-	  medline_plus musictheory olpc powertyping practical_action scratch \
-	  understanding_algebra wikipedia_for_schools rpi_guide windows_apps asst_medical )
-
+DEFAULT_MODULES=( ebooks-en hesperian_health iicba infonet kaos-en math_expression \
+		  medline_plus musictheory olpc powertyping practical_action scratch \
+        	  understanding_algebra wikipedia_for_schools rpi_guide windows_apps asst_medical )
 
 DEST_PATH=/var/www/modules
 RSYNC_SOURCE=rsync://dev.worldpossible.org/rachelmods/
 FILE_OWNER="www-data"
 RSYNC_OPT=()
+MODULES=()
 
 CMDNAME=$0
 Usage () {
     echo "$CMDNAME [options]"
     echo "  Options:"
+    echo "    --module-file  Read modules to load from provided file"
     echo "    --dest         Path to store downloaded RACHEL content (default '$DEST_PATH')"
     echo "    --rsh          Set rsync shell command"
     echo "    --source       RACHEL content server. (default '$RSYNC_SOURCE')"
@@ -29,6 +30,11 @@ while [ true ]; do
             Usage
             exit 0
             ;;
+	--module-file)
+	    IFS=$'\n' read -d '' -r -a NEW_MODULES < "$2"
+	    MODULES=( "${MODULES[@]}" "${NEW_MODULES[@]}" )
+	    shift 2
+	    ;;
         --source) 
             RSYNC_SOURCE="$2"
             shift 2
@@ -67,6 +73,10 @@ fi
 if [ `id -u` != "0" ] && [ ! -z "$FILE_OWNER" ]; then
     echo "$CMDNAME: This script must be run as root"
     exit
+fi
+
+if [ ${#MODULES[@]} -eq 0 ]; then
+   MODULES="${DEFAULT_MODULES}"
 fi
 
 if [ "${RSYNC_SOURCE: -1}" != ":" ] && [ "${RSYNC_SOURCE: -1}" != "/" ]; then
