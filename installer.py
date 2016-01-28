@@ -160,7 +160,7 @@ else:
 
 # Change login password to rachel
 if not is_vagrant():
-	sudo("echo -e 'new_password\nnew_password' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
+	sudo("echo -e 'rachel\nrachel' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
 
 # Update hostname (LAST!)
 cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
