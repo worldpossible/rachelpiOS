@@ -94,10 +94,16 @@ else
     CHOWN_CMD="sudo -u $FILE_OWNER SSHPASS=$SSHPASS "
 fi
 
-for module in ${MODULES[@]}; do
+${CHOWN_CMD}mkdir -p "$DEST_PATH"
+
+for MODULE in ${MODULES[@]}; do
     echo
-    echo "Syncing $module ..."
-    ${CHOWN_CMD}rsync -rlptvz "${RSYNC_OPT[@]}" "${RSYNC_SOURCE}${module}" "$DEST_PATH"
+    echo "Syncing $MODULE ..."
+    DESTDIR="$MODULE"
+    if [ "$DESTDIR" == "khan_healthonly" ]; then
+	DESTDIR="khan_academy"
+    fi
+    ${CHOWN_CMD}rsync -rlptvz "${RSYNC_OPT[@]}" "${RSYNC_SOURCE}${MODULE}/" "$DEST_PATH/$DESTDIR"
     if [ $? -ne 0 ]; then
 	sleep 1
 	echo "Copying of $module failed or was aborted.  Exiting."
