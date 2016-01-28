@@ -18,7 +18,7 @@ fi
 for module in ${MODULES[@]}; do
     echo
     echo "Syncing $module ..."
-    rsync -rlptvz "${RSYNC_SOURCE}${module}" "$DEST_PATH"
+    sudo -u www-data rsync -rlptvz "${RSYNC_SOURCE}${module}" "$DEST_PATH"
     if [ $? -ne 0 ]; then
 	sleep 1
 	echo "Copying of $module failed or was aborted.  Exiting."
