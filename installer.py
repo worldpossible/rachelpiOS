@@ -82,7 +82,7 @@ if is_vagrant():
 	sudo("mv /vagrant/sources.list /etc/apt/sources.list")
 # Update and upgrade OS
 sudo("apt-get update -y") or die("Unable to update.")
-# sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
+sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
 
 
 # Update Raspi firmware
