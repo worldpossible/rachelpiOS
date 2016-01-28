@@ -112,7 +112,8 @@ if wifi_present():
 	#sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
 
 # Setup LAN
-cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
+if not is_vagrant():
+	cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
 
 # Install web platform
 sudo("echo mysql-server mysql-server/root_password password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password.")
@@ -163,9 +164,9 @@ if not is_vagrant():
 	sudo("echo -e 'rachel\nrachel' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
 
 # Update hostname (LAST!)
-cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
-cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
 if not is_vagrant():
+	cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
+	cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
 	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
 
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
