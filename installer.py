@@ -127,13 +127,6 @@ cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server conf
 sudo("a2enmod php5 proxy proxy_html rewrite xml2enc") or die("Unable to enable Apache2 dependency modules.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
 
-# Install samba share
-sudo("apt-get install -y samba samba-common-bin") or die("Unable to install samba.")
-sudo("mkdir -p /var/www/local") or die("Unable to create local samba share directory.")
-sudo("chmod 777 /var/www/local") or die("Unable to set permissions on local samba share.")
-cp("files/smb.conf", "/etc/samba/smb.conf") or die("Unable to copy samba configuration file (smb.conf).")
-cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba configuration file (gdbcommands).")
-
 # Install web frontend
 sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
 sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
