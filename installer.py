@@ -122,10 +122,12 @@ sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
 cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
-sudo("a2dissite 000-default") or die("Unable to enable default Apache site (contentshell).")
-sudo("a2ensite contentshell") or die("Unable to enable default Apache site (contentshell).")
+sudo("a2dissite 000-default") or die("Unable to disable default Apache site.")
+sudo("a2ensite contentshell.conf") or die("Unable to enable contenthell Apache site.")
 cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
-sudo("a2enmod php5 proxy proxy_html rewrite xml2enc") or die("Unable to enable Apache2 dependency modules.")
+sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
+if exists("/etc/apache2/mods-available/xml2enc.load"):
+	sudo("a2enmod xml2enc") or die("Unable to enable Apache2 xml2enc module.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
 
 # Install web frontend
