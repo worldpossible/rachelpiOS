@@ -16,8 +16,9 @@ def install_kalite():
 	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
 	sudo("chmod +x /etc/init.d/ka-lite") or die("Unable to set permissions on KA-Lite service.")
 	sudo("sh -c 'echo root >/etc/ka-lite/username'") or die("Unable to configure the userid of the KA-Lite process.")
-	sudo("mkdir -p /etc/systemd/system/ka-lite.service.d") or die("Unable to create KA-Lite service options directory.")
-	cp("files/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf") or die("Unable to increase KA-Lite service startup timeout.")
+	if exists("/etc/systemd"):
+		sudo("mkdir -p /etc/systemd/system/ka-lite.service.d") or die("Unable to create KA-Lite service options directory.")
+		cp("files/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf") or die("Unable to increase KA-Lite service startup timeout.")
 	sudo("update-rc.d ka-lite defaults") or die("Unable to register the KA-Lite service.")
 	sudo("service ka-lite start") or die("Unable to start the KA-Lite service.")
 	return True
