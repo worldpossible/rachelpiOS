@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Author: Foundation for Learning Equality
+#
+# /etc/init.d/kalite
+
+### BEGIN INIT INFO
+# Provides:          kalite
+# Required-Start:    $local_fs $remote_fs $network $syslog $named
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: ka-lite daemon, a local Khan Academy content server
+### END INIT INFO
+
+set -e
+
+if !(whoami | grep "root" -q)
+then
+	echo "You need to be root"
+	exit 1
+fi
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+. /lib/lsb/init-functions
+
+. /etc/default/ka-lite
+
+case "$1" in
+  start)
+    # run ka-lite as another user, the one who generated this file
+    su $KALITE_USER -s /bin/sh -c "$KALITE_COMMAND start $KALITE_OPTS"
+    ;;
+  stop)
+    su $KALITE_USER -s /bin/sh -c "$KALITE_COMMAND stop $KALITE_OPTS"
+    ;;
+  restart)
+    su $KALITE_USER -s /bin/sh -c "$KALITE_COMMAND stop $KALITE_OPTS"
+    su $KALITE_USER -s /bin/sh -c "$KALITE_COMMAND start $KALITE_OPTS"
+    ;;
+  status)
+    su $KALITE_USER -s /bin/sh -c "$KALITE_COMMAND status $KALILTE_OPTS"
+    ;;
+  *)
+    log_success_msg "Usage: /etc/init.d/kalite {start|stop|restart|status}"
+    exit 1
+esac
+

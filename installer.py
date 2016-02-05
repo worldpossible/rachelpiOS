@@ -10,7 +10,17 @@ import urllib
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf '\nyes\nyes' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
+	sudo("printf '\nyes\nno' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
+	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
+	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
+	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
+	sudo("chmod +x /etc/init.d/ka-lite") or die("Unable to set permissions on KA-Lite service.")
+	sudo("sh -c 'echo root >/etc/ka-lite/username'") or die("Unable to configure the userid of the KA-Lite process.")
+	if exists("/etc/systemd"):
+		sudo("mkdir -p /etc/systemd/system/ka-lite.service.d") or die("Unable to create KA-Lite service options directory.")
+		cp("files/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf") or die("Unable to increase KA-Lite service startup timeout.")
+	sudo("update-rc.d ka-lite defaults") or die("Unable to register the KA-Lite service.")
+	sudo("service ka-lite start") or die("Unable to start the KA-Lite service.")
 	return True
 
 def install_kiwix():
@@ -25,9 +35,7 @@ def exists(p):
 	return os.path.isfile(p) or os.path.isdir(p)
 
 def cmd(c):
-	new_env = os.environ.copy()
-	new_env["DEBIAN_FRONTEND"] = "noninteractive"
-	result = subprocess.Popen(c, shell=True, env=new_env, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+	result = subprocess.Popen(c, shell=True, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
 	try:
 		result.communicate()
 	except KeyboardInterrupt:
@@ -35,7 +43,7 @@ def cmd(c):
 	return (result.returncode == 0)
 
 def sudo(s):
-	return cmd("sudo %s" % s)
+	return cmd("sudo DEBIAN_FRONTEND=noninteractive %s" % s)
 
 def die(d):
 	print d
@@ -50,23 +58,25 @@ def wifi_present():
 	return exists("/sys/class/net/wlan0")
 
 def basedir():
-	return "/tmp/rachel_installer"
+	bindir = os.path.dirname(sys.argv[0])
+	if exists(bindir + "/files"):
+		return bindir
+	else:
+		return "/tmp/rachel_installer"
 	
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
 
-if not is_vagrant:
+if not is_vagrant():
 	[kalite, kiwix] = check_arguments()
 
+sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get install -y git") or die("Unable to install Git.")
 
 # Clone the repo.
-if exists("/tmp/rachel_installer"):
+if basedir() == "/tmp/rachel_installer":
 	sudo("rm -fr /tmp/rachel_installer")
-sudo("git clone --depth 1 https://github.com/mattneel/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
-
-# Chdir
-os.chdir(basedir())
+	sudo("git clone --depth 1 https://github.com/rachelproject/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
 
 if is_vagrant():
 	sudo("mv /vagrant/sources.list /etc/apt/sources.list")
@@ -100,33 +110,27 @@ if wifi_present():
 	#sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
 
 # Setup LAN
-cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
+if not is_vagrant():
+	cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
 
 # Install web platform
 sudo("echo mysql-server mysql-server/root_password password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password.")
 sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password (again).")
 sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
      php5-common libapache2-mod-php5 php5-cgi php5 \
-     mysql-server mysql-client php5-mysql") or die("Unable to install web platform.")
+     mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
-#cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
-#sudo("a2ensite contentshell") or die("Unable to enable default Apache site (contentshell).")
+cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
+sudo("a2dissite 000-default") or die("Unable to disable default Apache site.")
+sudo("a2ensite contentshell.conf") or die("Unable to enable contenthell Apache site.")
 cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
 sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
+if exists("/etc/apache2/mods-available/xml2enc.load"):
+	sudo("a2enmod xml2enc") or die("Unable to enable Apache2 xml2enc module.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
 
-# Install samba share
-sudo("apt-get install -y samba samba-common-bin") or die("Unable to install samba.")
-sudo("mkdir -p /var/www/local") or die("Unable to create local samba share directory.")
-sudo("chmod 777 /var/www/local") or die("Unable to set permissions on local samba share.")
-cp("files/smb.conf", "/etc/samba/smb.conf") or die("Unable to copy samba configuration file (smb.conf).")
-cp("files/gdbcommands", "/etc/samba/gdbcommands") or die("Unable to copy samba configuration file (gdbcommands).")
-
 # Install web frontend
-if not exists("/var/www/modules"):
-	sudo("mkdir /var/www/modules") or die("Unable to create modules dir.")
-sudo("chmod 777 /var/www/modules") or die("Unable to make modules directory writable.")
 sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
 sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
@@ -147,12 +151,12 @@ else:
 
 # Change login password to rachel
 if not is_vagrant():
-	sudo("echo -e 'new_password\nnew_password' | (passwd --stdin pi)") or die("Unable to change 'pi' password.")
+	sudo("sh -c 'echo pi:rachel | chpasswd'") or die("Unable to change 'pi' password.")
 
 # Update hostname (LAST!)
-cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
-cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
 if not is_vagrant():
+	cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
+	cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
 	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
 
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
