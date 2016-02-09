@@ -6,6 +6,14 @@ import subprocess
 import argparse
 import shutil
 import urllib
+import argparse
+
+argparser = argparse.ArgumentParser()
+argparser.add_argument( "--khan-academy",
+                       choices=["none", "ka-lite", "kiwix"],
+                       default="ka-lite",
+                       help="Select Khan Academy package to install (default = \"ka-lite\")")
+args = argparser.parse_args()
 
 def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
@@ -24,12 +32,7 @@ def install_kalite():
 	return True
 
 def install_kiwix():
-	return
-
-def check_arguments():
-	kalite = raw_input("Would you like to install KA-Lite? [Y/n]: ").lower() or "y"
-	kiwix = raw_input("Would you like to install KiwiX? [y/N]: ").lower() or "n"
-	return [kalite, kiwix]
+	die("KiwiX installation is not yet supported by this installation script.")
 
 def exists(p):
 	return os.path.isfile(p) or os.path.isdir(p)
@@ -46,7 +49,7 @@ def sudo(s):
 	return cmd("sudo DEBIAN_FRONTEND=noninteractive %s" % s)
 
 def die(d):
-	print d
+	print "Error: " + str(d)
 	sys.exit(1)
 
 def is_vagrant():
@@ -66,9 +69,6 @@ def basedir():
 	
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
-
-if not is_vagrant():
-	[kalite, kiwix] = check_arguments()
 
 sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get install -y git") or die("Unable to install Git.")
@@ -140,14 +140,10 @@ if wifi_present():
 	cp("files/hostapd_RTL8188CUS", "/etc/hostapd/hostapd.conf.RTL8188CUS") or die("Unable to copy RTL8188CUS hostapd configuration.")
 	cp("files/hostapd_realtek.conf", "/etc/hostapd/hostapd.conf.realtek") or die("Unable to copy realtek hostapd configuration.")
 
-if not is_vagrant():
-	if kalite == "y":
-		install_kalite() or die("Unable to install KA-Lite.")
-#	if kiwix == "y":
-#		install_kiwix() or die("Unable to install KiwiX.")
-else:
-	install_kalite() or die("Unable to install KA-Lite.")
-#	install_kiwix() or die("Unable to install KiwiX.")
+if args.khan_academy == "ka-lite":
+        install_kalite() or die("Unable to install KA-Lite.")
+elif args.khan_academy == "kiwix":
+        install_kiwix() or die("Unable to install KiwiX.")
 
 # Change login password to rachel
 if not is_vagrant():
