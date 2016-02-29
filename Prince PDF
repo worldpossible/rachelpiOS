@@ -1,6 +1,0 @@
-sudo wget http://www.princexml.com/download/prince-10r6-linux-generic-x86_64.tar.gz
-tar -xzvf prince-10*
-
-#during installation, put price PDF in default installation folder /usr/local as suggested by the command line prompt
-cd price*
-./install.sh
