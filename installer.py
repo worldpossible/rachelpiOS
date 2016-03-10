@@ -117,8 +117,11 @@ if not is_vagrant():
 sudo("echo mysql-server mysql-server/root_password password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password.")
 sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password (again).")
 sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
-     php5-common libapache2-mod-php5 php5-cgi php5 \
+     php5-common libapache2-mod-php5 php5-cgi php5 php5-dev php-pear \
      mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
+sudo("yes '' | sudo pecl install -f stem") or die("Unable to install php stemmer");
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/cli/php.ini'") or die("Unable to install stemmer CLI config");
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/apache2/php.ini'") or die("Unable to install stemmer Apache config");
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
 cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
