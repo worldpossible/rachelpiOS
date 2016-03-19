@@ -10,7 +10,7 @@ import argparse
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument( "--khan-academy",
-                       choices=["none", "ka-lite", "kiwix"],
+                       choices=["none", "ka-lite"],
                        default="ka-lite",
                        help="Select Khan Academy package to install (default = \"ka-lite\")")
 args = argparser.parse_args()
@@ -32,7 +32,24 @@ def install_kalite():
 	return True
 
 def install_kiwix():
-	die("KiwiX installation is not yet supported by this installation script.")
+	sudo("mkdir -p /var/kiwix/bin") or die("Unable to make create kiwix directories")
+	sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/0.9/kiwix-server-0.9-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'") or die("Unable to download kiwix-server");
+	# the reason we have a sample zim file is so that if no modules
+	# are installed you can still tell that kiwix is running
+	# - ideally we should replace this with a rachel-specific tiny zim file
+	# indicating installation success, and include that in this package in ./files/
+	sudo("wget http://download.kiwix.org/portable/wikipedia/kiwix-0.9+wikipedia_en_ray_charles_2015-06.zip -O samplezim.zip") or die ("Unable to download sample zim file");
+	sudo("mkdir -p /var/kiwix/wikipedia_en_ray_charles") or die("Unable to make create sample zim file directory")
+	sudo("unzip samplezim.zip 'data/*' -d /var/kiwix/wikipedia_en_ray_charles") or die("Unable to unzip samplezim.zip file");
+	sudo("rm samplezim.zip") or die("Unable to remove samplezim.zip");
+	cp("files/kiwix-sample-library.xml", "/var/kiwix/sample-library.xml") or die("Unable to install kiwix sample library");
+	cp("files/rachel-kiwix-start.pl", "/var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to coppy rachel-kiwix-start wrapper");
+	sudo("chmod +x /var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to set permissions on rachek-kiwix-start wrapper")
+	cp("files/init-kiwix-service", "/etc/init.d/kiwix") or die("Unable to install kiwix service");
+	sudo("chmod +x /etc/init.d/kiwix") or die("Unable to set permissions on kiwix service.")
+	sudo("update-rc.d kiwix defaults") or die("Unable to register the kiwix service.")
+	sudo("service kiwix start") or die("Unable to start the kiwix service.")
+	return True
 
 def exists(p):
 	return os.path.isfile(p) or os.path.isdir(p)
@@ -62,6 +79,8 @@ def wifi_present():
 
 def basedir():
 	bindir = os.path.dirname(sys.argv[0])
+	if not bindir:
+		bindir = "."
 	if exists(bindir + "/files"):
 		return bindir
 	else:
@@ -145,8 +164,11 @@ if wifi_present():
 
 if args.khan_academy == "ka-lite":
         install_kalite() or die("Unable to install KA-Lite.")
-elif args.khan_academy == "kiwix":
-        install_kiwix() or die("Unable to install KiwiX.")
+
+# install the kiwix server (but not content)
+# the kiwix install includes a pre-made library file that
+# references to all the kiwix modules that RACHEL supports
+install_kiwix()
 
 # Change login password to rachel
 if not is_vagrant():
