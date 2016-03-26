@@ -36,12 +36,7 @@ def install_kiwix():
 	sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/0.9/kiwix-server-0.9-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'") or die("Unable to download kiwix-server");
 	# the reason we have a sample zim file is so that if no modules
 	# are installed you can still tell that kiwix is running
-	# - ideally we should replace this with a rachel-specific tiny zim file
-	# indicating installation success, and include that in this package in ./files/
-	sudo("wget http://download.kiwix.org/portable/wikipedia/kiwix-0.9+wikipedia_en_ray_charles_2015-06.zip -O samplezim.zip") or die ("Unable to download sample zim file");
-	sudo("mkdir -p /var/kiwix/wikipedia_en_ray_charles") or die("Unable to make create sample zim file directory")
-	sudo("unzip samplezim.zip 'data/*' -d /var/kiwix/wikipedia_en_ray_charles") or die("Unable to unzip samplezim.zip file");
-	sudo("rm samplezim.zip") or die("Unable to remove samplezim.zip");
+	cp("files/kiwix-sample.zim", "/var/kiwix/sample.zim") or die("Unable to install kiwix sample zim");
 	cp("files/kiwix-sample-library.xml", "/var/kiwix/sample-library.xml") or die("Unable to install kiwix sample library");
 	cp("files/rachel-kiwix-start.pl", "/var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to coppy rachel-kiwix-start wrapper");
 	sudo("chmod +x /var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to set permissions on rachek-kiwix-start wrapper")
@@ -166,8 +161,6 @@ if args.khan_academy == "ka-lite":
         install_kalite() or die("Unable to install KA-Lite.")
 
 # install the kiwix server (but not content)
-# the kiwix install includes a pre-made library file that
-# references to all the kiwix modules that RACHEL supports
 install_kiwix()
 
 # Change login password to rachel
