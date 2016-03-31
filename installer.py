@@ -19,7 +19,7 @@ def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
 	sudo("printf '\nyes\nno' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
-    cp("files/kalite-settings.py", "/root/.kalite/settings.py") or die("Unable to configure kalite for raspberry_pi");
+	cp("files/kalite-settings.py", "/root/.kalite/settings.py") or die("Unable to configure kalite for raspberry_pi");
 	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
 	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
 	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
