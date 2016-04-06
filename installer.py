@@ -19,10 +19,6 @@ def install_kalite():
 	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
 	sudo("printf '\nyes\nno' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
-	# disk caching causes problems with translated versions of kalite,
-	# so we have turned this off for now - uncomment the following
-	# line when building the English version for much faster kalite starup
-	#cp("files/kalite-settings.py", "/root/.kalite/settings.py") or die("Unable to configure kalite for raspberry_pi");
 	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
 	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
 	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
@@ -33,21 +29,24 @@ def install_kalite():
 		cp("files/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf") or die("Unable to increase KA-Lite service startup timeout.")
 	sudo("update-rc.d ka-lite defaults") or die("Unable to register the KA-Lite service.")
 	sudo("service ka-lite start") or die("Unable to start the KA-Lite service.")
+	sudo("sh -c '/usr/local/bin/kalite --version > /etc/kalite-version'") or die("Unable to record kalite version")
 	return True
 
 def install_kiwix():
 	sudo("mkdir -p /var/kiwix/bin") or die("Unable to make create kiwix directories")
-	sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/0.9/kiwix-server-0.9-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'") or die("Unable to download kiwix-server");
+	kiwix_version = "0.9"
+	sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/"+kiwix_version+"/kiwix-server-"+kiwix_version+"-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'") or die("Unable to download kiwix-server")
 	# the reason we have a sample zim file is so that if no modules
 	# are installed you can still tell that kiwix is running
-	cp("files/kiwix-sample.zim", "/var/kiwix/sample.zim") or die("Unable to install kiwix sample zim");
-	cp("files/kiwix-sample-library.xml", "/var/kiwix/sample-library.xml") or die("Unable to install kiwix sample library");
-	cp("files/rachel-kiwix-start.pl", "/var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to coppy rachel-kiwix-start wrapper");
+	cp("files/kiwix-sample.zim", "/var/kiwix/sample.zim") or die("Unable to install kiwix sample zim")
+	cp("files/kiwix-sample-library.xml", "/var/kiwix/sample-library.xml") or die("Unable to install kiwix sample library")
+	cp("files/rachel-kiwix-start.pl", "/var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to coppy rachel-kiwix-start wrapper")
 	sudo("chmod +x /var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to set permissions on rachek-kiwix-start wrapper")
-	cp("files/init-kiwix-service", "/etc/init.d/kiwix") or die("Unable to install kiwix service");
+	cp("files/init-kiwix-service", "/etc/init.d/kiwix") or die("Unable to install kiwix service")
 	sudo("chmod +x /etc/init.d/kiwix") or die("Unable to set permissions on kiwix service.")
 	sudo("update-rc.d kiwix defaults") or die("Unable to register the kiwix service.")
 	sudo("service kiwix start") or die("Unable to start the kiwix service.")
+	sudo("sh -c 'echo "+kiwix_version+" >/etc/kiwix-version'") or die("Unable to record kiwix version.")
 	return True
 
 def exists(p):
@@ -137,9 +136,11 @@ sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo 
 sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
      php5-common libapache2-mod-php5 php5-cgi php5 php5-dev php-pear \
      mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
-sudo("yes '' | sudo pecl install -f stem") or die("Unable to install php stemmer");
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/cli/php.ini'") or die("Unable to install stemmer CLI config");
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/apache2/php.ini'") or die("Unable to install stemmer Apache config");
+sudo("yes '' | sudo pecl install -f stem") or die("Unable to install php stemmer")
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/cli/php.ini'") or die("Unable to install stemmer CLI config")
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/apache2/php.ini'") or die("Unable to install stemmer Apache config")
+sudo("sh -c 'sed -i \"s/upload_max_filesize *= *.*/upload_max_filesize = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase upload_max_filesize in apache2/php.ini")
+sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase post_max_size in apache2/php.ini")
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
 cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
