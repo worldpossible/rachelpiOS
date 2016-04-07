@@ -191,6 +191,6 @@ if not is_vagrant():
 
 # record the version of the installer we're using - this must be manually
 # updated when you tag a new installer
-sudo("sh -c 'echo 2016.04.07 > /etc/rachelpiOS-version'") or die("Unable to record rachelpiOS version.")
+sudo("sh -c 'echo piOS-2016.04.07 > /etc/rachelinstaller-version'") or die("Unable to record rachelpiOS version.")
 
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
