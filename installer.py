@@ -189,4 +189,8 @@ if not is_vagrant():
 	cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
 	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
 
+# record the version of the installer we're using - this must be manually
+# updated when you tag a new installer
+sudo("sh -c 'echo 2016.04.07 > /etc/rachelpiOS-version'") or die("Unable to record rachelpiOS version.")
+
 print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
