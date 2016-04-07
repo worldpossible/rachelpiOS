@@ -124,6 +124,11 @@ if wifi_present():
 	sudo("service udhcpd start") or die("Unable to start udhcpd service.")
 	sudo("update-rc.d hostapd enable") or die("Unable to enable hostapd on boot.")
 	sudo("update-rc.d udhcpd enable") or die("Unable to enable UDHCPd on boot.")
+	# udhcpd wasn't starting properly at boot (probably starting before interface was ready)
+	# for now we we just force it to restart after setting the interface
+	sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'") or die("Unable to remove exit from end of /etc/rc.local")
+	sudo("sh -c 'echo ifconfig wlan0 10.10.10.10 >> /etc/rc.local; echo service udhcpd restart >> /etc/rc.local;'") or die("Unable to setup udhcpd reset at boot.")
+	sudo("sh -c 'echo exit 0 >> /etc/rc.local'") or die("Unable to replace exit to end of /etc/rc.local")
 	#sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
 
 # Setup LAN
@@ -159,6 +164,9 @@ sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on
 sudo("chmod u+w /etc/sudoers") or die("Unable to get permission to modify sudoers")
 sudo("sh -c \"echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> /etc/sudoers\"") or die("Unable to modify sudoers for web shutdown")
 sudo("chmod u-w /etc/sudoers") or die("Unable to restore sudoers permissions")
+sudo("chown www-data:www-data /var/log/apache2") or die("Unable to change ownership of apache2 log directory (for stats.php)")
+sudo("chmod 777 /var/log/apache2") or die("Unable to change permissions of apache2 log directory (for stats.php)")
+sudo("chmod 644 /var/log/apache2/*") or die("Unable to change permissions of apache2 log files (for stats.php)")
 
 # Extra wifi driver configuration
 if wifi_present():
