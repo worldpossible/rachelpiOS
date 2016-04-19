@@ -161,12 +161,8 @@ sudo("service apache2 restart") or die("Unable to restart Apache2.")
 sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
 sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
-sudo("chmod u+w /etc/sudoers") or die("Unable to get permission to modify sudoers")
-sudo("sh -c \"echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> /etc/sudoers\"") or die("Unable to modify sudoers for web shutdown")
-sudo("chmod u-w /etc/sudoers") or die("Unable to restore sudoers permissions")
-sudo("chown www-data:www-data /var/log/apache2") or die("Unable to change ownership of apache2 log directory (for stats.php)")
-sudo("chmod 777 /var/log/apache2") or die("Unable to change permissions of apache2 log directory (for stats.php)")
-sudo("chmod 644 /var/log/apache2/*") or die("Unable to change permissions of apache2 log files (for stats.php)")
+sudo("sh -c \"umask 0227; echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> /etc/sudoers.d/www-shutdown\"") or die("Unable to add www-data to sudoers for web shutdown")
+sudo("usermod -a -G adm www-data") or die("Unable to add www-data to adm group (so stats.php can read logs)")
 
 # Extra wifi driver configuration
 if wifi_present():
