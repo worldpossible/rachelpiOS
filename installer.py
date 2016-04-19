@@ -104,7 +104,7 @@ sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
 
 # Update Raspi firmware
 if not is_vagrant():
-	sudo("rpi-update") or die("Unable to upgrade Raspberry Pi firmware")
+	sudo("yes | sudo rpi-update") or die("Unable to upgrade Raspberry Pi firmware")
 
 # Setup wifi hotspot
 if wifi_present():
