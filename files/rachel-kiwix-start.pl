@@ -11,26 +11,46 @@ use warnings;
 # Date: 2016-03-19
 #-------------------------------------------
 
-# remove existing library
+# shut down any existing server
+`killall kiwix-serve 2>/dev/null`;
+
+# remove the existing library
 unlink("/var/kiwix/library.xml");
+
+# check what rachel modules are hidden by the admin
+# -- be careful not to create a db file if there isn't one,
+# because then the ownership and permissions will be wrong
+my %hidden;
+my $db  = "/var/www/admin.sqlite";
+my $sql = "select moddir from modules where hidden = 1";
+if (-e $db) {
+    foreach my $mod (split /\n/, `/usr/bin/sqlite3 $db '$sql' 2>/dev/null`) {
+	++$hidden{$mod};
+    }
+}
 
 # find all the zim files in the modules directoy
 # then take only the first from each module
 my %zimset;
-my $found = 0;
 foreach my $file (`ls /var/www/modules/*/data/content/*.zim* 2>/dev/null`) {
+
     chomp $file;
+
+    # skip anything that was hidden
+    my ($moddir) = $file =~ /\/var\/www\/modules\/(.+?)\/data\//;
+    next if $hidden{$moddir};
+
     my ($noext) = $file =~ /([^\/]+)\.zim.*$/;
     if (not $zimset{$noext}) {
         $zimset{$noext} = $file;
-	++$found;
     }
+
 }
 
 # if there are no zim files in the modules directory
-# we start using the sample zim file (so you can at
+# we start up using the sample zim file (so you can at
 # least tell kiwix was installed and runs)
-if (not $found) {
+if (not %zimset) {
     exit system("/var/kiwix/bin/kiwix-serve --daemon --port=81 --library /var/kiwix/sample-library.xml");
 }
 
@@ -42,7 +62,6 @@ foreach my $noext (keys(%zimset)) {
     if (-d "$moddir/data/index/$noext.zim.idx") {
         $cmd .= " --indexPath=$moddir/data/index/$noext.zim.idx";
     }
-    #print STDERR "$cmd\n";
     system($cmd) == 0 or die "Couldn't add $zim to library";
 }
 
