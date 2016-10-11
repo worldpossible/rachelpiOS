@@ -22,6 +22,9 @@ unlink("/var/kiwix/library.xml");
 # because then the ownership and permissions will be wrong
 my %hidden;
 my $db  = "/var/www/admin.sqlite";
+if (-f "/var/www/admin/admin.sqlite") {
+    $db = "/var/www/admin/admin.sqlite";
+}
 my $sql = "select moddir from modules where hidden = 1";
 if (-e $db) {
     foreach my $mod (split /\n/, `/usr/bin/sqlite3 $db '$sql' 2>/dev/null`) {

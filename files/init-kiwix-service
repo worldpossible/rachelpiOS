@@ -15,11 +15,12 @@
 
 set -e
 
-if !(whoami | grep "root" -q)
-then
-	echo "You need to be root"
-	exit 1
-fi
+# we let the www user restart kiwix
+#if !(whoami | grep "root" -q)
+#then
+#	echo "You need to be root"
+#	exit 1
+#fi
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
@@ -31,7 +32,7 @@ case "$1" in
     killall kiwix-serve
     ;;
   restart)
-    killall kiwix-serve
+    # it kills the old process itself
     /var/kiwix/bin/rachel-kiwix-start.pl
     ;;
   status)
