@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DEFAULT_MODULES=( ebooks-en hesperian_health iicba infonet kaos-en math_expression \
-		  medline_plus musictheory olpc powertyping practical_action scratch \
-        	  understanding_algebra wikipedia_for_schools rpi_guide windows_apps asst_medical )
+DEFAULT_MODULES=( en-ebooks en-hesperian_health en-iicba en-math_expression \
+                  en-medline_plus en-musictheory en-olpc en-powertyping en-practical_action en-scratch \
+        	  en-understanding_algebra en-wikipedia_for_schools en-rpi_guide en-windows_apps en-asst_medical )
 
 DEST_PATH=/var/www/modules
 RSYNC_SOURCE=rsync://dev.worldpossible.org/rachelmods/
@@ -70,6 +70,28 @@ while [ true ]; do
     esac
 done
 
+function copy_file () {
+    local MODULE="$1"
+    local DESTDIR="$2"
+    ${CHOWN_CMD}rsync -rlptvz "${RSYNC_OPT[@]}" "${RSYNC_SOURCE}${MODULE}" "$DEST_PATH/$DESTDIR"
+    if [ $? -ne 0 ]; then
+	sleep 1
+	echo "Copying of $module failed or was aborted.  Exiting."
+	exit
+    fi
+}
+
+function copy_module () {
+    local MODULE="$1"
+    local DESTDIR="$2"
+    ${CHOWN_CMD}rsync -rlptvz "${RSYNC_OPT[@]}" "${RSYNC_SOURCE}${MODULE}/" "$DEST_PATH/$DESTDIR"
+    if [ $? -ne 0 ]; then
+	sleep 1
+	echo "Copying of $module failed or was aborted.  Exiting."
+	exit
+    fi
+}
+
 if [ $# -gt 0 ]; then
     echo "$CMDNAME: too many arguments"
     exit 1
@@ -100,13 +122,12 @@ for MODULE in ${MODULES[@]}; do
     echo
     echo "Syncing $MODULE ..."
     DESTDIR="$MODULE"
-    if [ "$DESTDIR" == "khan_healthonly" ]; then
-	DESTDIR="khan_academy"
+    if [ "$DESTDIR" == "en-khan_health" ]; then
+	${CHOWN_CMD}mkdir -p "$DEST_PATH/en-kaos/science/health-and-medicine"
+	copy_module "en-kaos/science/health-and-medicine" "en-kaos/science/health-and-medicine"
+	copy_file "en-kaos/style.css" "en-kaos"
+	copy_file "en-kaos/about.html" "en-kaos"
+	DESTDIR="en-kaos"
     fi
-    ${CHOWN_CMD}rsync -rlptvz "${RSYNC_OPT[@]}" "${RSYNC_SOURCE}${MODULE}/" "$DEST_PATH/$DESTDIR"
-    if [ $? -ne 0 ]; then
-	sleep 1
-	echo "Copying of $module failed or was aborted.  Exiting."
-	exit
-    fi
+    copy_module "${MODULE}" "$DESTDIR"
 done
