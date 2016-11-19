@@ -13,6 +13,10 @@ argparser.add_argument( "--khan-academy",
                        choices=["none", "ka-lite"],
                        default="ka-lite",
                        help="Select Khan Academy package to install (default = \"ka-lite\")")
+argparser.add_argument("--no-wifi",
+                       dest="install_wifi",
+                       action="store_false",
+                       help="Do not configure local wifi hotspot.")
 args = argparser.parse_args()
 
 def install_kalite():
@@ -107,7 +111,7 @@ if not is_vagrant():
 	sudo("yes | sudo rpi-update") or die("Unable to upgrade Raspberry Pi firmware")
 
 # Setup wifi hotspot
-if wifi_present():
+if wifi_present() and args.install_wifi:
 	sudo("apt-get -y install hostapd udhcpd") or die("Unable install hostapd and udhcpd.")
 	cp("files/udhcpd.conf", "/etc/udhcpd.conf") or die("Unable to copy UDHCPd configuration (udhcpd.conf)")
 	cp("files/udhcpd", "/etc/default/udhcpd") or die("Unable to copy UDHCPd configuration (udhcpd)")
@@ -165,7 +169,7 @@ sudo("sh -c \"umask 0227; echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> 
 sudo("usermod -a -G adm www-data") or die("Unable to add www-data to adm group (so stats.php can read logs)")
 
 # Extra wifi driver configuration
-if wifi_present():
+if wifi_present() and args.install_wifi:
 	cp("files/hostapd_RTL8188CUS", "/etc/hostapd/hostapd.conf.RTL8188CUS") or die("Unable to copy RTL8188CUS hostapd configuration.")
 	cp("files/hostapd_realtek.conf", "/etc/hostapd/hostapd.conf.realtek") or die("Unable to copy realtek hostapd configuration.")
 
