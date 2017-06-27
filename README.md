@@ -19,3 +19,7 @@ paste in the following command after reboot.
 Please note that this will change the 'pi' user's password to: rachel
 
 All default username and passwords will be rachel/rachel unless noted differently.
+
+Additional Details
+---------------
+Please check out the Wiki: https://github.com/rachelproject/rachelpiOS/wiki
