@@ -217,4 +217,12 @@ if not is_vagrant():
 # updated when you tag a new installer
 sudo("sh -c 'echo piOS-2016.04.19 > /etc/rachelinstaller-version'") or die("Unable to record rachelpiOS version.")
 
+f = open("/home/rachel/.bashrc", "r")
+lines = f.readlines()
+f.close()
+f = open("/home/rachel/.bashrc", "w")
+for line in lines:
+	if line != "curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/rachbuntu/installer.py3 | python3"+"\n":
+		f.write(line)
+f.close()
 print("RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/")
