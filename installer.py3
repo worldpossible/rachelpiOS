@@ -18,6 +18,15 @@ argparser.add_argument("--no-wifi",
                        help="Do not configure local wifi hotspot.")
 args = argparser.parse_args()
 
+
+def clone_contentshell(version = "2.3.5"):
+	url = "https://github.com/rachelproject/contentshell/archive/v"+ version +".tar.gz"
+	filename = "/tmp/contentshell-"+version+".tgz"
+	sudo("wget '" + url + "' -O "+filename) or die("Can't download contentshell")
+	sudo("rm -fr /var/www") or die("Delete existing apache content")
+	sudo("tar zxpf "+filename+" --directory /var") or die("Can't extract contentshell")
+	sudo("mv /var/contentshell-"+version+" /var/www") or die("Can't move contentshell")
+	
 def install_kalite():
 	sudo("apt install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
@@ -177,7 +186,8 @@ sudo("service apache2 restart") or die("Unable to restart Apache2.")
 # Install web frontend
 sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
 #sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
-sudo("git clone --depth=1 --branch v2.3.6 https://github.com/rachelproject/contentshell.git /var/www") or die("Unable to download RACHEL web application.")
+#sudo("git clone --depth=1 --branch v2.3.6 https://github.com/rachelproject/contentshell.git /var/www") or die("Unable to download RACHEL web application.")
+clone_contentshell()
 sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
 sudo("sh -c \"umask 0227; echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> /etc/sudoers.d/www-shutdown\"") or die("Unable to add www-data to sudoers for web shutdown")
 sudo("usermod -a -G adm www-data") or die("Unable to add www-data to adm group (so stats.php can read logs)")
