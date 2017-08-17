@@ -30,7 +30,7 @@ def clone_contentshell(version = "2.3.5"):
 def install_kalite():
 	sudo("apt install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf '\nyes\nyes\nno\nno\nno\n' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
+	sudo("CONTENT_PACK_URL=http://pantry.learningequality.org/downloads/ka-lite/0.17/content/contentpacks/en.zip kalite manage setup -u rachel -p rachel -o rachel -d rachel -n -a") or die("Can't setup kalite")
 	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
 	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
 	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
