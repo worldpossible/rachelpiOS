@@ -32,7 +32,7 @@ def install_kalite():
 	sudo("apt install -y python-pip") or die("Unable to install pip.")
 	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
 	sudo("kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel --noinput --dl-assessment-items") or die("Can't setup kalite")
-	sudo("cp -Rv /home/rachel/.kalite /root") or die("Unable to copy kalite data.")
+	sudo("cp -R /home/rachel/.kalite /root") or die("Unable to copy kalite data.")
 	sudo("rm -fr /home/rachel/.kalite") or die("Removing kalite data from rachel user.")
 	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
 	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
