@@ -63,7 +63,7 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 d-i pkgsel/include                                          string      git curl openssh-server sudo python python3 python-pip hostapd udhcpd apache2 libxml2-dev \
                                                             php-common libapache2-mod-php php-cgi php php-dev php-pear \
-                                                            mysql-server mysql-client php-mysql sqlite3 php-sqlite3
+                                                            mysql-server mysql-client php-mysql sqlite3 php-sqlite3 htop nano
 
 # disk partitioning
 d-i partman/confirm_write_new_label                         boolean     true
