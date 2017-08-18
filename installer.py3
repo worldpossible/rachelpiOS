@@ -26,6 +26,7 @@ def clone_contentshell(version = "2.3.5"):
 	sudo("rm -fr /var/www") or die("Delete existing apache content")
 	sudo("tar zxpf "+filename+" --directory /var") or die("Can't extract contentshell")
 	sudo("mv /var/contentshell-"+version+" /var/www") or die("Can't move contentshell")
+	return True
 	
 def install_kalite():
 	sudo("apt install -y python-pip") or die("Unable to install pip.")
@@ -56,6 +57,7 @@ def install_stemmer():
 	sudo("sh -c 'cd /tmp/stem-1.5.1 && ./configure'") or die("Can't configure Stem")
 	sudo("sh -c 'cd /tmp/stem-1.5.1 && (make && sudo make install)'") or die("Can't build & install stem")
 	sudo("rm -fr /tmp/stem-*") or die("Can't cleanup stem")
+	return True
 	
 def install_kiwix():
 	sudo("mkdir -p /var/kiwix/bin") or die("Unable to make create kiwix directories")
@@ -91,13 +93,12 @@ def sudo(s):
 def die(d):
 	print("Error: " + str(d))
 	sys.exit(1)
+	return False
 
 def is_vagrant():
 	return True#os.path.isfile("/etc/is_vagrant_vm")
 
 def wifi_present():
-	if is_vagrant():
-		return False
 	return exists("/sys/class/net/wlan0")
 
 def basedir():
@@ -132,7 +133,7 @@ if not is_vagrant():
 	sudo("yes | sudo rpi-update") or die("Unable to upgrade Raspberry Pi firmware")
 
 # Setup wifi hotspot
-if wifi_present() and args.install_wifi:
+if wifi_present():
 	sudo("apt -y install hostapd udhcpd") or die("Unable install hostapd and udhcpd.")
 	cp("files/udhcpd.conf", "/etc/udhcpd.conf") or die("Unable to copy UDHCPd configuration (udhcpd.conf)")
 	cp("files/udhcpd", "/etc/default/udhcpd") or die("Unable to copy UDHCPd configuration (udhcpd)")
@@ -215,7 +216,7 @@ if not is_vagrant():
 
 # record the version of the installer we're using - this must be manually
 # updated when you tag a new installer
-sudo("sh -c 'echo piOS-2016.04.19 > /etc/rachelinstaller-version'") or die("Unable to record rachelpiOS version.")
+sudo("sh -c 'echo rachbuntu-0.0.1 > /etc/rachelinstaller-version'") or die("Unable to record rachelpiOS version.")
 
 f = open("/home/rachel/.bashrc", "r")
 lines = f.readlines()
