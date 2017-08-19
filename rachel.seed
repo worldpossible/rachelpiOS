@@ -107,6 +107,7 @@ d-i preseed/late_command string in-target apt update ; \
                                 in-target apt autoclean ; \
                                 in-target apt clean ; \
                                 echo 'rachel ALL=(ALL) NOPASSWD: ALL' > /target/etc/sudoers.d/rachel ; \
-                                in-target chmod 440 /etc/sudoers.d/rachel ; \
+                                echo 'Login as rachel/rachel to continue installation.' > /target/etc/issue; \
+                                in-target chmod 440 /etc/sudoers.d/rachel /etc/issue ; \
                                 echo 'curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/rachbuntu/installer.py3 | python3' >> /target/home/rachel/.bashrc ;
                                 

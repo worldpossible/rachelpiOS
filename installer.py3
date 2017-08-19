@@ -228,6 +228,6 @@ for line in lines:
 	if line != "curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/rachbuntu/installer.py3 | python3"+"\n":
 		f.write(line)
 f.close()
-sudo("echo 'Rachbuntu 17.04 \\n \\l' > /etc/issue") or die("Can't reset issue")
+sudo("echo \"Rachbuntu 17.04\" > /etc/issue") or die("Can't reset issue")
 sudo("chmod 440 /etc/issue") or die("Can't reset issue permissions")
 print("RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/")
