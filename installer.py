@@ -142,21 +142,21 @@ if not is_vagrant():
 # Install web platform
 sudo("echo mysql-server mysql-server/root_password password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password.")
 sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password (again).")
-sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
-     php5-common libapache2-mod-php5 php5-cgi php5 php5-dev php-pear \
-     mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
+sudo("apt-get -y install apache2 libxml2-dev \
+     php7.0-common libapache2-mod-php7.0 php7.0-cgi php7.0 php7.0-dev php-pear \
+     mysql-server mysql-client php7.0-mysql sqlite3 php7.0-sqlite3") or die("Unable to install web platform.")
 sudo("yes '' | sudo pecl install -f stem") or die("Unable to install php stemmer")
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/cli/php.ini'") or die("Unable to install stemmer CLI config")
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/apache2/php.ini'") or die("Unable to install stemmer Apache config")
-sudo("sh -c 'sed -i \"s/upload_max_filesize *= *.*/upload_max_filesize = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase upload_max_filesize in apache2/php.ini")
-sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase post_max_size in apache2/php.ini")
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php/7.0/cli/php.ini'") or die("Unable to install stemmer CLI config")
+sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php/7.0/apache2/php.ini'") or die("Unable to install stemmer Apache config")
+sudo("sh -c 'sed -i \"s/upload_max_filesize *= *.*/upload_max_filesize = 512M/\" /etc/php/7.0/apache2/php.ini'") or die("Unable to increase upload_max_filesize in apache2/php.ini")
+sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" /etc/php/7.0/apache2/php.ini'") or die("Unable to increase post_max_size in apache2/php.ini")
 sudo("service apache2 stop") or die("Unable to stop Apache2.")
 #cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
 cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
 sudo("a2dissite 000-default") or die("Unable to disable default Apache site.")
 sudo("a2ensite contentshell.conf") or die("Unable to enable contenthell Apache site.")
 cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
-sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
+sudo("a2enmod php7.0 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
 if exists("/etc/apache2/mods-available/xml2enc.load"):
 	sudo("a2enmod xml2enc") or die("Unable to enable Apache2 xml2enc module.")
 sudo("service apache2 restart") or die("Unable to restart Apache2.")
