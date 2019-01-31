@@ -8,6 +8,10 @@ import shutil
 import urllib
 import argparse
 
+
+INSTALLER_VERSION="Rachel Pi OS 20190130.2030"
+
+
 argparser = argparse.ArgumentParser()
 argparser.add_argument( "--khan-academy",
                        choices=["none", "ka-lite"],
@@ -17,6 +21,10 @@ argparser.add_argument("--no-wifi",
                        dest="install_wifi",
                        action="store_false",
                        help="Do not configure local wifi hotspot.")
+argparser.add_argument("--version",
+                       dest="display_version",
+                       action="store_true",
+                       help="Print installer version and exit.")
 args = argparser.parse_args()
 
 def install_kalite():
@@ -91,6 +99,12 @@ def basedir():
 	
 def cp(s, d):
 	return sudo("cp %s/%s %s" % (basedir(), s, d))
+
+if args.display_version:
+        print INSTALLER_VERSION
+        sys.exit(0)
+
+sudo("echo " + INSTALLER_VERSION + " >/etc/rachelinstaller-version") or die("Unable to write installer version.")
 
 sudo("apt-get update -y") or die("Unable to update.")
 sudo("apt-get install -y git") or die("Unable to install Git.")
