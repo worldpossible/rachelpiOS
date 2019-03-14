@@ -3,194 +3,456 @@
 import sys
 import os
 import subprocess
-import argparse
 import shutil
 import urllib
 import argparse
-
-argparser = argparse.ArgumentParser()
-argparser.add_argument( "--khan-academy",
-                       choices=["none", "ka-lite"],
-                       default="ka-lite",
-                       help="Select Khan Academy package to install (default = \"ka-lite\")")
-argparser.add_argument("--no-wifi",
-                       dest="install_wifi",
-                       action="store_false",
-                       help="Do not configure local wifi hotspot.")
-args = argparser.parse_args()
-
-def install_kalite():
-	sudo("apt-get install -y python-pip") or die("Unable to install pip.")
-	sudo("pip install ka-lite-static") or die("Unable to install KA-Lite")
-	sudo("printf '\nyes\nyes\nno\n' | sudo kalite manage setup --username=rachel --password=rachel --hostname=rachel --description=rachel")
-	sudo("mkdir -p /etc/ka-lite") or die("Unable to create /etc/ka-lite configuration directory.")
-	cp("files/init-functions", "/etc/default/ka-lite") or die("Unable to install KA-Lite configuration script.")
-	cp("files/init-service", "/etc/init.d/ka-lite") or die("Unable to install KA-Lite service.")
-	sudo("chmod +x /etc/init.d/ka-lite") or die("Unable to set permissions on KA-Lite service.")
-	sudo("sh -c 'echo root >/etc/ka-lite/username'") or die("Unable to configure the userid of the KA-Lite process.")
-	if exists("/etc/systemd"):
-		sudo("mkdir -p /etc/systemd/system/ka-lite.service.d") or die("Unable to create KA-Lite service options directory.")
-		cp("files/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf") or die("Unable to increase KA-Lite service startup timeout.")
-	sudo("update-rc.d ka-lite defaults") or die("Unable to register the KA-Lite service.")
-	sudo("service ka-lite start") or die("Unable to start the KA-Lite service.")
-	sudo("sh -c '/usr/local/bin/kalite --version > /etc/kalite-version'") or die("Unable to record kalite version")
-	return True
-
-def install_kiwix():
-	sudo("mkdir -p /var/kiwix/bin") or die("Unable to make create kiwix directories")
-	kiwix_version = "0.9"
-	sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/"+kiwix_version+"/kiwix-server-"+kiwix_version+"-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'") or die("Unable to download kiwix-server")
-	# the reason we have a sample zim file is so that if no modules
-	# are installed you can still tell that kiwix is running
-	cp("files/kiwix-sample.zim", "/var/kiwix/sample.zim") or die("Unable to install kiwix sample zim")
-	cp("files/kiwix-sample-library.xml", "/var/kiwix/sample-library.xml") or die("Unable to install kiwix sample library")
-	cp("files/rachel-kiwix-start.pl", "/var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to coppy rachel-kiwix-start wrapper")
-	sudo("chmod +x /var/kiwix/bin/rachel-kiwix-start.pl") or die("Unable to set permissions on rachek-kiwix-start wrapper")
-	cp("files/init-kiwix-service", "/etc/init.d/kiwix") or die("Unable to install kiwix service")
-	sudo("chmod +x /etc/init.d/kiwix") or die("Unable to set permissions on kiwix service.")
-	sudo("update-rc.d kiwix defaults") or die("Unable to register the kiwix service.")
-	sudo("service kiwix start") or die("Unable to start the kiwix service.")
-	sudo("sh -c 'echo "+kiwix_version+" >/etc/kiwix-version'") or die("Unable to record kiwix version.")
-	return True
-
-def exists(p):
-	return os.path.isfile(p) or os.path.isdir(p)
-
-def cmd(c):
-	result = subprocess.Popen(c, shell=True, stdin=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
-	try:
-		result.communicate()
-	except KeyboardInterrupt:
-		pass
-	return (result.returncode == 0)
-
-def sudo(s):
-	return cmd("sudo DEBIAN_FRONTEND=noninteractive %s" % s)
-
-def die(d):
-	print "Error: " + str(d)
-	sys.exit(1)
-
-def is_vagrant():
-	return os.path.isfile("/etc/is_vagrant_vm")
-
-def wifi_present():
-	if is_vagrant():
-		return False
-	return exists("/sys/class/net/wlan0")
+import fileinput
 
 def basedir():
-	bindir = os.path.dirname(sys.argv[0])
-	if not bindir:
-		bindir = "."
-	if exists(bindir + "/files"):
-		return bindir
-	else:
-		return "/tmp/rachel_installer"
-	
-def cp(s, d):
-	return sudo("cp %s/%s %s" % (basedir(), s, d))
+    path = os.path.dirname(os.path.abspath(sys.argv[0]))
 
-sudo("apt-get update -y") or die("Unable to update.")
-sudo("apt-get install -y git") or die("Unable to install Git.")
+    if not path:
+        path = "."
 
-# Clone the repo.
-if basedir() == "/tmp/rachel_installer":
-	sudo("rm -fr /tmp/rachel_installer")
-	sudo("git clone --depth 1 https://github.com/rachelproject/rachelpios.git /tmp/rachel_installer") or die("Unable to clone RACHEL installer repository.")
+    return path
 
-if is_vagrant():
-	sudo("mv /vagrant/sources.list /etc/apt/sources.list")
-# Update and upgrade OS
-sudo("apt-get update -y") or die("Unable to update.")
-sudo("apt-get dist-upgrade -y") or die("Unable to upgrade Raspbian.")
+def cmd(c):
+    result = subprocess.Popen(c,
+                              shell=True,
+                              stdin=subprocess.PIPE,
+                              stderr=subprocess.PIPE,
+                              close_fds=True)
+    try:
+        result.communicate()
+    except KeyboardInterrupt:
+        pass
+    return (result.returncode == 0)
 
+def copy_file(src, dst):
+    path = os.path.join(basedir(), src)
 
-# Update Raspi firmware
-if not is_vagrant():
-	sudo("yes | sudo rpi-update") or die("Unable to upgrade Raspberry Pi firmware")
+    if not os.path.isfile(path):
+        die("Copy failed. Source " + path + "doesn't exist.")
 
-# Setup wifi hotspot
-if wifi_present() and args.install_wifi:
-	sudo("apt-get -y install hostapd udhcpd") or die("Unable install hostapd and udhcpd.")
-	cp("files/udhcpd.conf", "/etc/udhcpd.conf") or die("Unable to copy UDHCPd configuration (udhcpd.conf)")
-	cp("files/udhcpd", "/etc/default/udhcpd") or die("Unable to copy UDHCPd configuration (udhcpd)")
-	cp("files/hostapd", "/etc/default/hostapd") or die("Unable to copy hostapd configuration (hostapd)")
-	cp("files/hostapd.conf", "/etc/hostapd/hostapd.conf") or die("Unable to copy hostapd configuration (hostapd.conf)")
-	sudo("sh -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'") or die("Unable to set ipv4 forwarding")
-	cp("files/sysctl.conf", "/etc/sysctl.conf") or die("Unable to copy sysctl configuration (sysctl.conf)")
-	sudo("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE") or die("Unable to set iptables MASQUERADE on eth0.")
-	sudo("iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT") or die("Unable to forward wlan0 to eth0.")
-	sudo("iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT") or die("Unable to forward wlan0 to eth0.")
-	sudo("sh -c 'iptables-save > /etc/iptables.ipv4.nat'") or die("Unable to save iptables configuration.")
-	sudo("ifconfig wlan0 10.10.10.10") or die("Unable to set wlan0 IP address (10.10.10.10)")
-	sudo("service hostapd start") or die("Unable to start hostapd service.")
-	sudo("service udhcpd start") or die("Unable to start udhcpd service.")
-	sudo("update-rc.d hostapd enable") or die("Unable to enable hostapd on boot.")
-	sudo("update-rc.d udhcpd enable") or die("Unable to enable UDHCPd on boot.")
-	# udhcpd wasn't starting properly at boot (probably starting before interface was ready)
-	# for now we we just force it to restart after setting the interface
-	sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'") or die("Unable to remove exit from end of /etc/rc.local")
-	sudo("sh -c 'echo ifconfig wlan0 10.10.10.10 >> /etc/rc.local; echo service udhcpd restart >> /etc/rc.local;'") or die("Unable to setup udhcpd reset at boot.")
-	sudo("sh -c 'echo exit 0 >> /etc/rc.local'") or die("Unable to replace exit to end of /etc/rc.local")
-	#sudo("ifdown eth0 && ifdown wlan0 && ifup eth0 && ifup wlan0") or die("Unable to restart network interfaces.")
+    if not os.path.isdir(os.path.dirname(dst)):
+        die("Copy failed destination folder " +
+            os.path.dirname(dst) + " doesn't exist.")
 
-# Setup LAN
-if not is_vagrant():
-	cp("files/interfaces", "/etc/network/interfaces") or die("Unable to copy network interface configuration (interfaces)")
+    sudo("cp {0} {1}".format(path,dst))
+    rachel_message("Copied {0} to {1}.".format(path, dst))
 
-# Install web platform
-sudo("echo mysql-server mysql-server/root_password password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password.")
-sudo("echo mysql-server mysql-server/root_password_again password rachel | sudo debconf-set-selections") or die("Unable to set default MySQL password (again).")
-sudo("apt-get -y install apache2 libapache2-mod-proxy-html libxml2-dev \
-     php5-common libapache2-mod-php5 php5-cgi php5 php5-dev php-pear \
-     mysql-server mysql-client php5-mysql sqlite3 php5-sqlite") or die("Unable to install web platform.")
-sudo("yes '' | sudo pecl install -f stem") or die("Unable to install php stemmer")
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/cli/php.ini'") or die("Unable to install stemmer CLI config")
-sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php5/apache2/php.ini'") or die("Unable to install stemmer Apache config")
-sudo("sh -c 'sed -i \"s/upload_max_filesize *= *.*/upload_max_filesize = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase upload_max_filesize in apache2/php.ini")
-sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" /etc/php5/apache2/php.ini'") or die("Unable to increase post_max_size in apache2/php.ini")
-sudo("service apache2 stop") or die("Unable to stop Apache2.")
-#cp("files/apache2.conf", "/etc/apache2/apache2.conf") or die("Unable to copy Apache2.conf")
-cp("files/default", "/etc/apache2/sites-available/contentshell.conf") or die("Unable to set default Apache site.")
-sudo("a2dissite 000-default") or die("Unable to disable default Apache site.")
-sudo("a2ensite contentshell.conf") or die("Unable to enable contenthell Apache site.")
-cp("files/my.cnf", "/etc/mysql/my.cnf") or die("Unable to copy MySQL server configuration.")
-sudo("a2enmod php5 proxy proxy_html rewrite") or die("Unable to enable Apache2 dependency modules.")
-if exists("/etc/apache2/mods-available/xml2enc.load"):
-	sudo("a2enmod xml2enc") or die("Unable to enable Apache2 xml2enc module.")
-sudo("service apache2 restart") or die("Unable to restart Apache2.")
+def copy_folder(src, dst):
+    path = os.path.join(basedir(), src)
 
-# Install web frontend
-sudo("rm -fr /var/www") or die("Unable to delete existing default web application (/var/www).")
-sudo("git clone --depth 1 https://github.com/rachelproject/contentshell /var/www") or die("Unable to download RACHEL web application.")
-sudo("chown -R www-data.www-data /var/www") or die("Unable to set permissions on RACHEL web application (/var/www).")
-sudo("sh -c \"umask 0227; echo 'www-data ALL=(ALL) NOPASSWD: /sbin/shutdown' >> /etc/sudoers.d/www-shutdown\"") or die("Unable to add www-data to sudoers for web shutdown")
-sudo("usermod -a -G adm www-data") or die("Unable to add www-data to adm group (so stats.php can read logs)")
+    if not os.path.isdir(path):
+        die("Copy failed. Source folder " + path + " doesn't exist.")
 
-# Extra wifi driver configuration
-if wifi_present() and args.install_wifi:
-	cp("files/hostapd_RTL8188CUS", "/etc/hostapd/hostapd.conf.RTL8188CUS") or die("Unable to copy RTL8188CUS hostapd configuration.")
-	cp("files/hostapd_realtek.conf", "/etc/hostapd/hostapd.conf.realtek") or die("Unable to copy realtek hostapd configuration.")
+    sudo("cp -Rf {0}/. {1}".format(path,dst))
+    rachel_message("Copied directory {0} to {1}".format(path,dst))
 
-if args.khan_academy == "ka-lite":
-        install_kalite() or die("Unable to install KA-Lite.")
+def die(err):
+    print "ERROR: " + err
+    sys.exit(1)
 
-# install the kiwix server (but not content)
-install_kiwix()
+def path_exists(path):
+    return os.path.isfile(path) or os.path.isdir(path)
 
-# Change login password to rachel
-if not is_vagrant():
-	sudo("sh -c 'echo pi:rachel | chpasswd'") or die("Unable to change 'pi' password.")
+def rachel_message(msg):
+    print "RACHEL: " + msg
 
-# Update hostname (LAST!)
-if not is_vagrant():
-	cp("files/hosts", "/etc/hosts") or die("Unable to copy hosts file.")
-	cp("files/hostname", "/etc/hostname") or die("Unable to copy hostname file.")
-	sudo("/etc/init.d/hostname.sh") or die("Unable to set hostname.")
+def sudo(s):
+    if not cmd("sudo DEBIAN_FRONTEND=noninteractive %s" % s):
+       die(s + " command failed")
 
-# record the version of the installer we're using - this must be manually
-# updated when you tag a new installer
-sudo("sh -c 'echo piOS-2016.04.19 > /etc/rachelinstaller-version'") or die("Unable to record rachelpiOS version.")
+def install(s):
+    sudo("apt-get -y install " + s)
 
-print "RACHEL has been successfully installed. It can be accessed at: http://10.10.10.10/"
+def update_pi():
+    rachel_message("Updating Raspberry Pi.")
+    sudo("apt-get update -y")
+    sudo("apt-get upgrade -y")
+
+    if args.install_desktop:
+       install("raspberrypi-ui-mods")
+
+    if args.install_chromium:
+       install("rpi-chromium-mods")
+
+    if args.full_update:
+        sudo("apt-get dist-upgrade -y")
+        sudo("yes | sudo rpi-update")
+
+    rachel_message("Successfully updated. Rebooting Now.")
+    sudo("reboot now")
+
+def fix_pid():
+    rachel_message("Fixing RACHEL PID bug.")
+    sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'")
+    sudo("sh -c 'echo if [ ! -d /var/run/rachel/ ]\; then >> /etc/rc.local'")
+    sudo("sh -c 'echo   mkdir /var/run/rachel/ >> /etc/rc.local'")
+    sudo("sh -c 'echo   chown www-data:www-data /var/run/rachel/ >> /etc/rc.local'")
+    sudo("sh -c 'echo fi >> /etc/rc.local'")
+    sudo("sh -c 'echo exit 0 >> /etc/rc.local'")
+    rachel_message("Finished fixing RACHEL PID bug.")
+
+def install_apache():
+    rachel_message("Installing Web Server.")
+    install("apache2")
+    install("libxml2-dev")
+    install("php7.0")
+    install("php7.0-common")
+    install("php7.0-cgi")
+    install("php7.0-dev")
+    install("php7.0-mbstring")
+    install("libapache2-mod-php7.0")
+    install("php7.0-sqlite3")
+    copy_file("files/rachel/stem.so", "/usr/lib/php/20151012/stem.so")
+    sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php/7.0/cli/php.ini'")
+    sudo("sh -c 'echo \'extension=stem.so\' >> /etc/php/7.0/apache2/php.ini'")
+    sudo("sh -c 'sed -i \"s/upload_max_filesize *= *.*/upload_max_filesize = 512M/\" /etc/php/7.0/apache2/php.ini'")
+    sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" \
+    /etc/php/7.0/apache2/php.ini'")
+    sudo("service apache2 stop")
+    copy_file("files/apache/apache2.conf", "/etc/apache2/apache2.conf")
+    copy_file("files/apache/contentshell.conf", "/etc/apache2/sites-available/contentshell.conf")
+    sudo("a2dissite 000-default")
+    sudo("a2ensite contentshell.conf")
+    sudo("a2enmod php7.0 proxy proxy_html rewrite")
+
+    if path_exists("/etc/apache2/mods-available/xml2enc.load"):
+        sudo("a2enmod xml2enc")
+
+    sudo("service apache2 restart")
+    rachel_message("Web Server has been successfully installed.")
+
+def install_content():
+    rachel_message("Installing content.")
+    sudo("rm -fr /tmp/rachel_installer")
+    sudo("rm -fr /var/www")
+    sudo("mkdir /var/www")
+    copy_folder(basedir() + "/contentshell", "/var/www")
+    sudo("chown -R www-data.www-data /var/www")
+    sudo("usermod -a -G adm www-data")
+    rachel_message("Content has been sucessfully installed.")
+
+def install_hotspot():
+    rachel_message("Installing Hotspot.")
+    install("hostapd")
+    install("dnsmasq")
+    sudo("systemctl stop dnsmasq")
+    sudo("systemctl stop hostapd")
+    copy_file("files/networking/dhcpcd.conf", "/etc/dhcpcd.conf")
+    sudo("service dhcpcd restart")
+    copy_file("files/networking/dnsmasq.conf", "/etc/dnsmasq.conf")
+    copy_file("files/networking/hostapd", "/etc/default/hostapd")
+
+    if args.secure_hotspot:
+        copy_file("files/networking/hostapd_secure.conf",
+                  "/etc/hostapd/hostapd.conf")
+    else:
+        copy_file("files/networking/hostapd.conf", "/etc/hostapd/hostapd.conf")
+
+    copy_file("files/networking/sysctl.conf", "/etc/sysctl.conf")
+    sudo("sysctl -w net.ipv4.ip_forward=1")
+    sudo("iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE")
+
+    if args.share_internet:
+        sudo("iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT")
+        sudo("iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT")
+
+    sudo("sh -c 'iptables-save > /etc/iptables.ipv4.nat'")
+    sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'")
+    sudo("sh -c 'echo iptables-restore < /etc/iptables.ipv4.nat >> /etc/rc.local'")
+    sudo("sh -c 'echo exit 0 >> /etc/rc.local'")
+    copy_file("files/networking/hosts", "/etc/hosts")
+    copy_file("files/networking/hostname", "/etc/hostname")
+
+    if args.wifi_ssid:
+        wifi_ssid()
+
+    if args.wifi_channel:
+        wifi_channel()
+
+    sudo("systemctl unmask hostapd.service")
+    sudo("update-rc.d hostapd enable")
+    sudo("update-rc.d dnsmasq enable")
+    sudo("service hostapd start")
+    sudo("service hostapd start")
+    rachel_message("Hotspot has been sucessfully installed.")
+
+def install_kalite():
+    rachel_message("Installing KA-Lite.")
+    install("python-pip")
+    sudo("pip install ka-lite-static")
+    setup_kalite()
+    sudo("mkdir -p /etc/ka-lite")
+    copy_file("files/kalite/init-functions", "/etc/default/ka-lite")
+    copy_file("files/kalite/init-service", "/etc/init.d/ka-lite")
+    sudo("chmod +x /etc/init.d/ka-lite")
+    sudo("sh -c 'echo root >/etc/ka-lite/username'")
+
+    if path_exists("/etc/systemd"):
+        sudo("mkdir -p /etc/systemd/system/ka-lite.service.d")
+
+    copy_file("files/kalite/init-systemd-conf", "/etc/systemd/system/ka-lite.service.d/10-extend-timeout.conf")
+    sudo("update-rc.d ka-lite defaults")
+    sudo("service ka-lite start")
+    sudo("sh -c '/usr/local/bin/kalite --version > /etc/kalite-version'")
+    rachel_message("KA-Lite has been successfully installed.")
+
+def install_kiwix():
+    rachel_message("Installing Kiwix.")
+    sudo("mkdir -p /var/kiwix/bin")
+    kiwix_version = "0.9"
+    copy_file("files/kiwix/kiwix-sample.zim", "/var/kiwix/sample.zim")
+    rachel_message("Downloading version " + kiwix_version + " of kiwix.")
+    sudo("sh -c 'wget -O - http://downloads.sourceforge.net/project/kiwix/" +
+         kiwix_version + "/kiwix-server-" + kiwix_version +
+         "-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'")
+    sudo("chown -R root:root /var/kiwix/bin")
+    copy_file("files/kiwix/kiwix-sample-library.xml",
+              "/var/kiwix/sample-library.xml")
+    copy_file("files/kiwix/rachel-kiwix-start.pl",
+              "/var/kiwix/bin/rachel-kiwix-start.pl")
+    sudo("chmod +x /var/kiwix/bin/rachel-kiwix-start.pl")
+    copy_file("files/kiwix/init-kiwix-service", "/etc/init.d/kiwix")
+    sudo("chmod +x /etc/init.d/kiwix")
+    sudo("update-rc.d kiwix defaults")
+    sudo("service kiwix start")
+    sudo("sh -c 'echo " + kiwix_version + " >/etc/kiwix-version'")
+    rachel_message("Kiwix has been successfully installed.")
+
+def install_kolibri():
+    rachel_message("Installing Kolibri.")
+    install("sqlite3")
+    install("python-pip")
+    install("libffi-dev")
+    install("python3-pip")
+    install("python3-pkg-resources")
+    install("dirmngr")
+    sudo("pip install --upgrade setuptools --user python")
+    sudo("pip install cffi --upgrade")
+
+    proc = subprocess.Popen("sudo su",
+                    shell=True,
+                    stdin=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+    proc.stdin.write("echo 'deb http://ppa.launchpad.net/learningequality/kolibri/ubuntu xenial main' > /etc/apt/sources.list.d/learningequality-ubuntu-kolibri-xenial.list")
+    proc.communicate()
+
+    sudo("apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DC5BAA93F9E4AE4F0411F97C74F88ADB3194DD81")
+    sudo("apt update")
+    install("kolibri")
+    copy_file("files/kolibri/daemon.conf", "/etc/kolibri/daemon.conf")
+    copy_file("files/kolibri/kolibri_initd", "/etc/init.d/kolibri")
+
+    proc = subprocess.Popen("sudo su pi",
+                    shell=True,
+                    stdin=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+    proc.stdin.write("sh -c 'echo kolibri --version > /etc/kolibri-version'")
+    proc.communicate()
+    rachel_message("Kolibri has been successfully installed.")
+
+def setup_kalite():
+    install("python-pexpect")
+    rachel_message("Setting up KA-Lite.")
+    import pexpect
+
+    proc = pexpect.spawn('sudo kalite manage setup --username=' + args.ka_user +
+                         ' --password=' + args.ka_pass +
+                         ' --hostname=rachel --description=rachel')
+    finished = False
+
+    while finished == False:
+        result = proc.expect_exact(['Press [enter] to continue...',
+                              'Do you wish to continue and install it as root? (yes or no)',
+                              'Keep database file and upgrade to KA Lite version 0.17.5? (yes or no)',
+                              'Do you wish to download and install the content pack now? (yes or no)',
+                              'Do you have a local copy of the content pack already downloaded that you want to install? (yes or no)',
+                              'Do you wish to start the server now? (yes or no)',
+                              pexpect.EOF,
+                              pexpect.TIMEOUT],
+                              timeout = 120)
+
+        proc.logfile = sys.stdout
+
+        if result == 0:
+            proc.sendline("")
+        if result == 1:
+            proc.sendline("yes")
+        if result == 2:
+            proc.sendline("yes")
+        if result == 3:
+            proc.sendline("no")
+        if result == 4:
+            proc.sendline("no")
+        if result == 5:
+            proc.sendline("no")
+        if result == 6:
+            finished = True
+            sys.stdout.flush()
+            proc.interact()
+
+            if proc.isalive():
+                proc.sendline('bye')
+        if result == 7:
+            finished = True
+            rachel_message("Setup of Ka-lite failed. Timed out waiting for " + proc.before)
+
+def setup_rachel():
+    rachel_message("Finalizing Rachel Settings.")
+
+    if args.auto_login:
+        sudo("ln -fs /etc/systemd/system/autologin@.service \
+             /etc/systemd/system/getty.target.wants/getty@tty1.service",)
+
+    if args.pi_pass:
+        sudo("sh -c 'echo pi:" + args.pi_pass + " | chpasswd'")
+    else:
+        sudo("sh -c 'echo pi:rachel | chpasswd'")
+
+    sudo("sh -c 'echo piOS-2018.12.20 > /etc/rachelinstaller-version'")
+    rachel_message("Rachel has been successfully installed. It can be accessed at:\
+    http://rachel or http://10.10.10.10")
+    sudo("reboot now")
+
+def setup_sudoers():
+    rachel_message("Setting up permissions.")
+    copy_file("files/rachel/rachel_sudoers", "/etc/sudoers.d/rachel")
+    sudo("chown root:root /etc/sudoers.d/rachel")
+    sudo("chmod 0440 /etc/sudoers.d/rachel")
+    rachel_message("Successfully set up permissions.")
+
+def wifi_channel():
+    rachel_message("Setting Wifi Channel")
+
+    if args.wifi_channel < 0:
+        die("Invalid wifi channel provided.")
+
+    if args.wifi_channel > 11:
+        die("Invalid wifi channel provided.")
+
+    sudo("sh -c 'sed -i \"s/channel *= *.*/channel=" + str(args.wifi_channel) + "/\" /etc/hostapd/hostapd.conf'")
+    rachel_message("Successfully set wifi channel")
+
+def wifi_ssid():
+    rachel_message("Setting wifi SSID.")
+
+    if len(args.wifi_ssid) > 32:
+        rachel_message("Can not set custom SSID. The provided SSID is too long.")
+    else:
+        sudo("sh -c 'sed -i \"s/ssid *= *.*/ssid="+args.wifi_ssid +"/\" /etc/hostapd/hostapd.conf'")
+        rachel_message("Successfully set WiFi SSID.")
+
+def parse_args():
+    rachel_message("Parsing command line arguments")
+    global args
+    parser  = argparse.ArgumentParser()
+    pi_args = parser.add_argument_group(description='Pi Options')
+    pi_args.add_argument('--update-pi',
+                         action='store_true',
+                         help='Update the Raspberry Pi. Requires a reboot.',
+                         dest='update_pi')
+    pi_args.add_argument('--full-update',
+                         action='store_true',
+                         dest='full_update',
+                         help='Update the pi kernel and dist during update.')
+    pi_args.add_argument('--chromium',
+                         action='store_true',
+                         dest='install_chromium',
+                         help='Install chromium during update.')
+    pi_args.add_argument('--desktop',
+                         action='store_true',
+                         dest='install_desktop',
+                         help='Install desktop during update.')
+    pi_args.add_argument('--auto-login',
+                         action='store_true',
+                         help='Do not prompt for a password at boot.',
+                         dest='auto_login')
+    pi_args.add_argument('--pi-pass',
+                         action='store',
+                         help='Set a custom password for the pi.',
+                         dest='pi_pass')
+    ka_args = parser.add_argument_group(description='KA-Lite Options')
+    ka_args.add_argument('--no-ka-lite',
+                         action='store_true',
+                         dest='no_kalite',
+                         help='Disable Ka-lite installation.')
+    ka_args.add_argument('--ka-lite-pass',
+                         action='store',
+                         dest='ka_pass',
+                         default='rachel',
+                         help='Password for ka-lite')
+    ka_args.add_argument('--ka-lite-user',
+                         action='store',
+                         dest='ka_user',
+                         default='rachel',
+                         help='User for ka-lite')
+    ko_args = parser.add_argument_group(description='Kolibri Options')
+    ko_args.add_argument('--no-kolibri',
+                         action='store_true',
+                         dest='no_kolibri',
+                         help='Disable Kolibri installation.')
+    kw_args = parser.add_argument_group(description='Kiwix Options')
+    kw_args.add_argument('--no-kiwix',
+                         action='store_true',
+                         dest='no_kiwix',
+                         help='Disable Kiwix Installation.')
+    net_args = parser.add_argument_group(description='Networking Options')
+    net_args.add_argument('--no-hotspot',
+                          action='store_true',
+                          dest='no_hotspot',
+                          help='Do not install the wifi hotspot.')
+    net_args.add_argument('--share-internet',
+                          action='store_true',
+                          dest='share_internet',
+                          help='Share internet to wifi clients.')
+    net_args.add_argument('--secure-hotspot',
+                          action='store_true',
+                          dest='secure_hotspot',
+                          help='Secures the hotspot with WPA2.')
+    net_args.add_argument('--wifi-ssid',
+                          action='store',
+                          dest='wifi_ssid',
+                          help='Set wifi hotspot SSID.')
+    net_args.add_argument('--wifi-channel',
+                          action='store',
+                          type=int,
+                          choices=xrange(0,11),
+                          default=6,
+                          dest='wifi_channel',
+                          help='Set the wifi channel.')
+    args = parser.parse_args()
+    rachel_message("Successfully parsed command line arguments.")
+
+def main():
+    rachel_message("Beginning installation.")
+    parse_args()
+
+    if args.update_pi:
+        update_pi()
+
+    setup_sudoers()
+    install_content()
+
+    if not args.no_kalite:
+        install_kalite()
+
+    if not args.no_kiwix:
+        install_kiwix()
+
+    install_apache()
+
+    if not args.no_kolibri:
+        install_kolibri()
+
+    fix_pid()
+
+    if not args.no_hotspot:
+        install_hotspot()
+
+    setup_rachel()
+
+if __name__== "__main__":
+  main()
