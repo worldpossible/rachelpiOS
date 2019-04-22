@@ -114,8 +114,8 @@ def install_apache():
     sudo("sh -c 'sed -i \"s/post_max_size *= *.*/post_max_size = 512M/\" \
     /etc/php/" + php_version + "/apache2/php.ini'")
     sudo("service apache2 stop")
-    copy_file("files/apache/apache2.conf", "/etc/apache2/apache2.conf")
-    copy_file("files/apache/contentshell.conf", "/etc/apache2/sites-available/contentshell.conf")
+    copy_file("files/apache2/apache2.conf", "/etc/apache2/apache2.conf")
+    copy_file("files/apache2/contentshell.conf", "/etc/apache2/sites-available/contentshell.conf")
     sudo("a2dissite 000-default")
     sudo("a2ensite contentshell.conf")
     sudo("a2enmod php" + php_version + " proxy proxy_html rewrite")
