@@ -1,0 +1,1 @@
+www-data ALL=NOPASSWD: /sbin/shutdown now, /sbin/reboot now, /bin/systemctl restart apache2, /bin/rm /var/log/apache2/error.log /var/log/apache2/access.log
