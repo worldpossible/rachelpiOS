@@ -72,12 +72,6 @@ def update_pi():
     sudo("apt-get update -y")
     sudo("apt-get upgrade -y")
 
-    if args.install_desktop:
-       install("raspberrypi-ui-mods")
-
-    if args.install_chromium:
-       install("rpi-chromium-mods")
-
     if args.full_update:
         sudo("apt-get dist-upgrade -y")
         sudo("yes | sudo rpi-update")
@@ -89,8 +83,8 @@ def fix_pid():
     rachel_message("Fixing RACHEL PID bug.")
     sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'")
     sudo("sh -c 'echo if [ ! -d /var/run/rachel/ ]\; then >> /etc/rc.local'")
-    sudo("sh -c 'echo   mkdir /var/run/rachel/ >> /etc/rc.local'")
-    sudo("sh -c 'echo   chown www-data:www-data /var/run/rachel/ >> /etc/rc.local'")
+    sudo("sh -c 'echo mkdir /var/run/rachel/ >> /etc/rc.local'")
+    sudo("sh -c 'echo chown www-data:www-data /var/run/rachel/ >> /etc/rc.local'")
     sudo("sh -c 'echo fi >> /etc/rc.local'")
     sudo("sh -c 'echo exit 0 >> /etc/rc.local'")
     rachel_message("Finished fixing RACHEL PID bug.")
@@ -128,7 +122,6 @@ def install_apache():
 
 def install_content():
     rachel_message("Installing content.")
-    sudo("rm -rf /tmp/rachel_installer")
     sudo("rm -rf /var/www")
 
     if path_exists(basedir() + "/contentshell"):
@@ -169,7 +162,7 @@ def install_hotspot():
 
     sudo("sh -c 'iptables-save > /etc/iptables.ipv4.nat'")
     sudo("sh -c 'sed -i \"s/^exit 0//\" /etc/rc.local'")
-    sudo("sh -c 'echo iptables-restore < /etc/iptables.ipv4.nat >> /etc/rc.local'")
+    sudo("sh -c 'echo iptables-restore \< /etc/iptables.ipv4.nat >> /etc/rc.local'")
     sudo("sh -c 'echo exit 0 >> /etc/rc.local'")
     copy_file("files/networking/hosts", "/etc/hosts")
     copy_file("files/networking/hostname", "/etc/hostname")
@@ -268,18 +261,27 @@ def install_kolibri():
         sudo("sh -c 'sudo echo -n kolibri > /etc/kolibri/username'")
         copy_file("files/kolibri/daemon_kolibri.conf", "/etc/kolibri/daemon.conf")
 
-    version = sudo("su kolibri -c 'kolibri --version'")
-	
-	
-    proc = subprocess.Popen("sudo su pi",
-                    shell=True,
-                    stdin=subprocess.PIPE,
-                    stderr=subprocess.PIPE)
-    proc.stdin.write("sh -c 'echo kolibri --version > /etc/kolibri-version'")
-    proc.communicate()
-
+    sudo("su pi -c 'kolibri --version' > /var/tmp/kolibri-version")
+    copy_file("/var/tmp/kolibri-version", "/etc/kolibri-version")
     sudo("systemctl start kolibri")
     rachel_message("Kolibri has been successfully installed.")
+
+def setup_installation():
+    rachel_message("Setting up installation files.")
+    files_path = basedir() + "/files"
+
+    if not path_exists(files_path):
+        install("git")
+
+        if path_exists(basedir() + "/rachelpiOS"):
+            rachel_message("removing existing rachelpiOS folder")
+            sudo("rm -rf " + basedir() + "/rachelpiOS")
+
+        rachel_message("Cloning installer git repository")
+        sudo("git clone --depth 1 --single-branch --branch raspbian_stretch https://github.com/rachelproject/rachelpiOS.git")
+        copy_folder("rachelpiOS/files", files_path)
+
+    rachel_message("Successfully set up installation files.")
 
 def setup_kalite():
     install("python-pexpect")
@@ -339,7 +341,7 @@ def setup_rachel():
     else:
         sudo("sh -c 'echo pi:rachel | chpasswd'")
 
-    sudo("sh -c 'echo 04.21.2019 > /etc/rachelinstaller-version'")
+    sudo("sh -c 'echo 04.23.2019 > /etc/rachelinstaller-version'")
     rachel_message("Rachel has been successfully installed.")
     rachel_message("Rachel can be accessed at http://rachel.pi, http://www.rachel, or 10.10.10.10")
     rachel_message("Rebooting your device")
@@ -386,14 +388,6 @@ def parse_args():
                          action='store_true',
                          dest='full_update',
                          help='Update the pi kernel and dist during update.')
-    pi_args.add_argument('--chromium',
-                         action='store_true',
-                         dest='install_chromium',
-                         help='Install chromium during update.')
-    pi_args.add_argument('--desktop',
-                         action='store_true',
-                         dest='install_desktop',
-                         help='Install desktop during update.')
     pi_args.add_argument('--auto-login',
                          action='store_true',
                          help='Do not prompt for a password at boot.',
@@ -425,7 +419,7 @@ def parse_args():
     ko_args.add_argument('--kolibri-user',
                          action='store_true',
                          dest='kolibri_user',
-                         help='Create and use the kolibri user to run Kolibri.')    
+                         help='Create and use the kolibri user to run Kolibri.')
     kw_args = parser.add_argument_group(description='Kiwix Options')
     kw_args.add_argument('--no-kiwix',
                          action='store_true',
@@ -469,6 +463,7 @@ def main():
     if args.update_pi:
         update_pi()
 
+    setup_installation()
     setup_sudoers()
     install_content()
     fix_pid()
