@@ -24,7 +24,7 @@ Below are examples of different build configuration commands. For more options p
 
 First change directories 
 
-```cd /var/tmp```
+``` cd /var/tmp ```
 
 Build a RACHEL-Pi with Kolibri, Kiwix, and internet sharing ( recommended )
 
@@ -97,7 +97,7 @@ Skip the hotspot installation
 **--kolibri-user**
 Use the Kolibri user to run Kolibri ( default is pi ) 
 
-**ka-lite-user**
+**--ka-lite-user**
 Provide an alternative KA-Lite username. For example ```--ka-lite-user=Admin```
 
 **--ka-lite-pass**
