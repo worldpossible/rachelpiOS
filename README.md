@@ -73,24 +73,31 @@ curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/raspbian_st
 ## Options
 
 **--wifi-ssid**
+
 Provide an alternative WIFI SSID. For example ```--wifi-ssid=RACHEL-Pi01```
 
 **--wifi-channel**
-Provide an alternative WIFI channel. For example```--wifi-channel=6```
+
+Provide an alternative WIFI channel. For example ```--wifi-channel=6```
 
 **--share-internet**
+
 Share the internet connection to WIFI connected users
 
 **--secure-hotspot**
+
 Secure the hotspot. You can change the password in /etc/hostapd/hostapd.conf
 
 **--no-ka-lite**
+
 Skip the KA-Lite installation
 
 **--no-kolibri**
+
 Skip the Kolibri installation
 
 **--no-kiwix**
+
 Skip the Kiwix installation
 
 **--no-hotspot**
