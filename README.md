@@ -15,7 +15,9 @@ This installer will set up and install the necessary packages and files to turn 
 5. Run the following command to automatically update your pi and reboot
 
 ```
+
 curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/raspbian_stretch/installer.py -O && python ./installer.py --update-pi
+
 ```
 
 ### Installing
