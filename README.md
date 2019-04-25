@@ -72,59 +72,52 @@ curl -fsS https://raw.githubusercontent.com/rachelproject/rachelpiOS/raspbian_st
 
 ## Options
 
-**--wifi-ssid**
-
+**--wifi-ssid**  
 Provide an alternative WIFI SSID. For example ```--wifi-ssid=RACHEL-Pi01```
 
-**--wifi-channel**
-
+**--wifi-channel**  
 Provide an alternative WIFI channel. For example ```--wifi-channel=6```
 
-**--share-internet**
-
+**--share-internet**  
 Share the internet connection to WIFI connected users
 
-**--secure-hotspot**
-
+**--secure-hotspot**  
 Secure the hotspot. You can change the password in /etc/hostapd/hostapd.conf
 
-**--no-ka-lite**
-
+**--no-ka-lite**  
 Skip the KA-Lite installation
 
-**--no-kolibri**
-
+**--no-kolibri**  
 Skip the Kolibri installation
 
-**--no-kiwix**
-
+**--no-kiwix**  
 Skip the Kiwix installation
 
-**--no-hotspot**
+**--no-hotspot**  
 Skip the hotspot installation
 
-**--kolibri-user**
+**--kolibri-user**  
 Use the Kolibri user to run Kolibri ( default is pi ) 
 
-**--ka-lite-user**
+**--ka-lite-user**  
 Provide an alternative KA-Lite username. For example ```--ka-lite-user=Admin```
 
-**--ka-lite-pass**
+**--ka-lite-pass**  
 Provide an alternative KA-Lite password. For example ```--ka-lite-pass=MyPassword```
 
-**--update-pi**
+**--update-pi**  
 Run update and upgrade for apt packages and reboot 
 
-**--full-update**
+**--full-update**  
 Run dist-upgrade and rpi-upate when --update-pi is used
 
-**--auto-login**
+**--auto-login**  
 Automatically log in at boot ( not recommended )
 
-**--pi-pass**
+**--pi-pass**  
 Change the password for the user pi. For example ```--pi-pass=MyPassword```
 
-**--kiwix-old**
+**--kiwix-old**  
 Install version 0.9 of Kiwix instead of 1.1.0 
 
 
