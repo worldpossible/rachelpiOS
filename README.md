@@ -24,7 +24,9 @@ Below are examples of different build configuration commands. For more options p
 
 First change directories 
 
-``` cd /var/tmp ```
+``` 
+cd /var/tmp 
+```
 
 Build a RACHEL-Pi with Kolibri, Kiwix, and internet sharing ( recommended )
 
