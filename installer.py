@@ -211,7 +211,7 @@ def install_kiwix():
              kiwix_version + "/kiwix-server-" + kiwix_version +
              "-linux-armv5tejl.tar.bz2 | tar xj -C /var/kiwix/bin'")
     else:
-        kiwix_version = "1.1.0"
+        kiwix_version = "1.2.1"
         url = "https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf-" + kiwix_version + ".tar.gz"
         rachel_message("Downloading version " + kiwix_version + " of kiwix.")
         sudo("sh -c 'wget -O - " + url + " | tar -xvz --strip 1 -C /var/kiwix/bin'")
