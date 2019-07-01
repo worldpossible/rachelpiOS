@@ -261,7 +261,7 @@ def install_kolibri():
         sudo("sh -c 'sudo echo -n kolibri > /etc/kolibri/username'")
         copy_file("files/kolibri/daemon_kolibri.conf", "/etc/kolibri/daemon.conf")
 
-    sudo("su pi -c 'kolibri --version' > /var/tmp/kolibri-version")
+    sudo("sh -c 'su pi -c \"kolibri --version\" > /var/tmp/kolibri-version'")
     copy_file("/var/tmp/kolibri-version", "/etc/kolibri-version")
     sudo("systemctl start kolibri")
     rachel_message("Kolibri has been successfully installed.")
